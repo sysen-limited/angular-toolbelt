@@ -1,0 +1,17 @@
+{
+    "name": "angular-toolbelt",
+    "version": "0.0.1",
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_modules",
+        "test",
+        "tests"
+    ],
+    "dependencies": {
+        "angular": "latest"
+    },
+    "devDependencies": {
+        "angular-mocks": "latest"
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "name": "angular-toolbelt",
+    "version": "0.0.1",
+    "dependencies": {
+        "grunt": "latest"
+    },
+    "devDependencies": {
+        "grunt-cli": "latest",
+        "grunt-bower-task": "latest",
+        "grunt-contrib-concat": "latest",
+        "grunt-contrib-uglify": "latest",
+        "grunt-contrib-jshint": "latest",
+        "grunt-karma": "latest",
+        "grunt-plato": "latest",
+        "karma-jasmine": "~0.2.0",
+        "karma-phantomjs-launcher": "^0.1.2",
+        "karma-firefox-launcher": "^0.1.3",
+        "karma-spec-reporter": "latest",
+        "karma-coverage-0.11": "^0.1.1"
+    }
+}

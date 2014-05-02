@@ -1,0 +1,11 @@
+// Environment
+.DS_Store
+.idea
+
+// Code compilation
+logs
+
+// Package management
+.bower
+bower_modules
+node_modules
