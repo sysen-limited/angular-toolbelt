@@ -10,9 +10,23 @@
     ],
     "dependencies": {
         "angular": "latest",
-        "angular-sanitize": "latest"
+        "angular-sanitize": "latest",
+        "font-awesome": "latest",
+        "bootstrap": "latest",
+        "angular-bootstrap": "latest"
     },
     "devDependencies": {
         "angular-mocks": "latest"
+    },
+    "exportsOverride": {
+        "jquery": {},
+        "bootstrap": {
+            "css": "dist/css/bootstrap.min.css",
+            "fonts": "fonts/*"
+        },
+        "font-awesome": {
+            "css": "css/font-awesome.min.css",
+            "fonts": "fonts/*"
+        }
     }
 }

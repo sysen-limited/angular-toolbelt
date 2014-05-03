@@ -26,9 +26,7 @@ angular.module('toolbelt.directives', ['ngSanitize'])
                     if(message.type === undefined) {
                         message.type = 'info';
                     }
-                    scope.$apply(function() {
-                        scope.growls.unshift(message);
-                    });
+                    scope.growls.unshift(message);
                 });
             }
         };

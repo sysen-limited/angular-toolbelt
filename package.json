@@ -2,7 +2,11 @@
     "name": "angular-toolbelt",
     "version": "0.0.1",
     "dependencies": {
-        "grunt": "latest"
+        "grunt": "latest",
+        "express": "latest",
+        "ejs": "*",
+        "morgan": "*",
+        "errorhandler": "*"
     },
     "devDependencies": {
         "grunt-cli": "latest",

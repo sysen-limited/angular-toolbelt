@@ -78,6 +78,7 @@ describe('Directive > Growl', function() {
         scope.$emit('_addGrowl', angular.copy(message));
         scope.$emit('_addGrowl', angular.copy(message));
         scope.$emit('_addGrowl', angular.copy(message));
+        scope.$digest();
 
         expect(scope.limit).toBe(5);
         expect(scope.growls.length).toBe(5);
@@ -92,6 +93,7 @@ describe('Directive > Growl', function() {
         scope.$emit('_addGrowl', angular.copy(message));
         scope.$emit('_addGrowl', angular.copy(message));
         scope.$emit('_addGrowl', angular.copy(message));
+        scope.$digest();
 
         expect(scope.limit).toBe(3);
         expect(scope.growls.length).toBe(5);
@@ -104,6 +106,7 @@ describe('Directive > Growl', function() {
         scope.$emit('_addGrowl', angular.copy(message));
         scope.$emit('_addGrowl', angular.copy(message));
         scope.$emit('_addGrowl', angular.copy(message));
+        scope.$digest();
 
         expect(elm.find('div').length).toBe(3);
         expect(scope.growls.length).toBe(3);

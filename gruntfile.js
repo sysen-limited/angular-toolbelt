@@ -7,7 +7,7 @@ module.exports = function (grunt) {
         },
         bower: {
             options: {
-                cleanBowerDir: true,
+                cleanBowerDir: false,
                 cleanTargetDir: true,
                 layout: 'byComponent',
                 targetDir: './lib'
