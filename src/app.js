@@ -1,1 +1,1 @@
-var app = angular.module('sysen.toolbelt', []);
+angular.module('sysen.toolbelt', ['toolbelt.directives']);

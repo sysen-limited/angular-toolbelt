@@ -9,7 +9,8 @@
         "tests"
     ],
     "dependencies": {
-        "angular": "latest"
+        "angular": "latest",
+        "angular-sanitize": "latest"
     },
     "devDependencies": {
         "angular-mocks": "latest"
