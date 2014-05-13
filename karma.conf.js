@@ -3,8 +3,10 @@ module.exports = function (config) {
 
         plugins: [
             'karma-jasmine',
+            'karma-safari-launcher',
+            'karma-chrome-launcher',
+            'karma-firefox-launcher',
             'karma-phantomjs-launcher',
-            //'karma-firefox-launcher',
             'karma-coverage-0.11',
             'karma-spec-reporter'
         ],
@@ -27,9 +29,9 @@ module.exports = function (config) {
         autoWatch: true,
 
         browsers: [
-            //'Safari',
-            //'Chrome',
-            //'Firefox',
+            //'Safari'
+            //'Chrome'
+            //'Firefox'
             'PhantomJS'
         ],
 

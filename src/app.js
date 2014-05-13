@@ -1,1 +1,1 @@
-angular.module('sysen.toolbelt', ['toolbelt.directives']);
+angular.module('sysen.toolbelt', ['toolbelt.growl', 'toolbelt.scroll']);

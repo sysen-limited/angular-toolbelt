@@ -3,15 +3,16 @@
     <h1>Growl Directive <small>Display notifications to users</small></h1>
 </div>
 
-<div data-ng-controller="growlCtrl" class="row">
-    <div class="col-sm-4">
-        <p class="mini-header">Code</p>
-        <div>In your HTML file</div>
-        <pre>&lt;div data-sys-growl="3"&gt;&lt;/div&gt;</pre>
-        <div>In your Controller</div>
-        <pre>$scope.$emit('_addGrowl', messageObject);</pre>
-        <p class="mini-header">Tips</p>
-        <div>Add a CSS class to the HTML div and position your notifications on the page in a prominent location, e.g. <pre>&lt;div class="growl" data-sys-growl&gt;&lt;/div&gt;
+<div data-ng-controller="growlCtrl">
+    <div class="row">
+        <div class="col-sm-6">
+            <p class="mini-header">Code</p>
+            <div>In your HTML file</div>
+            <pre>&lt;div data-sys-growl="3"&gt;&lt;/div&gt;</pre>
+            <div>In your Controller</div>
+            <pre>$scope.$emit('_addGrowl', messageObject);</pre>
+            <p class="mini-header">Tips</p>
+            <div>Add a CSS class to the HTML div and position your notifications on the page in a prominent location, e.g. <pre>&lt;div class="growl" data-sys-growl&gt;&lt;/div&gt;
 
 .growl {
   position: fixed;
@@ -20,37 +21,50 @@
   right: 40px;
   z-index: 1000;
 }</pre></div>
-    </div>
-    <div class="col-sm-4">
-        <p class="mini-header">Example</p>
-        <div data-sys-growl="3"></div>
-        <div class="row">
-            <div class="col-xs-9">Click the button to add a growl message</div>
-            <div class="col-xs-3"><button class="btn btn-sm btn-info btn-block" data-ng-click="addGrowl()">Add Growl</button></div>
+        </div>
+        <div class="col-sm-6">
+            <p class="mini-header">Notes</p>
+            <div>
+                <p>The contents of <code>messageObject</code> in the example, used to $emit the message should be the following attributes:</p>
+                <p>
+                    <strong>type: string</strong>
+                    <div>Values of string should relate to bootstrap alert types; info (default), success, warning, danger</div>
+                </p>
+                <p>
+                    <strong>title: string</strong>
+                    <div>Any plain text title to display in the growl alert</div>
+                </p>
+                <p>
+                    <strong>content: HTML</strong>
+                    <div>HTML content top be used in the alert</div>
+                </p>
+                <p>e.g.</p>
+                <pre>var messageObject = {
+      type: 'info',
+      title: 'Example Growl',
+      content: 'My &lt;em&gt;message&lt;/em&gt;'
+    };</pre>
+            </div>
         </div>
     </div>
-    <div class="col-sm-4">
-        <p class="mini-header">Notes</p>
-        <div>
-            <p>The contents of <code>messageObject</code> in the example, used to $emit the message should be the following attributes:</p>
-            <p>
-                <strong>type: string</strong>
-                <div>Values of string should relate to bootstrap alert types; info (default), success, warning, danger</div>
-            </p>
-            <p>
-                <strong>title: string</strong>
-                <div>Any plain text title to display in the growl alert</div>
-            </p>
-            <p>
-                <strong>content: HTML</strong>
-                <div>HTML content top be used in the alert</div>
-            </p>
-            <p>e.g.</p>
-            <pre>var messageObject = {
-  type: 'info',
-  title: 'Example Growl',
-  content: 'My &lt;em&gt;message&lt;/em&gt;'
-};</pre>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <p class="mini-header">Example</p>
+            <div data-sys-growl="3"></div>
+            <div class="row">
+                <div class="col-xs-6">Click the button to add a growl message (limited to display of 3 messages)</div>
+                <div class="col-xs-2">
+                    <select class="form-control" data-ng-model="growl.type" required="required">
+                        <option value="info" selected="selected">Default (Info)</option>
+                        <option value="success">Success</option>
+                        <option value="warning">Warning</option>
+                        <option value="danger">Danger</option>
+                    </select>
+                </div>
+                <div class="col-xs-2"><input class="form-control" type="text" data-ng-model="growl.message" placeholder="Message to send" /></div>
+                <div class="col-xs-2"><button class="btn btn-sm btn-info btn-block" data-ng-click="addGrowl(growl)">Add Growl</button></div>
+            </div>
         </div>
     </div>
 </div>

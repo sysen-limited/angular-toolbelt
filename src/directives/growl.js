@@ -1,4 +1,4 @@
-angular.module('toolbelt.directives', ['ngSanitize'])
+angular.module('toolbelt.growl', ['ngSanitize'])
     .directive('sysGrowl', function() {
         return {
             replace: false,
