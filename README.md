@@ -1,5 +1,5 @@
 ## Angular Toolbelt
-[![Build Status](https://travis-ci.org/andrew-cunliffe/angular-toolbelt.svg?branch=master)](https://travis-ci.org/andrew-cunliffe/angular-toolbelt)
+[![Build Status](https://travis-ci.org/sysen-limited/angular-toolbelt.svg?branch=master)](https://travis-ci.org/sysen-limited/angular-toolbelt)
 
 ### Documentation
 
