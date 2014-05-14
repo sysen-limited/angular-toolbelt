@@ -3,7 +3,7 @@
 
 ### Documentation
 
-To use this project checkout the [online documentation](http://angular-toolbelt.herokuapp.com).
+To use this project checkout the [online documentation](http://toolbelt.sysen.co.uk).
 
 ### Quick Overview
 
@@ -18,7 +18,9 @@ Available:
 - Scroll (automatic scrolling on a page to take users to a set anchor location, but via a jump or animation)
 
 In Development:
+- Slider
+- File Upload
 - Infinite Scroll
 
 Future:
-- CRUD Service for working with generic back-ends
+- CRUD Service
