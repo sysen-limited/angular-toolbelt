@@ -1,4 +1,4 @@
-angular.module('example', ['sysen.toolbelt', 'ui.bootstrap'])
+angular.module('example', ['sysen.toolbelt', 'ui.bootstrap', 'ngTouch'])
     .controller('growlCtrl', ['$scope', function ($scope) {
         $scope.growl = { type: 'info' };
         $scope.addGrowl = function (growl) {

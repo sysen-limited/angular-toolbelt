@@ -5,7 +5,7 @@
 
 <div data-ng-controller="growlCtrl">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-md-6">
             <p class="mini-header">Code</p>
             <div>In your HTML file</div>
             <pre>&lt;div data-sys-growl="3"&gt;&lt;/div&gt;</pre>
@@ -22,7 +22,7 @@
   z-index: 1000;
 }</pre></div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-md-6">
             <p class="mini-header">Notes</p>
             <div>
                 <p>The contents of <code>messageObject</code> in the example, used to $emit the message should be the following attributes:</p>
@@ -49,12 +49,12 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-12">
             <p class="mini-header">Example</p>
             <div data-sys-growl="3"></div>
             <div class="row">
-                <div class="col-xs-6">Click the button to add a growl message (limited to display of 3 messages)</div>
-                <div class="col-xs-2">
+                <div class="col-sm-6">Click the button to add a growl message (limited to display of 3 messages)</div>
+                <div class="col-xs-4 col-sm-2">
                     <select class="form-control" data-ng-model="growl.type" required="required">
                         <option value="info" selected="selected">Default (Info)</option>
                         <option value="success">Success</option>
@@ -62,8 +62,8 @@
                         <option value="danger">Danger</option>
                     </select>
                 </div>
-                <div class="col-xs-2"><input class="form-control" type="text" data-ng-model="growl.message" placeholder="Message to send" /></div>
-                <div class="col-xs-2"><button class="btn btn-sm btn-info btn-block" data-ng-click="addGrowl(growl)">Add Growl</button></div>
+                <div class="col-xs-4 col-sm-2"><input class="form-control" type="text" data-ng-model="growl.message" placeholder="Message to send" /></div>
+                <div class="col-xs-4 col-sm-2"><button class="btn btn-sm btn-info btn-block" data-ng-click="addGrowl(growl)">Add Growl</button></div>
             </div>
         </div>
     </div>

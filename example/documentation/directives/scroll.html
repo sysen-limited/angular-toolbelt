@@ -4,7 +4,7 @@
 </div>
 <div data-ng-controller="scrollCtrl">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-md-6">
             <p class="mini-header">Code</p>
             <div>In your HTML file</div>
             <pre>&lt;a data-target="[element]" data-sys-scroll&gt;Link&lt;/a&gt;
@@ -17,7 +17,7 @@
             <div>This directive also has a listener for events sent to <code>_pageScroll</code>, this means it is possible to automatically scroll the page when it is loaded by adding the following to your controller:</div>
             <pre>$scope.$emit('_pageScroll', $location.path().substring(1));</pre>
         </div>
-        <div class="col-sm-6">
+        <div class="col-md-6">
             <p class="mini-header">Notes</p>
             <div>
                 <p>Full directive usage</p>
@@ -30,13 +30,13 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-12">
             <p class="mini-header">Example</p>
             <div data-sys-growl="3"></div>
             <div class="row">
-                <div class="col-xs-6">To try this feature use the navigation on this documentation site, or click the two buttons to show a jump or animated scroll to the top of the page</div>
-                <div class="col-xs-3"><button class="btn btn-sm btn-info btn-block" target="top" data-sys-scroll>Goto 'Top' Jump</button></div>
-                <div class="col-xs-3"><button class="btn btn-sm btn-info btn-block" target="top" data-sys-scroll="smooth">Goto 'Top' Animated</button></div>
+                <div class="col-sm-6">To try this feature use the navigation on this documentation site, or click the two buttons to show a jump or animated scroll to the top of the page</div>
+                <div class="col-xs-6 col-sm-3"><button class="btn btn-sm btn-info btn-block" target="top" data-sys-scroll>Goto 'Top' Jump</button></div>
+                <div class="col-xs-6 col-sm-3"><button class="btn btn-sm btn-info btn-block" target="top" data-sys-scroll="smooth">Goto 'Top' Animated</button></div>
             </div>
         </div>
     </div>

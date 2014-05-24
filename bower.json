@@ -4,6 +4,7 @@
     "version": "0.0.2-SNAPSHOT",
     "dependencies": {
         "angular": "latest",
+        "angular-touch": "latest",
         "angular-sanitize": "latest",
         "font-awesome": "latest",
         "bootstrap": "latest",
