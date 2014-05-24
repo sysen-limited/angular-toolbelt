@@ -1,17 +1,19 @@
 describe('Directive > Growl', function() {
-    var scope, $compile;
+    var scope, $compile, $timeout;
 
     beforeEach(module('toolbelt.growl'));
 
     beforeEach(inject(function ($injector, $rootScope, _$compile_) {
         scope = $rootScope;
         $compile = _$compile_;
+        $timeout = $injector.get('$timeout');
 
         spyOn(scope, '$on').and.callThrough();
     }));
 
     var templates = {
         'default': '<div data-sys-growl></div>',
+        'timeout': '<div data-timeout="5" data-sys-growl></div>',
         'limit': '<div data-sys-growl="3"></div>'
     };
 
@@ -84,6 +86,16 @@ describe('Directive > Growl', function() {
         expect(scope.growls.length).toBe(5);
         expect(elm.find('div').length).toBe(5);
     });
+
+    it('should remove items when the timeout option is used', function() {
+        var elm = compileDirective('timeout');
+
+        scope.$emit('_addGrowl', angular.copy(message));
+        expect(scope.growls.length).toBe(1);
+
+        $timeout.flush();
+        expect(scope.growls.length).toBe(0);
+    })
 
     it('should listen to the limit value set on the directive', function() {
         var elm = compileDirective('limit');

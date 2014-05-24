@@ -1,5 +1,5 @@
 angular.module('toolbelt.growl', ['ngSanitize'])
-    .directive('sysGrowl', function() {
+    .directive('sysGrowl', ['$timeout', function($timeout) {
         return {
             replace: false,
             template: [
@@ -24,8 +24,15 @@ angular.module('toolbelt.growl', ['ngSanitize'])
                     if(message.type === undefined) {
                         message.type = 'info';
                     }
+
                     scope.growls.unshift(message);
+
+                    if(attrs.timeout) {
+                        $timeout(function() {
+                            scope.dismiss(message);
+                        }, attrs.timeout * 1000);
+                    }
                 });
             }
         };
-    });
+    }]);
