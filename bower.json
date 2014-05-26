@@ -1,7 +1,7 @@
 {
     "name": "angular-toolbelt",
     "description": "Handy directives and services that can be easily incorporated into any AngularJS web project",
-    "version": "0.0.2-SNAPSHOT",
+    "version": "0.0.1-SNAPSHOT",
     "dependencies": {
         "angular": "latest",
         "angular-touch": "latest",
@@ -21,21 +21,19 @@
         "web"
     ],
     "homepage": "http://toolbelt.sysen.co.uk",
-    "main": [
-        "dist/**.*"
-    ],
     "ignore": [
         "README.md",
+        ".gitignore",
+        "package.json",
+        "bower.json",
+        "gruntfile.js",
+        "karma.conf.js",
+        "server.js",
         "Procfile",
-        "**/.*",
-        "*.js",
-        "*.json",
-        "node_modules",
-        "bower_modules",
-        "example",
-        "lib",
-        "logs",
+        "*.yml",
         "src",
+        "lib",
+        "example",
         "test"
     ],
     "exportsOverride": {
