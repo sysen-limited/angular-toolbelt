@@ -23,7 +23,7 @@ describe('Directive > Scroll', function() {
         $compile('<a data-target="test-one" data-sys-scroll></a>')(scope);
 
         scope.$emit('_pageScroll', 'test-one');
-        expect($window.scrollTo).toHaveBeenCalledWith(0, 130);
+        expect($window.scrollTo).toHaveBeenCalledWith(0, 200);
         expect(scope.$on).toHaveBeenCalledWith('_pageScroll', jasmine.any(Function));
     });
 
@@ -33,7 +33,7 @@ describe('Directive > Scroll', function() {
 
         elm.triggerHandler('click');
 
-        expect($window.scrollTo).toHaveBeenCalledWith(0, 130);
+        expect($window.scrollTo).toHaveBeenCalledWith(0, 200);
     });
 
     it('should allow you to click the link to scroll the page', function() {
@@ -41,7 +41,7 @@ describe('Directive > Scroll', function() {
 
         elm.triggerHandler('click');
 
-        expect($window.scrollTo).toHaveBeenCalledWith(0, 530);
+        expect($window.scrollTo).toHaveBeenCalledWith(0, 600);
     });
 
     it('should allow you to scroll multiple times', function() {
@@ -52,9 +52,9 @@ describe('Directive > Scroll', function() {
         elmTwo.triggerHandler('click');
         elmOne.triggerHandler('click');
 
-        expect($window.scrollTo.calls.argsFor(0)).toEqual([0, 130]);
-        expect($window.scrollTo.calls.argsFor(1)).toEqual([0, 530]);
-        expect($window.scrollTo.calls.argsFor(2)).toEqual([0, 130]);
+        expect($window.scrollTo.calls.argsFor(0)).toEqual([0, 200]);
+        expect($window.scrollTo.calls.argsFor(1)).toEqual([0, 600]);
+        expect($window.scrollTo.calls.argsFor(2)).toEqual([0, 200]);
     });
 
     it('should ignore requests if the target does not exist', function() {
@@ -80,9 +80,9 @@ describe('Directive > Scroll', function() {
         elm.triggerHandler('click');
         $interval.flush(1000);
 
-        expect($window.scrollTo.calls.count()).toEqual(7);
-        expect($window.scrollTo.calls.argsFor(5)).toEqual([0, 120]);
-        expect($window.scrollTo.calls.argsFor(6)).toEqual([0, 130]);
+        expect($window.scrollTo.calls.count()).toEqual(10);
+        expect($window.scrollTo.calls.argsFor(8)).toEqual([0, 180]);
+        expect($window.scrollTo.calls.argsFor(9)).toEqual([0, 200]);
     });
 
     it('should be able to manage nested position scrolling', function() {
@@ -90,14 +90,14 @@ describe('Directive > Scroll', function() {
 
         elm.triggerHandler('click');
 
-        expect($window.scrollTo).toHaveBeenCalledWith(0, 330);
+        expect($window.scrollTo).toHaveBeenCalledWith(0, 400);
     });
 
     it('should allow you to specify the offset on the page to use', function() {
-        var elm = $compile('<a data-target="test-one" data-offset="100" data-sys-scroll></a>')(scope);
+        var elm = $compile('<a data-target="test-one" data-offset="80" data-sys-scroll></a>')(scope);
 
         elm.triggerHandler('click');
 
-        expect($window.scrollTo).toHaveBeenCalledWith(0, 100);
+        expect($window.scrollTo).toHaveBeenCalledWith(0, 120);
     });
 });

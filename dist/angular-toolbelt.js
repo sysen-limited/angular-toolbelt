@@ -100,7 +100,7 @@ angular.module('toolbelt.scroll', [])
 
         return {
             link: function (scope, elem, attrs) {
-                var defaultOffset = 70;
+                var defaultOffset = 0;
 
                 elem.on('click', function () {
                     if (attrs.target) {
