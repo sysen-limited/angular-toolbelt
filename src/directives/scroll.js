@@ -1,5 +1,5 @@
 angular.module('toolbelt.scroll', [])
-    .directive('sysScroll', ['$window', '$interval', function ($window, $interval) {
+    .directive('sysScroll', ['$rootScope', '$window', '$interval', function ($rootScope, $window, $interval) {
         var getCurrentPos = function () {
             if ($window.pageYOffset) {
                 return $window.pageYOffset;
@@ -73,7 +73,7 @@ angular.module('toolbelt.scroll', [])
                     }
                 });
 
-                scope.$on('_pageScroll', function(event, target, offset) {
+                $rootScope.$on('_pageScroll', function(event, target, offset) {
                     offset = offset || defaultOffset;
                     scrollPage('none', target, offset);
                 });

@@ -1,5 +1,5 @@
 angular.module('toolbelt.growl', ['ngSanitize'])
-    .directive('sysGrowl', ['$timeout', function($timeout) {
+    .directive('sysGrowl', ['$rootScope', '$timeout', function($rootScope, $timeout) {
         return {
             replace: false,
             template: [
@@ -20,7 +20,7 @@ angular.module('toolbelt.growl', ['ngSanitize'])
                     scope.growls.splice(idx, 1);
                 };
 
-                scope.$on('_addGrowl', function(event, message) {
+                $rootScope.$on('_addGrowl', function(event, message) {
                     if(message.type === undefined) {
                         message.type = 'info';
                     }

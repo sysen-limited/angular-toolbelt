@@ -1,7 +1,7 @@
 
 angular.module('sysen.toolbelt', ['toolbelt.growl', 'toolbelt.scroll']);
 angular.module('toolbelt.growl', ['ngSanitize'])
-    .directive('sysGrowl', ['$timeout', function($timeout) {
+    .directive('sysGrowl', ['$rootScope', '$timeout', function($rootScope, $timeout) {
         return {
             replace: false,
             template: [
@@ -22,7 +22,7 @@ angular.module('toolbelt.growl', ['ngSanitize'])
                     scope.growls.splice(idx, 1);
                 };
 
-                scope.$on('_addGrowl', function(event, message) {
+                $rootScope.$on('_addGrowl', function(event, message) {
                     if(message.type === undefined) {
                         message.type = 'info';
                     }
@@ -39,7 +39,7 @@ angular.module('toolbelt.growl', ['ngSanitize'])
         };
     }]);
 angular.module('toolbelt.scroll', [])
-    .directive('sysScroll', ['$window', '$interval', function ($window, $interval) {
+    .directive('sysScroll', ['$rootScope', '$window', '$interval', function ($rootScope, $window, $interval) {
         var getCurrentPos = function () {
             if ($window.pageYOffset) {
                 return $window.pageYOffset;
@@ -113,7 +113,7 @@ angular.module('toolbelt.scroll', [])
                     }
                 });
 
-                scope.$on('_pageScroll', function(event, target, offset) {
+                $rootScope.$on('_pageScroll', function(event, target, offset) {
                     offset = offset || defaultOffset;
                     scrollPage('none', target, offset);
                 });
