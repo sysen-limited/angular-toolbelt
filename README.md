@@ -16,6 +16,7 @@ The following helpers have been made or are coming soon for building rich applic
 Available:
 - Growl (show dynamically messages on your interface)
 - Scroll (automatic scrolling on a page to take users to a set anchor location, but via a jump or animation)
+- Password Strength (allows checking of passwords against rules to avoid poor password selection)
 
 In Development:
 - Slider

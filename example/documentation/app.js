@@ -10,4 +10,11 @@ angular.module('example', ['sysen.toolbelt', 'ui.bootstrap', 'ngTouch'])
         if ($location.path()) {
             $scope.$emit('_pageScroll', $location.path().substring(1));
         }
+    }])
+
+    .controller('strengthCtrl', ['$scope', function ($scope) {
+        $scope.reset = function() {
+            $scope.passwordStrengthForm.$setPristine();
+            $scope.password = "";
+        }
     }]);
