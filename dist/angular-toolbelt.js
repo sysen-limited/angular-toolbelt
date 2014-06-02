@@ -169,8 +169,9 @@ angular.module('toolbelt.strength', ['ngSanitize'])
         }
 
         return {
+            require: 'ngModel',
             scope: {
-                value: '=target',
+                model: '=ngModel',
                 target: '@'
             },
             replace: true,
@@ -179,10 +180,10 @@ angular.module('toolbelt.strength', ['ngSanitize'])
             ].join('\n'),
             link: function(scope, elem, attrs) {
                 var minLength = parseInt(attrs.minLength) || 6;
-                var minRank = parseInt(attrs.rank) || 4;
+                var minComplexity = parseInt(attrs.complexity) || 4;
 
-                if(minRank > 6) {
-                    minRank = 6;
+                if(minComplexity > 6) {
+                    minComplexity = 6;
                 }
 
                 var formCtrl = elem.inheritedData("$formController");
@@ -198,14 +199,14 @@ angular.module('toolbelt.strength', ['ngSanitize'])
                         // Length improves weighting
                         score *= (string.length / 2);
                         // Requires a minimum length
-                        scope.result = string.length >= minLength ? getResult(score, minRank) : results[0];
+                        scope.result = string.length >= minLength ? getResult(score, minComplexity) : results[0];
                     } else {
                         scope.result = results[0];
                     }
-                    formCtrl[scope.target].$setValidity('strength', minRank <= scope.result.rank);
+                    formCtrl[scope.target].$setValidity('strength', minComplexity <= scope.result.rank);
                 };
 
-                scope.$watch('value', updateStrength);
+                scope.$watch('model', updateStrength);
             }
         };
     });

@@ -9,22 +9,31 @@
             <p class="mini-header">Code</p>
             <h4>In your HTML file</h4>
             <pre>&lt;input type="password" data-ng-model="password" /&gt;
-&lt;span data-target="password" data-sys-strength&gt;&lt;/span&gt;</pre>
+&lt;span data-target="password"
+      data-ng-model="password"
+      data-sys-strength&gt;
+&lt;/span&gt;</pre>
             <h4>In your Controller</h4>
             <pre>Nothing required</pre>
             <p class="mini-header">Tips</p>
             <div>
-                <p>Combinations of using 'min-length' with 'rank' might result in situations where you cannot reach the required rank with the length of the string, for example a string strength of strong requires a minimum of 7 characters to achieve.</p>
+                <p>Combinations of using 'min-length' with 'complexity' might result in situations where you cannot reach the required complexity with the length of the string, for example a required complexity of 'strong' requires a minimum of 7 characters to achieve.</p>
             </div>
         </div>
         <div class="col-md-6">
             <p class="mini-header">Notes</p>
             <div>
                 <p>Full directive usage</p>
-                <pre>&lt;data-target="[element]" data-min-length="[integer]" data-rank="[integer]" data-sys-strength&gt;&lt;/span&gt;</pre>
-                <p><code>data-target="[element]"</code> The binding input element (model and name) should match this attribute. This attribute is required to operate the directive</p>
-                <p><code>data-min-length="[integer]"</code> The length required before strength checks will be made to update the label. Default is 6.</p>
-                <p><code>data-rank="[integer]"</code> What validation 'rank' is required before the password is accepted. Range is 1-6 (Very Weak to Very Strong). Default is 4 (Good).</p>
+                <pre>&lt;span data-target="[element]"
+      data-ng-model="[model]"
+      data-min-length="[integer]"
+      data-complexity="[integer]"
+      data-sys-strength&gt;
+&lt;/span&gt;</pre>
+                <p><code>data-target="[element]"</code> The binding input element name should match this attribute to allow for updating field validity. <strong>Required</strong>.</p>
+                <p><code>data-ng-model="[model]"</code> The form model to bind with for data changes. <strong>Required</strong>.</p>
+                <p><code>data-min-length="[integer]"</code> The length required before strength checks will be made to update the label. <strong>Default is 6</strong>.</p>
+                <p><code>data-complexity="[integer]"</code> How complex the password should be before the password is accepted. Range is 1-6 (Very Weak to Very Strong). <strong>Default is 4 (Good)</strong>.</p>
 
             </div>
         </div>
@@ -35,11 +44,11 @@
             <p class="mini-header">Example</p>
             <form name="passwordStrengthForm" role="form">
                 <div class="form-group has-feedback" data-ng-class="{ 'has-success': passwordStrengthForm.password.$valid }">
-                    <label for="passwordStrength">Enter Password</label>
+                    <label class="control-label" for="passwordStrength">Enter Password</label>
                     <input id="passwordStrength" class="form-control" type="password" name="password" data-ng-model="password" data-ng-required="true" />
                     <span class="form-control-feedback fa" data-ng-class="{ 'fa-check': passwordStrengthForm.password.$valid }"></span>
                     <span class="help-block">
-                        <span data-target="password" data-min-length="4" data-rank="5" data-sys-strength></span>
+                        <span data-target="password" data-ng-model="password" data-min-length="4" data-complexity="5" data-sys-strength></span>
                     </span>
                 </div>
                 <div class="row">
