@@ -47,83 +47,83 @@ describe('Directive > Password Strength', function () {
         it('should require a minimum of 6 characters to trigger a change', function () {
             directiveScope.model = 'qwert';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 0, complexity: 'Too Short', label: 'default' });
+            expect(directiveScope.result).equalsResult({ rank: 1, complexity: 'Too Short', label: 'default' });
 
             directiveScope.model = 'qwerty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 1, complexity: 'Very Weak', label: 'danger' });
+            expect(directiveScope.result).equalsResult({ rank: 2, complexity: 'Very Weak', label: 'danger' });
         });
 
         it('should mark "Very Weak" as a possible complexity rank', function () {
             directiveScope.model = 'qwerty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 1, complexity: 'Very Weak', label: 'danger' });
+            expect(directiveScope.result).equalsResult({ rank: 2, complexity: 'Very Weak', label: 'danger' });
 
             directiveScope.model = 'QWERTY';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 1, complexity: 'Very Weak', label: 'danger' });
+            expect(directiveScope.result).equalsResult({ rank: 2, complexity: 'Very Weak', label: 'danger' });
 
             directiveScope.model = '123456';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 1, complexity: 'Very Weak', label: 'danger' });
+            expect(directiveScope.result).equalsResult({ rank: 2, complexity: 'Very Weak', label: 'danger' });
         });
 
         it('should mark "Weak" as a possible complexity rank', function () {
             directiveScope.model = 'qw3rty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 2, complexity: 'Weak', label: 'warning' });
+            expect(directiveScope.result).equalsResult({ rank: 3, complexity: 'Weak', label: 'warning' });
 
             directiveScope.model = 'Qwerty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 2, complexity: 'Weak', label: 'warning' });
+            expect(directiveScope.result).equalsResult({ rank: 3, complexity: 'Weak', label: 'warning' });
 
             directiveScope.model = 'qw*rty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 2, complexity: 'Weak', label: 'warning' });
+            expect(directiveScope.result).equalsResult({ rank: 3, complexity: 'Weak', label: 'warning' });
         });
 
         it('should mark "Poor" as a possible complexity rank', function () {
             directiveScope.model = 'Qw3rty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 3, complexity: 'Poor', label: 'info' });
+            expect(directiveScope.result).equalsResult({ rank: 4, complexity: 'Poor', label: 'info' });
 
             directiveScope.model = 'Qw*rty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 3, complexity: 'Poor', label: 'info' });
+            expect(directiveScope.result).equalsResult({ rank: 4, complexity: 'Poor', label: 'info' });
 
             directiveScope.model = 'qw*r1y';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 3, complexity: 'Poor', label: 'info' });
+            expect(directiveScope.result).equalsResult({ rank: 4, complexity: 'Poor', label: 'info' });
         });
 
         it('should mark "Good" as a possible complexity rank', function () {
             directiveScope.model = 'Qw33rty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 4, complexity: 'Good', label: 'success' });
+            expect(directiveScope.result).equalsResult({ rank: 5, complexity: 'Good', label: 'success' });
 
             directiveScope.model = 'QQw*rty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 4, complexity: 'Good', label: 'success' });
+            expect(directiveScope.result).equalsResult({ rank: 5, complexity: 'Good', label: 'success' });
 
             directiveScope.model = 'Qw**rty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 4, complexity: 'Good', label: 'success' });
+            expect(directiveScope.result).equalsResult({ rank: 5, complexity: 'Good', label: 'success' });
         });
 
         it('should mark "Strong" as a possible complexity rank', function () {
             directiveScope.model = 'QwertyPassword';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 5, complexity: 'Strong', label: 'success' });
+            expect(directiveScope.result).equalsResult({ rank: 6, complexity: 'Strong', label: 'success' });
 
             directiveScope.model = 'Qwerty$1';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 5, complexity: 'Strong', label: 'success' });
+            expect(directiveScope.result).equalsResult({ rank: 6, complexity: 'Strong', label: 'success' });
         });
 
         it('should mark "Very Strong" as a possible complexity rank', function () {
             directiveScope.model = 'Qwerty$12';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 6, complexity: 'Very Strong', label: 'success' });
+            expect(directiveScope.result).equalsResult({ rank: 7, complexity: 'Very Strong', label: 'success' });
         });
 
         it('should mark the input as invalid if the strength is too low', function () {
@@ -149,11 +149,11 @@ describe('Directive > Password Strength', function () {
 
             directiveScope.model = 'uio';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 0, complexity: 'Too Short', label: 'default' });
+            expect(directiveScope.result).equalsResult({ rank: 1, complexity: 'Too Short', label: 'default' });
 
             directiveScope.model = 'uiop';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 1, complexity: 'Very Weak', label: 'danger' });
+            expect(directiveScope.result).equalsResult({ rank: 2, complexity: 'Very Weak', label: 'danger' });
         });
 
         it('should default to 6 characters if 0 is used for min-length', function () {
@@ -163,11 +163,11 @@ describe('Directive > Password Strength', function () {
 
             directiveScope.model = 'qwert';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 0, complexity: 'Too Short', label: 'default' });
+            expect(directiveScope.result).equalsResult({ rank: 1, complexity: 'Too Short', label: 'default' });
 
             directiveScope.model = 'qwerty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 1, complexity: 'Very Weak', label: 'danger' });
+            expect(directiveScope.result).equalsResult({ rank: 2, complexity: 'Very Weak', label: 'danger' });
         });
 
         it('should default to 6 characters if a "string" is used for min-length', function () {
@@ -177,33 +177,47 @@ describe('Directive > Password Strength', function () {
 
             directiveScope.model = 'qwert';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 0, complexity: 'Too Short', label: 'default' });
+            expect(directiveScope.result).equalsResult({ rank: 1, complexity: 'Too Short', label: 'default' });
 
             directiveScope.model = 'qwerty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 1, complexity: 'Very Weak', label: 'danger' });
+            expect(directiveScope.result).equalsResult({ rank: 2, complexity: 'Very Weak', label: 'danger' });
         });
     });
 
     describe('When using the rank attribute', function () {
         var elm, directiveScope;
 
+        it('should allow removal of any validation when the lowest rank is used', function () {
+            elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="1" data-sys-strength></span></form>')(scope);
+            scope.$digest();
+            directiveScope = scope.$$childHead;
+
+            directiveScope.model = 'qwert';
+            scope.$digest();
+            expect(directiveScope.result).equalsResult({ rank: 1, complexity: 'Too Short', label: 'default' });
+            expect(elm.find('input').hasClass('ng-valid-strength')).toBeTruthy();
+
+            directiveScope.model = 'Qwerty$12';
+            scope.$digest();
+            expect(directiveScope.result).equalsResult({ rank: 7, complexity: 'Very Strong', label: 'success' });
+            expect(elm.find('input').hasClass('ng-valid-strength')).toBeTruthy();
+        });
+
         it('should mark success at a lower rank if required', function () {
             elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="2" data-sys-strength></span></form>')(scope);
             scope.$digest();
             directiveScope = scope.$$childHead;
 
+            directiveScope.model = 'qwert';
+            scope.$digest();
+            expect(directiveScope.result).equalsResult({ rank: 1, complexity: 'Too Short', label: 'default' });
+            expect(elm.find('input').hasClass('ng-invalid-strength')).toBeTruthy();
+
             directiveScope.model = 'qwerty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 1, complexity: 'Very Weak', label: 'info' });
-
-            directiveScope.model = 'Qwerty';
-            scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 2, complexity: 'Weak', label: 'success' });
-
-            directiveScope.model = 'Qwerty$12';
-            scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 6, complexity: 'Very Strong', label: 'success' });
+            expect(directiveScope.result).equalsResult({ rank: 2, complexity: 'Very Weak', label: 'success' });
+            expect(elm.find('input').hasClass('ng-valid-strength')).toBeTruthy();
         });
 
         it('should set to maximum if too high a value is used', function () {
@@ -211,17 +225,20 @@ describe('Directive > Password Strength', function () {
             scope.$digest();
             directiveScope = scope.$$childHead;
 
-            directiveScope.model = 'qwerty';
+            directiveScope.model = 'Qw**rty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 1, complexity: 'Very Weak', label: 'danger' });
+            expect(directiveScope.result).equalsResult({ rank: 5, complexity: 'Good', label: 'warning' });
+            expect(elm.find('input').hasClass('ng-invalid-strength')).toBeTruthy();
 
             directiveScope.model = 'Qwerty$1';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 5, complexity: 'Strong', label: 'info' });
+            expect(directiveScope.result).equalsResult({ rank: 6, complexity: 'Strong', label: 'info' });
+            expect(elm.find('input').hasClass('ng-invalid-strength')).toBeTruthy();
 
             directiveScope.model = 'Qwerty$12';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 6, complexity: 'Very Strong', label: 'success' });
+            expect(directiveScope.result).equalsResult({ rank: 7, complexity: 'Very Strong', label: 'success' });
+            expect(elm.find('input').hasClass('ng-valid-strength')).toBeTruthy();
         });
 
         it('should set to the default if a string is used', function () {
@@ -229,14 +246,25 @@ describe('Directive > Password Strength', function () {
             scope.$digest();
             directiveScope = scope.$$childHead;
 
+            directiveScope.model = 'uio';
+            scope.$digest();
+            expect(directiveScope.result).equalsResult({ rank: 1, complexity: 'Too Short', label: 'default' });
+            expect(elm.find('input').hasClass('ng-invalid-strength')).toBeTruthy();
+
+            directiveScope.model = 'Qwerty';
+            scope.$digest();
+            expect(directiveScope.result).equalsResult({ rank: 3, complexity: 'Weak', label: 'warning' });
+            expect(elm.find('input').hasClass('ng-invalid-strength')).toBeTruthy();
+
             directiveScope.model = 'Qw3rty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 3, complexity: 'Poor', label: 'info' });
-
+            expect(directiveScope.result).equalsResult({ rank: 4, complexity: 'Poor', label: 'info' });
+            expect(elm.find('input').hasClass('ng-invalid-strength')).toBeTruthy();
 
             directiveScope.model = 'Qw**rty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 4, complexity: 'Good', label: 'success' });
+            expect(directiveScope.result).equalsResult({ rank: 5, complexity: 'Good', label: 'success' });
+            expect(elm.find('input').hasClass('ng-valid-strength')).toBeTruthy();
         });
     });
 });
