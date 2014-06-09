@@ -1,19 +1,11 @@
 
 angular.module('sysen.toolbelt', ['sysen.toolbelt.tpls', 'toolbelt.growl', 'toolbelt.scroll', 'toolbelt.strength']);
-angular.module('sysen.toolbelt.tpls', ['toolbelt.strength.tpl']);
+angular.module('sysen.toolbelt.tpls', ['toolbelt.growl.tpl', 'toolbelt.strength.tpl']);
 angular.module('toolbelt.growl', ['ngSanitize'])
     .directive('sysGrowl', ['$rootScope', '$timeout', function($rootScope, $timeout) {
         return {
             replace: false,
-            template: [
-                '<article data-ng-repeat="growl in growls | limitTo: limit">',
-                '    <div class="alert alert-{{ growl.type }} alert-dismissable">',
-                '        <button type="button" class="close" data-ng-click="dismiss(growl)">&times;</button>',
-                '        <h4>{{ growl.title }}</h4>',
-                '        <p data-ng-bind-html="growl.content"></p>',
-                '    </div>',
-                '</article>'
-            ].join('\n'),
+            templateUrl: 'template/toolbelt/growl.html',
             link: function(scope, elem, attrs) {
                 scope.limit = parseInt(attrs.sysGrowl, 10) || 5;
                 scope.growls = [];
@@ -209,6 +201,20 @@ angular.module('toolbelt.strength', ['ngSanitize'])
             }
         };
     });
+angular.module('toolbelt.growl.tpl', []).run(['$templateCache', function ($templateCache) {
+    $templateCache.put(
+        'template/toolbelt/growl.html',
+        [
+            '<article data-ng-repeat="growl in growls | limitTo: limit">',
+            '    <div class="alert alert-{{ growl.type }} alert-dismissable">',
+            '        <button type="button" class="close" data-ng-click="dismiss(growl)">&times;</button>',
+            '        <h4>{{ growl.title }}</h4>',
+            '        <p data-ng-bind-html="growl.content"></p>',
+            '    </div>',
+            '</article>'
+        ].join('\n')
+    );
+}]);
 angular.module('toolbelt.strength.tpl', []).run(['$templateCache', function ($templateCache) {
     $templateCache.put(
         'template/toolbelt/strength.html',

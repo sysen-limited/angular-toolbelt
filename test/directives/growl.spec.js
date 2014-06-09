@@ -2,6 +2,7 @@ describe('Directive > Growl', function() {
     var scope, $compile, $timeout;
 
     beforeEach(module('toolbelt.growl'));
+    beforeEach(module('toolbelt.growl.tpl'));
 
     beforeEach(inject(function ($injector, $rootScope, _$compile_) {
         scope = $rootScope;

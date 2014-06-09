@@ -2,15 +2,7 @@ angular.module('toolbelt.growl', ['ngSanitize'])
     .directive('sysGrowl', ['$rootScope', '$timeout', function($rootScope, $timeout) {
         return {
             replace: false,
-            template: [
-                '<article data-ng-repeat="growl in growls | limitTo: limit">',
-                '    <div class="alert alert-{{ growl.type }} alert-dismissable">',
-                '        <button type="button" class="close" data-ng-click="dismiss(growl)">&times;</button>',
-                '        <h4>{{ growl.title }}</h4>',
-                '        <p data-ng-bind-html="growl.content"></p>',
-                '    </div>',
-                '</article>'
-            ].join('\n'),
+            templateUrl: 'template/toolbelt/growl.html',
             link: function(scope, elem, attrs) {
                 scope.limit = parseInt(attrs.sysGrowl, 10) || 5;
                 scope.growls = [];
