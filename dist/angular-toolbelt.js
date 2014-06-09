@@ -1,5 +1,6 @@
 
-angular.module('sysen.toolbelt', ['toolbelt.growl', 'toolbelt.scroll', 'toolbelt.strength']);
+angular.module('sysen.toolbelt', ['sysen.toolbelt.tpls', 'toolbelt.growl', 'toolbelt.scroll', 'toolbelt.strength']);
+angular.module('sysen.toolbelt.tpls', ['toolbelt.strength.tpl']);
 angular.module('toolbelt.growl', ['ngSanitize'])
     .directive('sysGrowl', ['$rootScope', '$timeout', function($rootScope, $timeout) {
         return {
@@ -175,9 +176,7 @@ angular.module('toolbelt.strength', ['ngSanitize'])
                 target: '@'
             },
             replace: true,
-            template: [
-                '<span class="label label-{{ result.label }}">{{ result.complexity }}</span>'
-            ].join('\n'),
+            templateUrl: 'template/toolbelt/strength.html',
             link: function(scope, elem, attrs) {
                 var minLength = parseInt(attrs.minLength) || 6;
                 var minComplexity = parseInt(attrs.complexity) || 4;
@@ -210,3 +209,9 @@ angular.module('toolbelt.strength', ['ngSanitize'])
             }
         };
     });
+angular.module('toolbelt.strength.tpl', []).run(['$templateCache', function ($templateCache) {
+    $templateCache.put(
+        'template/toolbelt/strength.html',
+        '<span class="label label-{{ result.label }}">{{ result.complexity }}</span>'
+    );
+}]);

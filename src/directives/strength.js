@@ -53,9 +53,7 @@ angular.module('toolbelt.strength', ['ngSanitize'])
                 target: '@'
             },
             replace: true,
-            template: [
-                '<span class="label label-{{ result.label }}">{{ result.complexity }}</span>'
-            ].join('\n'),
+            templateUrl: 'template/toolbelt/strength.html',
             link: function(scope, elem, attrs) {
                 var minLength = parseInt(attrs.minLength) || 6;
                 var minComplexity = parseInt(attrs.complexity) || 4;

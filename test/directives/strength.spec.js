@@ -2,6 +2,7 @@ describe('Directive > Password Strength', function () {
     var scope, $compile;
 
     beforeEach(module('toolbelt.strength'));
+    beforeEach(module('toolbelt.strength.tpl'));
 
     beforeEach(function () {
         jasmine.Expectation.addMatchers({
@@ -30,8 +31,8 @@ describe('Directive > Password Strength', function () {
 
         beforeEach(function () {
             elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model.password" data-sys-strength></span></form>')(scope);
-            directiveScope = elm.scope().$$childHead;
             scope.$digest();
+            directiveScope = scope.$$childHead;
         });
 
         it('should insert the template', function () {
@@ -143,8 +144,8 @@ describe('Directive > Password Strength', function () {
 
         it('should require a minimum of 4 characters when attribute is set to this', function () {
             elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-min-length="4" data-sys-strength></span></form>')(scope);
-            directiveScope = elm.scope().$$childHead;
             scope.$digest();
+            directiveScope = scope.$$childHead;
 
             directiveScope.model = 'uio';
             scope.$digest();
@@ -157,8 +158,8 @@ describe('Directive > Password Strength', function () {
 
         it('should default to 6 characters if 0 is used for min-length', function () {
             elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-min-length="0" data-sys-strength></span></form>')(scope);
-            directiveScope = elm.scope().$$childHead;
             scope.$digest();
+            directiveScope = scope.$$childHead;
 
             directiveScope.model = 'qwert';
             scope.$digest();
@@ -171,8 +172,8 @@ describe('Directive > Password Strength', function () {
 
         it('should default to 6 characters if a "string" is used for min-length', function () {
             elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-min-length="zero" data-sys-strength></span></form>')(scope);
-            directiveScope = elm.scope().$$childHead;
             scope.$digest();
+            directiveScope = scope.$$childHead;
 
             directiveScope.model = 'qwert';
             scope.$digest();
@@ -189,8 +190,8 @@ describe('Directive > Password Strength', function () {
 
         it('should mark success at a lower rank if required', function () {
             elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="2" data-sys-strength></span></form>')(scope);
-            directiveScope = elm.scope().$$childHead;
             scope.$digest();
+            directiveScope = scope.$$childHead;
 
             directiveScope.model = 'qwerty';
             scope.$digest();
@@ -207,8 +208,8 @@ describe('Directive > Password Strength', function () {
 
         it('should set to maximum if too high a value is used', function () {
             elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="9" data-sys-strength></span></form>')(scope);
-            directiveScope = elm.scope().$$childHead;
             scope.$digest();
+            directiveScope = scope.$$childHead;
 
             directiveScope.model = 'qwerty';
             scope.$digest();
@@ -225,8 +226,8 @@ describe('Directive > Password Strength', function () {
 
         it('should set to the default if a string is used', function () {
             elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="low" data-sys-strength></span></form>')(scope);
-            directiveScope = elm.scope().$$childHead;
             scope.$digest();
+            directiveScope = scope.$$childHead;
 
             directiveScope.model = 'Qw3rty';
             scope.$digest();
