@@ -1,6 +1,6 @@
 angular.module('toolbelt.strength', ['ngSanitize'])
     .directive('sysStrength', function() {
-        var labels = ['success', 'info', 'warning', 'danger'];
+        var labels = ['success', 'warning', 'danger'];
         var results = [
             { rank: 1, complexity: 'Too Short', label: 'default' },
             { rank: 2, complexity: 'Very Weak' },
@@ -36,7 +36,9 @@ angular.module('toolbelt.strength', ['ngSanitize'])
                    percentage < 90 ? results[5] : results[6];
 
             var rankDifference = requiredRank - result.rank;
-            if (rankDifference < 0) {
+            if (rankDifference >= labels.length) {
+                rankDifference = labels.length - 1;
+            } else if (rankDifference < 0) {
                 rankDifference = 0;
             }
             result.label = labels[rankDifference];

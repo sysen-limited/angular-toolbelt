@@ -71,29 +71,29 @@ describe('Directive > Password Strength', function () {
         it('should mark "Weak" as a possible complexity rank', function () {
             directiveScope.model = 'qw3rty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 3, complexity: 'Weak', label: 'warning' });
+            expect(directiveScope.result).equalsResult({ rank: 3, complexity: 'Weak', label: 'danger' });
 
             directiveScope.model = 'Qwerty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 3, complexity: 'Weak', label: 'warning' });
+            expect(directiveScope.result).equalsResult({ rank: 3, complexity: 'Weak', label: 'danger' });
 
             directiveScope.model = 'qw*rty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 3, complexity: 'Weak', label: 'warning' });
+            expect(directiveScope.result).equalsResult({ rank: 3, complexity: 'Weak', label: 'danger' });
         });
 
         it('should mark "Poor" as a possible complexity rank', function () {
             directiveScope.model = 'Qw3rty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 4, complexity: 'Poor', label: 'info' });
+            expect(directiveScope.result).equalsResult({ rank: 4, complexity: 'Poor', label: 'warning' });
 
             directiveScope.model = 'Qw*rty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 4, complexity: 'Poor', label: 'info' });
+            expect(directiveScope.result).equalsResult({ rank: 4, complexity: 'Poor', label: 'warning' });
 
             directiveScope.model = 'qw*r1y';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 4, complexity: 'Poor', label: 'info' });
+            expect(directiveScope.result).equalsResult({ rank: 4, complexity: 'Poor', label: 'warning' });
         });
 
         it('should mark "Good" as a possible complexity rank', function () {
@@ -227,12 +227,12 @@ describe('Directive > Password Strength', function () {
 
             directiveScope.model = 'Qw**rty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 5, complexity: 'Good', label: 'warning' });
+            expect(directiveScope.result).equalsResult({ rank: 5, complexity: 'Good', label: 'danger' });
             expect(elm.find('input').hasClass('ng-invalid-strength')).toBeTruthy();
 
             directiveScope.model = 'Qwerty$1';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 6, complexity: 'Strong', label: 'info' });
+            expect(directiveScope.result).equalsResult({ rank: 6, complexity: 'Strong', label: 'warning' });
             expect(elm.find('input').hasClass('ng-invalid-strength')).toBeTruthy();
 
             directiveScope.model = 'Qwerty$12';
@@ -253,12 +253,12 @@ describe('Directive > Password Strength', function () {
 
             directiveScope.model = 'Qwerty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 3, complexity: 'Weak', label: 'warning' });
+            expect(directiveScope.result).equalsResult({ rank: 3, complexity: 'Weak', label: 'danger' });
             expect(elm.find('input').hasClass('ng-invalid-strength')).toBeTruthy();
 
             directiveScope.model = 'Qw3rty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 4, complexity: 'Poor', label: 'info' });
+            expect(directiveScope.result).equalsResult({ rank: 4, complexity: 'Poor', label: 'warning' });
             expect(elm.find('input').hasClass('ng-invalid-strength')).toBeTruthy();
 
             directiveScope.model = 'Qw**rty';
