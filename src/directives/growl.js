@@ -10,6 +10,7 @@ angular.module('toolbelt.growl', ['ngSanitize'])
                 scope.dismiss = function(growl) {
                     var idx = scope.growls.indexOf(growl);
                     scope.growls.splice(idx, 1);
+                    $rootScope.$broadcast('_removeGrowl', growl);
                 };
 
                 $rootScope.$on('_addGrowl', function(event, message) {

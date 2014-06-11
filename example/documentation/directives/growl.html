@@ -22,6 +22,9 @@
   right: 40px;
   z-index: 1000;
 }</pre></div>
+            <p>The growl directive also broadcasts a <code>_removeGrowl</code> message when closing the growl containing the closed growls message object, this can be used to then clear a list you might be holding of current growls (e.g. In a cookie).
+                <pre>scope.$on('_removeGrowl', function(message) { ... });</pre>
+            </p>
         </div>
         <div class="col-md-6">
             <p class="mini-header">Notes</p>

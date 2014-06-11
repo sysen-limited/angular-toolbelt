@@ -10,6 +10,7 @@ describe('Directive > Growl', function() {
         $timeout = $injector.get('$timeout');
 
         spyOn(scope, '$on').and.callThrough();
+        spyOn(scope, '$broadcast').and.callThrough();
     }));
 
     var templates = {
@@ -96,6 +97,7 @@ describe('Directive > Growl', function() {
 
         $timeout.flush();
         expect(scope.growls.length).toBe(0);
+        expect(scope.$broadcast).toHaveBeenCalledWith('_removeGrowl', angular.copy(message));
     })
 
     it('should listen to the limit value set on the directive', function() {

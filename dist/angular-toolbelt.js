@@ -13,6 +13,7 @@ angular.module('toolbelt.growl', ['ngSanitize'])
                 scope.dismiss = function(growl) {
                     var idx = scope.growls.indexOf(growl);
                     scope.growls.splice(idx, 1);
+                    $rootScope.$broadcast('_removeGrowl', growl);
                 };
 
                 $rootScope.$on('_addGrowl', function(event, message) {
@@ -117,7 +118,7 @@ angular.module('toolbelt.strength', ['ngSanitize'])
     .directive('sysStrength', function() {
         var labels = ['success', 'warning', 'danger'];
         var results = [
-            { rank: 1, complexity: 'Too Short', label: 'default' },
+            { rank: 1, complexity: 'Too Short', label: 'danger' },
             { rank: 2, complexity: 'Very Weak' },
             { rank: 3, complexity: 'Weak' },
             { rank: 4, complexity: 'Poor' },
