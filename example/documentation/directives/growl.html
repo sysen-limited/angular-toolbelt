@@ -4,16 +4,123 @@
 </div>
 
 <div data-ng-controller="growlCtrl">
-    <div class="row">
-        <div class="col-md-6">
-            <p class="mini-header">Code</p>
-            <h4>In your HTML file</h4>
-            <pre>&lt;div data-timeout="5" data-sys-growl="3"&gt;&lt;/div&gt;</pre>
-            <div>Note: data-timeout attribute is optional and used to provide a number of seconds to display items for, default is forever</div>
-            <h4>In your Controller</h4>
-            <pre>$scope.$emit('_addGrowl', messageObject);</pre>
-            <p class="mini-header">Tips</p>
-            <div>Add a CSS class to the HTML div and position your notifications on the page in a prominent location, e.g. <pre>&lt;div class="growl" data-sys-growl&gt;&lt;/div&gt;
+    <p class="mini-header">Directive Overview</p>
+    <div class="content">
+        <pre>
+
+&lt;div data-timeout="5" data-sys-growl="3"&gt;&lt;/div&gt;
+        </pre>
+    </div>
+    <p><code>data-sys-growl="[integer]"</code> optionally provide the number of growl messages in the list to display (shows most recent first), this is also the main directive. <strong>Default is 0 (forever).</strong></p>
+    <p><code>data-timeout="[integer]"</code> the number of seconds to display the growl items before removing automatically. <strong>Default is 0 (forever).</strong></p>
+    <p>
+        To send a message to the growl directive, just broadcast a message from your controller to the <code>_addGrowl</code> listener, with an object containing the type, title and content for the growl.
+        <div class="content">
+            <pre>
+
+$scope.$emit('_addGrowl', { type: 'info', title: 'Example Growl', content: 'My &lt;em&gt;message&lt;/em&gt;' });
+            </pre>
+        </div>
+    </p>
+    <p>The growl directive also broadcasts a <code>_removeGrowl</code> message when closing the growl containing the closed growls message object, this can be used to then clear a list you might be holding of current growls (e.g. In a cookie).
+        <div class="content">
+            <pre>
+
+$scope.$on('_removeGrowl', function(message) { ... });
+            </pre>
+        </div>
+    </p>
+
+    <p class="mini-header">Demo</p>
+    <tabset>
+        <tab>
+            <tab-heading>HTML</tab-heading>
+            <div class="content">
+                <pre>
+
+&lt;div data-ng-controller=&quot;growlCtrl&quot;&gt;
+  <strong>&lt;div data-timeout=&quot;8&quot; data-sys-growl=&quot;3&quot;&gt;&lt;/div&gt;</strong>
+    &lt;div class=&quot;row&quot;&gt;
+      &lt;div class=&quot;col-sm-4 col-md-6&quot;&gt;Click the button to add a growl message (limited to display of 3 messages)&lt;/div&gt;
+      &lt;div class=&quot;col-xs-4 col-sm-3 col-md-2&quot;&gt;
+      &lt;select class=&quot;form-control&quot; <strong>data-ng-model=&quot;growl.type&quot;</strong> required=&quot;required&quot;&gt;
+        &lt;option value=&quot;info&quot; selected=&quot;selected&quot;&gt;Default (Info)&lt;/option&gt;
+        &lt;option value=&quot;success&quot;&gt;Success&lt;/option&gt;
+        &lt;option value=&quot;warning&quot;&gt;Warning&lt;/option&gt;
+        &lt;option value=&quot;danger&quot;&gt;Danger&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;col-xs-4 col-sm-3 col-md-2&quot;&gt;&lt;input class=&quot;form-control&quot; type=&quot;text&quot; <strong>data-ng-model=&quot;growl.message&quot;</strong> placeholder=&quot;Message to send&quot; /&gt;&lt;/div&gt;
+    &lt;div class=&quot;col-xs-4 col-sm-2&quot;&gt;&lt;button class=&quot;btn btn-sm btn-info btn-block&quot; <strong>data-ng-click=&quot;addGrowl(growl)&quot;</strong>&gt;Add Growl&lt;/button&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+                </pre>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>JavaScript</tab-heading>
+            <div class="content">
+                <pre>
+
+.controller('growlCtrl', ['$scope', function ($scope) {
+    $scope.growl = { type: 'info' };
+    $scope.addGrowl = function (growl) {
+        <strong>$scope.$emit('_addGrowl', { type: growl.type, title: 'Example Growl', content: growl.message })</strong>
+    }
+}])
+                </pre>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>Try It</tab-heading>
+            <div class="content">
+                <div data-timeout="8" data-sys-growl="3"></div>
+                <div class="row">
+                    <div class="col-sm-4 col-md-6"><p>Click the button to add a growl message (limited to display of 3 messages)</p></div>
+                    <div class="col-xs-4 col-sm-3 col-md-2">
+                        <select class="form-control" data-ng-model="growl.type" required="required">
+                            <option value="info" selected="selected">Default (Info)</option>
+                            <option value="success">Success</option>
+                            <option value="warning">Warning</option>
+                            <option value="danger">Danger</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-4 col-sm-3 col-md-2"><input class="form-control" type="text" data-ng-model="growl.message" placeholder="Message to send" /></div>
+                    <div class="col-xs-4 col-sm-2"><button class="btn btn-sm btn-info btn-block" data-ng-click="addGrowl(growl)">Add Growl</button></div>
+                </div>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>Customise</tab-heading>
+            <div class="content">
+                <pre>
+Change to just showing a message list
+
+<strong>Javascript (e.g. growl.tpl.js)</strong>
+angular.module('toolbelt.growl.tpl', []).run(['$templateCache', function ($templateCache) {
+    $templateCache.put(
+        'template/toolbelt/growl.html',
+        [
+            '&lt;ul&gt;',
+            '    &lt;li data-ng-repeat=&quot;growl in growls | limitTo: limit&quot;&gt;&lt;strong&gt;{{ growl.title }}&lt;/strong&gt; {{ growl.content }}&lt;/li&gt;',
+            '&lt;/ul&gt;'
+        ].join('\n')
+    );
+}]);
+                </pre>
+            </div>
+        </tab>
+    </tabset>
+
+    <p class="mini-header">Tips</p>
+    <p>Add a CSS class to the HTML div and position your notifications on the page in a prominent location, for example;</p>
+    <div class="content">
+        <pre>
+
+&lt;div class="growl" data-sys-growl&gt;&lt;/div&gt;
 
 .growl {
   position: fixed;
@@ -21,54 +128,7 @@
   top: 80px;
   right: 40px;
   z-index: 1000;
-}</pre></div>
-            <p>The growl directive also broadcasts a <code>_removeGrowl</code> message when closing the growl containing the closed growls message object, this can be used to then clear a list you might be holding of current growls (e.g. In a cookie).
-                <pre>scope.$on('_removeGrowl', function(message) { ... });</pre>
-            </p>
-        </div>
-        <div class="col-md-6">
-            <p class="mini-header">Notes</p>
-            <div>
-                <p>The contents of <code>messageObject</code> in the example, used to $emit the message should be the following attributes:</p>
-                <p>
-                    <strong>type: string</strong>
-                    <div>Values of string should relate to bootstrap alert types; info (default), success, warning, danger</div>
-                </p>
-                <p>
-                    <strong>title: string</strong>
-                    <div>Any plain text title to display in the growl alert</div>
-                </p>
-                <p>
-                    <strong>content: HTML</strong>
-                    <div>HTML content top be used in the alert</div>
-                </p>
-                <p>e.g.</p>
-                <pre>var messageObject = {
-      type: 'info',
-      title: 'Example Growl',
-      content: 'My &lt;em&gt;message&lt;/em&gt;'
-    };</pre>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12">
-            <p class="mini-header">Example</p>
-            <div data-timeout="5" data-sys-growl="3"></div>
-            <div class="row">
-                <div class="col-sm-4 col-md-6">Click the button to add a growl message (limited to display of 3 messages)</div>
-                <div class="col-xs-4 col-sm-3 col-md-2">
-                    <select class="form-control" data-ng-model="growl.type" required="required">
-                        <option value="info" selected="selected">Default (Info)</option>
-                        <option value="success">Success</option>
-                        <option value="warning">Warning</option>
-                        <option value="danger">Danger</option>
-                    </select>
-                </div>
-                <div class="col-xs-4 col-sm-3 col-md-2"><input class="form-control" type="text" data-ng-model="growl.message" placeholder="Message to send" /></div>
-                <div class="col-xs-4 col-sm-2"><button class="btn btn-sm btn-info btn-block" data-ng-click="addGrowl(growl)">Add Growl</button></div>
-            </div>
-        </div>
+}
+        </pre>
     </div>
 </div>

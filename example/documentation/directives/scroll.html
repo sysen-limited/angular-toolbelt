@@ -3,41 +3,65 @@
     <h1>Angular Scroll Directive <small>Scroll current page to a location based on ID</small></h1>
 </div>
 <div data-ng-controller="scrollCtrl">
-    <div class="row">
-        <div class="col-md-6">
-            <p class="mini-header">Code</p>
-            <div>In your HTML file</div>
-            <pre>&lt;a data-target="[element]" data-sys-scroll&gt;Link&lt;/a&gt;
-
-&lt;section id="[element]"&gt;&lt;/section&gt;</pre>
-            <div>In your Controller</div>
-            <pre>Nothing required</pre>
-
-            <p class="mini-header">Tips</p>
-            <div>This directive also has a listener for events sent to <code>_pageScroll</code>, this means it is possible to automatically scroll the page when it is loaded by adding the following to your controller:</div>
-            <pre>$scope.$emit('_pageScroll', $location.path().substring(1));</pre>
+    <p class="mini-header">Directive Overview</p>
+    <div>
+        <div class="content">
+            <pre>&lt;a data-target="[element]" data-offset="[integer]" data-sys-scroll="[mode]"&gt;&lt;/a&gt;</pre>
         </div>
-        <div class="col-md-6">
-            <p class="mini-header">Notes</p>
-            <div>
-                <p>Full directive usage</p>
-                <pre>&lt;a data-target="[element]" data-offset="[integer]" data-sys-scroll="[mode]"&gt;&lt;/a&gt;</pre>
-                <p><code>data-target="[element]"</code> refers to the element based on its ID on the page, for example <code>&lt;section id="uniqueElement"&gt;&lt;/section&gt;</code></p>
-                <p><code>data-offset="[integer]"</code> allow you to specify an offset during the scroll to cater for navigation or padding, should be a number based on the pixel offset required. Default is 0px.</p>
-                <p><code>data-sys-scroll="[mode]"</code> currently two modes are supported <code>none (optional parameter)</code> and <code>smooth</code>. These will either jump to or animate the scroll action respectively.</p>
-            </div>
-        </div>
+        <p><code>data-sys-scroll="[mode]"</code> currently two modes are supported <code>none (optional parameter)</code> and <code>smooth</code>. These will either jump to or animate the scroll action respectively.</p>
+        <p><code>data-target="[element]"</code> refers to the element based on its ID on the page, for example <code>&lt;section id="uniqueElement"&gt;&lt;/section&gt;</code></p>
+        <p><code>data-offset="[integer]"</code> allow you to specify an offset during the scroll to cater for navigation or padding, should be a number based on the pixel offset required. Default is 0px.</p>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <p class="mini-header">Example</p>
-            <div data-sys-growl="3"></div>
-            <div class="row">
-                <div class="col-sm-6">To try this feature use the navigation on this documentation site, or click the two buttons to show a jump or animated scroll to the top of the page</div>
-                <div class="col-xs-6 col-sm-3"><button class="btn btn-sm btn-info btn-block" target="top" data-sys-scroll>Goto 'Top' Jump</button></div>
-                <div class="col-xs-6 col-sm-3"><button class="btn btn-sm btn-info btn-block" target="top" data-sys-scroll="smooth">Goto 'Top' Animated</button></div>
+    <p class="mini-header">Demo</p>
+    <tabset>
+        <tab>
+            <tab-heading>HTML</tab-heading>
+            <div class="content">
+                <pre>
+
+&lt;a data-target="[element]" data-sys-scroll&gt;Link Text&lt;/a&gt;
+
+&lt;section id="[element]"&gt;Lorem Ipsum....&lt;/section&gt;
+                </pre>
             </div>
-        </div>
+        </tab>
+
+        <tab>
+            <tab-heading>JavaScript</tab-heading>
+            <div class="content">
+                <pre>
+
+Nothing required, just include the library in your application
+
+
+                </pre>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>Try It</tab-heading>
+            <div class="content">
+                <div class="row">
+                    <div class="col-sm-6"><p>To try this feature use the navigation on this documentation site, or click the two buttons to show a jump or animated scroll to the top of the page</p></div>
+                    <div class="col-xs-6 col-sm-3"><button class="btn btn-sm btn-info btn-block" target="top" data-sys-scroll>Goto 'Top' Jump</button></div>
+                    <div class="col-xs-6 col-sm-3"><button class="btn btn-sm btn-info btn-block" target="top" data-sys-scroll="smooth">Goto 'Top' Animated</button></div>
+                </div>
+            </div>
+        </tab>
+    </tabset>
+
+    <p class="mini-header">Tips</p>
+    <p>This directive also has a listener for events sent to <code>_pageScroll</code>, this means it is possible to automatically scroll the page when it is loaded by adding the following to your controller:</p>
+    <div class="content">
+        <pre>
+
+.controller('scrollCtrl', ['$scope', '$location', function ($scope, $location) {
+    if ($location.path()) {
+        <strong>$scope.$emit('_pageScroll', $location.path().substring(1), 70);</strong>
+    }
+}])
+        </pre>
+        Note that there are two parameters here the string identifier and an integer for the required offset on the page
     </div>
 </div>

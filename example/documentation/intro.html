@@ -4,15 +4,18 @@
     <p><a href="https://github.com/sysen-limited/angular-toolbelt" class="btn btn-primary btn-lg" role="button">View on GitHub</a></p>
 </div>
 
-<h1>Using the toolbelt</h1>
-<p>Download the latest <a href="https://github.com/sysen-limited/angular-toolbelt/raw/master/dist/angular-toolbelt.js">development</a> or <a href="https://github.com/sysen-limited/angular-toolbelt/raw/master/dist/angular-toolbelt.min.js">production</a> distribution files</p>
-<p>Also available on bower using <code>bower install angular-toolbelt</code></p>
+<h2>How To: Adding the toolbelt to your project</h2>
+<p>Note that there are other ways you might include this library however below is the recommended setup.</p>
+<h3>Downloading the toolbelt</h3>
+<p><strong>Recommended (production)</strong> installation via bower <code>bower install angular-toolbelt --save</code></p>
+<p><strong>Latest (unstable)</strong> versions can be downloaded directly from GitHub <a href="https://github.com/sysen-limited/angular-toolbelt/raw/master/dist/angular-toolbelt.js">development</a> or <a href="https://github.com/sysen-limited/angular-toolbelt/raw/master/dist/angular-toolbelt.min.js">production</a> distribution files</p>
+<h3>Incorporating the library</h3>
 <p>
-    <div>Add the javascript file to your html page</div>
+    <p>Add the javascript file to your html page normally at the end of the html just before the closing body tag (after the inclusion of angular.js and before your app.js)</p>
     <code>&lt;script src="/path/to/angular-toolbelt.min.js"&gt;&lt;/script&gt;</code>
 </p>
 <p>
-    <div>Update your angular app to include the toolbelt</div>
+    <p>Update your angular app.js to include the toolbelt</p>
     <code>angular.module('yourApp', ['sysen.toolbelt']);</code>
 </p>
-<p>Use the directives and services below...</p>
+<h3>Enjoy the new functionality!</h3>

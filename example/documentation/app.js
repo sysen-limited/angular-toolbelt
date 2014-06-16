@@ -8,7 +8,7 @@ angular.module('example', ['sysen.toolbelt', 'ui.bootstrap', 'ngTouch'])
 
     .controller('scrollCtrl', ['$scope', '$location', function ($scope, $location) {
         if ($location.path()) {
-            $scope.$emit('_pageScroll', $location.path().substring(1));
+            $scope.$emit('_pageScroll', $location.path().substring(1), 70);
         }
     }])
 
