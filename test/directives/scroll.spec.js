@@ -44,6 +44,17 @@ describe('Directive > Scroll', function() {
         expect($window.scrollTo).toHaveBeenCalledWith(0, 600);
     });
 
+    it('should stay in the correct place if the scroll is called when already at the scroll location', function() {
+        var elm = $compile('<a data-target="test-one" data-sys-scroll></a>')(scope);
+
+        elm.triggerHandler('click');
+        expect($window.scrollTo).toHaveBeenCalledWith(0, 200);
+        $window.scrollTo.calls.reset();
+
+        elm.triggerHandler('click');
+        expect($window.scrollTo).toHaveBeenCalledWith(0, 200);
+    });
+
     it('should allow you to scroll multiple times', function() {
         var elmOne = $compile('<a data-target="test-one" data-sys-scroll></a>')(scope);
         var elmTwo = $compile('<a data-target="test-two" data-sys-scroll></a>')(scope);

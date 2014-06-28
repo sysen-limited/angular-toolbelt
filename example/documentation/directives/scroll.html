@@ -8,9 +8,9 @@
         <div class="content">
             <pre>&lt;a data-target="[element]" data-offset="[integer]" data-sys-scroll="[mode]"&gt;&lt;/a&gt;</pre>
         </div>
-        <p><code>data-sys-scroll="[mode]"</code> currently two modes are supported <code>none (optional parameter)</code> and <code>smooth</code>. These will either jump to or animate the scroll action respectively.</p>
-        <p><code>data-target="[element]"</code> refers to the element based on its ID on the page, for example <code>&lt;section id="uniqueElement"&gt;&lt;/section&gt;</code></p>
-        <p><code>data-offset="[integer]"</code> allow you to specify an offset during the scroll to cater for navigation or padding, should be a number based on the pixel offset required. Default is 0px.</p>
+        <p><code>data-sys-scroll="[mode]"</code> Directive initialisation, currently two modes are supported <code>none</code> and <code>smooth</code>. These will either jump to or animate the scroll action respectively. <strong>Default mode is none.</strong></p>
+        <p><code>data-target="[element]"</code> refers to the element based on its ID on the page, for example <code>&lt;section id="uniqueElement"&gt;&lt;/section&gt;</code> <strong>Required.</strong></p>
+        <p><code>data-offset="[integer]"</code> allow you to specify an offset during the scroll to cater for navigation or padding, should be a number based on the pixel offset required. <strong>Default is 0.</strong></p>
     </div>
 
     <p class="mini-header">Demo</p>
@@ -20,9 +20,10 @@
             <div class="content">
                 <pre>
 
-&lt;a data-target="[element]" data-sys-scroll&gt;Link Text&lt;/a&gt;
+&lt;a data-target="elementId" data-sys-scroll&gt;Jump To Section&lt;/a&gt;
+&lt;a data-target="elementId" data-sys-scroll="smooth"&gt;Animated Scroll To Section&lt;/a&gt;
 
-&lt;section id="[element]"&gt;Lorem Ipsum....&lt;/section&gt;
+&lt;section id="elementId"&gt;Lorem Ipsum....&lt;/section&gt;
                 </pre>
             </div>
         </tab>

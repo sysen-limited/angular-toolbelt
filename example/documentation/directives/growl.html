@@ -11,7 +11,7 @@
 &lt;div data-timeout="5" data-sys-growl="3"&gt;&lt;/div&gt;
         </pre>
     </div>
-    <p><code>data-sys-growl="[integer]"</code> optionally provide the number of growl messages in the list to display (shows most recent first), this is also the main directive. <strong>Default is 0 (forever).</strong></p>
+    <p><code>data-sys-growl="[integer]"</code> Directive initialisation, optionally provide the number of growl messages in the list to display (shows most recent first), this is also the main directive. <strong>Default is 0 (forever).</strong></p>
     <p><code>data-timeout="[integer]"</code> the number of seconds to display the growl items before removing automatically. <strong>Default is 0 (forever).</strong></p>
     <p>
         To send a message to the growl directive, just broadcast a message from your controller to the <code>_addGrowl</code> listener, with an object containing the type, title and content for the growl.
