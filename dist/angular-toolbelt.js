@@ -1,6 +1,7 @@
 
 angular.module('sysen.toolbelt', ['sysen.toolbelt.tpls', 'toolbelt.growl', 'toolbelt.scroll', 'toolbelt.strength']);
 angular.module('sysen.toolbelt.tpls', ['toolbelt.growl.tpl', 'toolbelt.strength.tpl']);
+
 angular.module('toolbelt.growl', ['ngSanitize'])
     .directive('sysGrowl', ['$rootScope', '$timeout', function($rootScope, $timeout) {
         return {
@@ -32,6 +33,7 @@ angular.module('toolbelt.growl', ['ngSanitize'])
             }
         };
     }]);
+
 angular.module('toolbelt.scroll', [])
     .directive('sysScroll', ['$rootScope', '$window', '$interval', function ($rootScope, $window, $interval) {
         var getCurrentPos = function () {
@@ -114,6 +116,7 @@ angular.module('toolbelt.scroll', [])
             }
         };
     }]);
+
 angular.module('toolbelt.strength', ['ngSanitize'])
     .directive('sysStrength', function() {
         var labels = ['success', 'warning', 'danger'];
@@ -202,6 +205,7 @@ angular.module('toolbelt.strength', ['ngSanitize'])
             }
         };
     });
+
 angular.module('toolbelt.growl.tpl', []).run(['$templateCache', function ($templateCache) {
     $templateCache.put(
         'template/toolbelt/growl.html',
@@ -216,6 +220,7 @@ angular.module('toolbelt.growl.tpl', []).run(['$templateCache', function ($templ
         ].join('\n')
     );
 }]);
+
 angular.module('toolbelt.strength.tpl', []).run(['$templateCache', function ($templateCache) {
     $templateCache.put(
         'template/toolbelt/strength.html',
