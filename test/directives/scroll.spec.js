@@ -5,6 +5,7 @@ describe('Directive > Scroll', function() {
 
     beforeEach(inject(function ($injector, $rootScope) {
         angular.element($injector.get('$document')).find('body')
+            .empty()
             .append('<section id="test-one" style="position: absolute; top: 200px;"></section>')
             .append('<section id="test-two" style="position: absolute; top: 600px;"></section>')
             .append('<div style="padding-top: 100px; margin-top: 100px;"><section id="test-div" style="position: relative; top: 200px;"></section></div>');
