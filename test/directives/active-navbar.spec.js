@@ -115,5 +115,10 @@ describe('Directive > Active Navbar', function() {
             expect(angular.element(elm.find('ul')[0]).hasClass('active')).toBeTruthy();
             expect(angular.element(elm.find('nav')[0]).hasClass('active')).toBeFalsy();
         });
+
+        it('should not error when the current location does not have a navigation entry', function() {
+            $location.path('missing-link');
+            scope.$digest();
+        });
     });
 });

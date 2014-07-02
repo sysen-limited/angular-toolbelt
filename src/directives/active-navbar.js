@@ -14,7 +14,9 @@ angular.module('toolbelt.navbar', [])
                     removeTreeClass(elm, 'active');
                 }
             });
-            addTreeClass(activeElm, 'active');
+            if(activeElm !== undefined) {
+                addTreeClass(activeElm, 'active');
+            }
         }
 
         function addTreeClass(element, className) {
