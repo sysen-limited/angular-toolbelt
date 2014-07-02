@@ -1,0 +1,76 @@
+
+<div class="page-header">
+    <h1>Angular Active Navbar Directive <small>Highlight the current page from you navigation</small></h1>
+</div>
+<div data-ng-controller="scrollCtrl">
+    <p class="mini-header">Directive Overview</p>
+    <div>
+        <div class="content">
+            <pre>&lt;nav data-sys-active-navbar&gt;
+    &lt;a data-route="[uri-expression]"&gt;Link Name&lt;/a&gt;
+&lt;/nav&gt;</pre>
+        </div>
+        <p><code>data-sys-active-navbar</code> Directive initialisation, put this at the highest point in your navigation, the 'active' class will propagate from the anchor tag to this tag in the html tree.</p>
+        <p><code>data-route="[uri-expression]"</code> this is a regular expression to match when changing the route or <code>$location.path()</code> value in your single page application and should sit as part of the anchor tag to match from.</p>
+    </div>
+
+    <p class="mini-header">Demo</p>
+    <tabset>
+        <tab>
+            <tab-heading>HTML</tab-heading>
+            <div class="content">
+                <pre>&lt;nav <strong>data-sys-active-navbar</strong>&gt;
+    &lt;ul class="nav navbar-nav"&gt;
+        &lt;li&gt;
+            &lt;a <strong>data-route="/path/to/page"</strong>&gt;Link Name&lt;/a&gt;
+        &lt;/li&gt;
+        &lt;li&gt;
+            &lt;a class="dropdown-toggle" <strong>data-route="/path/from.*"</strong>&gt;Link Name&lt;/a&gt;
+            &lt;ul class="dropdown-menu"&gt;
+                &lt;li&gt;
+                    &lt;a <strong>data-route="/path/from/page"</strong>&gt;Link Name&lt;/a&gt;
+                &lt;/li&gt;
+                &lt;li&gt;
+                    &lt;a <strong>data-route="/path/from/another/page"</strong>&gt;Link Name&lt;/a&gt;
+                &lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/nav&gt;</pre>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>JavaScript</tab-heading>
+            <div class="content">
+                <pre>
+
+Nothing required, just include the library in your application
+
+
+                </pre>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>Try It</tab-heading>
+            <div class="content">
+                <p>The navigation on this site is using this directive, try it out by selecting an item and see what happens!</p>
+            </div>
+        </tab>
+    </tabset>
+
+    <p class="mini-header">Tips</p>
+    <p>This directive also has a listener for events sent to <code>_pageScroll</code>, this means it is possible to automatically scroll the page when it is loaded by adding the following to your controller:</p>
+    <div class="content">
+        <pre>
+
+.controller('scrollCtrl', ['$scope', '$location', function ($scope, $location) {
+    if ($location.path()) {
+        <strong>$scope.$emit('_pageScroll', $location.path().substring(1), 70);</strong>
+    }
+}])
+        </pre>
+        Note that there are two parameters here the string identifier and an integer for the required offset on the page
+    </div>
+</div>
