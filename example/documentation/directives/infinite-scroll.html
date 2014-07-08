@@ -1,0 +1,103 @@
+
+<div class="page-header">
+    <h1>Angular Infinite Scroll Directive <small>Dynamically load data as the page scrolls</small></h1>
+</div>
+<div data-ng-controller="infiniteScrollCtrl">
+    <p class="mini-header">Directive Overview</p>
+    <div>
+        <div class="content">
+            <pre>&lt;ul <strong>data-sys-infinite-scroll</strong>&gt;
+    &lt;li data-ng-repeat="item in infiniteList"&gt;&lt;/li&gt;
+&lt;/ul&gt;</pre>
+        </div>
+        <p><code>data-sys-infinite-scroll</code> Directive initialisation, place this around the 'box model' element you wish to track on the page.</p>
+        <p><code>data-timeout="[milliseconds]"</code> This is the timeout to wait before trying to load more data by default, note that there are listeners (see below) to help manage data loading. <strong>Default is 1000.</strong></p>
+    </div>
+    <div class="content">
+        <pre>The directive broadcasts a <strong>DATA_LOAD</strong> event, this can be listened to in your controller to load more data to display;
+
+$scope.$on('_infiniteScroll', function(evt, message) {
+    // Load more data
+}</pre>
+    </div>
+
+    <p class="mini-header">Demo</p>
+    <tabset>
+        <tab>
+            <tab-heading>HTML</tab-heading>
+            <div class="content">
+                <pre>
+
+&lt;section data-ng-controller="infiniteScrollCtrl"&gt;
+    &lt;ul <strong>data-timeout="5000"</strong> <strong>data-sys-infinite-scroll</strong>&gt;
+        &lt;li data-ng-repeat="item in infiniteList"&gt;{{ item }}&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/section&gt;
+                </pre>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>JavaScript</tab-heading>
+            <div class="content">
+                <pre>
+
+.controller('infiniteScrollCtrl', ['$scope', '$location', function ($scope) {
+        $scope.infiniteList = [0,1,2,3,4,5,6,7,8,9];
+        $scope.$on('_infiniteScroll', function(evt, message) {
+            if(message.toString() === 'DATA_LOAD') {
+                var listLength = $scope.infiniteList.length;
+                if(listLength > 99) {
+                    $scope.$emit('_infiniteScroll', 'STOP');
+                } else {
+                    for (var i = $scope.infiniteList.length; i < listLength + 10; i++) {
+                        $scope.infiniteList.push(i);
+                    }
+                }
+                $scope.$emit('_infiniteScroll', 'CONTINUE');
+            }
+            $scope.$apply();
+        })
+    }])
+                </pre>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>Try It</tab-heading>
+            <div class="content">
+                <p>This list will increment up to 99 (adding 10 items at a time) and then stop loading more, scroll the page to see, <a data-ng-click="resetData()">click here to reset the list</a></p>
+                <ul data-timeout="5000" data-sys-infinite-scroll>
+                    <li data-ng-repeat="item in infiniteList">{{ item }}</li>
+                </ul>
+            </div>
+        </tab>
+    </tabset>
+
+    <p class="mini-header">Tips</p>
+    <p>This directive also listens for events sent to <code>_infiniteScroll</code>, this means it is possible to manage the behaviour from your controller:</p>
+    <div class="content">
+        <pre>
+
+You can stop the directive from sending load events by sending a stop message.
+
+$scope.$emit('_infiniteScroll', 'STOP');
+        </pre>
+    </div>
+    <div class="content">
+        <pre>
+
+If you then want to continue normal behaviour of the directive you can send a start message.
+
+$scope.$emit('_infiniteScroll', 'START');
+        </pre>
+    </div>
+    <div class="content">
+        <pre>
+
+This will tell the infinite scroll directive to cancel any internal timeout triggered by the LOAD_DATA event and continue listening to scroll actions.
+
+$scope.$emit('_infiniteScroll', 'CONTINUE');
+        </pre>
+    </div>
+</div>

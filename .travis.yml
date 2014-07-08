@@ -8,4 +8,5 @@ deploy:
     secure: i8CBuKRJFuAwwIJdnLKTOMXUKowD9dKukpknD1bEqkw1WFWIi5EbsJqVVtNtwT9lsxQ3xewAbpkpoYTevi/4pWcAMu1FORdgy1jFBbWekzXGO4vHy8dbEBlfnOP2+ax14PwfKvp/KQeqjne81HoD4psAE5cIOk8llchHnF7ow+w=
   app: angular-toolbelt
   on:
+    tags: true
     repo: sysen-limited/angular-toolbelt
