@@ -9,4 +9,5 @@ deploy:
   app: angular-toolbelt
   on:
     tags: true
+    all_branches: true
     repo: sysen-limited/angular-toolbelt
