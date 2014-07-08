@@ -25,8 +25,8 @@ angular.module('example', ['sysen.toolbelt', 'ui.bootstrap', 'ngTouch'])
                     }
                 }
                 $scope.$emit('_infiniteScroll', 'CONTINUE');
+                $scope.$apply();
             }
-            $scope.$apply();
         });
         $scope.resetData = function() {
             $scope.infiniteList = [0,1,2,3,4,5,6,7,8,9];

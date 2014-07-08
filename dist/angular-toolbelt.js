@@ -86,38 +86,21 @@ angular.module('toolbelt.growl', ['ngSanitize'])
 
 angular.module('toolbelt.infiniteScroll', [])
     .directive('sysInfiniteScroll', ['$rootScope', '$window', '$timeout', function ($rootScope, $window, $timeout) {
-
-        function getElementEndLocation(id) {
-            var elem = $window.document.getElementById(id),
-                elementLocation = $window.document.height;
-
-            if(elem && elem.offsetTop && elem.offsetHeight) {
-                elementLocation = elem.offsetTop + elem.offsetHeight;
-            }
-            return elementLocation;
-        }
-
-        function getWindowScrollLocation() {
-            return $window.scrollY + $window.innerHeight;
-        }
-
         return {
             link: function (scope, elem, attrs) {
-                var timer = attrs.timeout || 1000,
-                    id = attrs.id || 'infinite-scroll-' + Math.floor(Math.random() * 9999);
+                var timer = attrs.timeout || 1000;
 
                 scope.dataLoad = false;
                 scope.stopped = false;
-                elem.attr('id', id);
 
                 var handler = function() {
                     var pause = scope.dataLoad || scope.stopped;
 
                     if(!pause) {
-                        var endLocation = getElementEndLocation(id),
-                            scrollLocation = getWindowScrollLocation();
+                        var endLocation = elem.prop('offsetTop') + elem.prop('offsetHeight'),
+                            scrollLocation = $window.scrollY + $window.innerHeight;
 
-                        if (scrollLocation - endLocation >= 0) {
+                        if (endLocation && scrollLocation - endLocation >= 0) {
                             scope.dataLoad = true;
 
                             scope.timeout = $timeout(function () {
