@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html data-ng-app="example">
     <head>
         <title>Angular Toolbelt | Growl, Scroll, Password Strength</title>
@@ -28,7 +29,7 @@
             footer { margin-top: 20px; padding: 30px 0; border-top: 1px solid #eee; background-color: #fafafa; }
         </style>
     </head>
-    <body>
+    <body data-ng-controller="documentationCtrl">
         <header class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
                 <div class="row">
@@ -45,7 +46,12 @@
 
                         <nav class="navbar-collapse collapse" collapse="!isCollapsed" data-sys-active-navbar>
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a href="#">Services</a></li>
+                                <li class="dropdown">
+                                    <a role="button" class="dropdown-toggle">Services</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#browser-detection" role="button" data-route="/browser-detection" data-offset="70" data-target="browser-detection" data-sys-scroll="smooth">Browser Detection</a></li>
+                                    </ul>
+                                </li>
                                 <li class="dropdown">
                                     <a role="button" class="dropdown-toggle">Directives</a>
                                     <ul class="dropdown-menu">
@@ -65,6 +71,13 @@
 
         <div class="container">
             <section data-ng-include="'/public/docs/intro.html'"></section>
+            <div class="page-header">
+                <h1>Services</h1>
+            </div>
+            <section id="browser-detection" data-ng-include="'/public/docs/services/browser.html'"></section>
+            <div class="page-header">
+                <h1>Directives</h1>
+            </div>
             <section id="active-navbar" data-ng-include="'/public/docs/directives/active-navbar.html'"></section>
             <section id="growl" data-ng-include="'/public/docs/directives/growl.html'"></section>
             <section id="infinite-scroll" data-ng-include="'/public/docs/directives/infinite-scroll.html'"></section>

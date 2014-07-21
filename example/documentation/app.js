@@ -1,4 +1,14 @@
 angular.module('example', ['sysen.toolbelt', 'ui.bootstrap', 'ngTouch'])
+    .config(function($detectBrowserProvider) {
+        $detectBrowserProvider.allow("Chrome").allow("Firefox", "30").allow("Safari", "7.0").allow("Internet Explorer", "11");
+    })
+
+    .controller('documentationCtrl', ['$scope', function($scope) {
+        $scope.curly = function(string) {
+            return '{{ ' + string + ' }}';
+        }
+    }])
+
     .controller('growlCtrl', ['$scope', function ($scope) {
         $scope.growl = { type: 'info' };
         $scope.addGrowl = function (growl) {
@@ -13,11 +23,11 @@ angular.module('example', ['sysen.toolbelt', 'ui.bootstrap', 'ngTouch'])
     }])
 
     .controller('infiniteScrollCtrl', ['$scope', '$location', function ($scope) {
-        $scope.infiniteList = [0,1,2,3,4,5,6,7,8,9];
-        $scope.$on('_infiniteScroll', function(evt, message) {
-            if(message.toString() === 'DATA_LOAD') {
+        $scope.infiniteList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        $scope.$on('_infiniteScroll', function (evt, message) {
+            if (message.toString() === 'DATA_LOAD') {
                 var listLength = $scope.infiniteList.length;
-                if(listLength > 99) {
+                if (listLength > 99) {
                     $scope.$emit('_infiniteScroll', 'STOP');
                 } else {
                     for (var i = $scope.infiniteList.length; i < listLength + 10; i++) {
@@ -28,15 +38,19 @@ angular.module('example', ['sysen.toolbelt', 'ui.bootstrap', 'ngTouch'])
                 $scope.$apply();
             }
         });
-        $scope.resetData = function() {
-            $scope.infiniteList = [0,1,2,3,4,5,6,7,8,9];
+        $scope.resetData = function () {
+            $scope.infiniteList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
             $scope.$emit('_infiniteScroll', 'START');
         }
     }])
 
     .controller('strengthCtrl', ['$scope', function ($scope) {
-        $scope.reset = function() {
+        $scope.reset = function () {
             $scope.passwordStrengthForm.$setPristine();
             $scope.password = "";
         }
+    }])
+
+    .controller('browserCtrl', ['$scope', '$detectBrowser', function($scope, $detectBrowser) {
+        $scope.browser = $detectBrowser;
     }]);

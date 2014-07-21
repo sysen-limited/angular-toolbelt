@@ -1,0 +1,95 @@
+<h2>Browser Detection Service <small>Check for browser information and perform actions if required</small></h2>
+
+<div data-ng-controller="browserCtrl">
+
+    <p class="mini-header">Service Overview</p>
+    <div>
+        <dl class="dl-horizontal">
+            <dt>Service Name</dt>
+            <dd><strong>$detectBrowser</strong></dd>
+            <dt>Type</dt>
+            <dd>Provider</dd>
+            <dt>Variables</dt>
+            <dd>
+                [String] <strong>name</strong>
+                <br />[String] <strong>version</strong>
+            </dd>
+            <dt>Methods</dt>
+            <dd>
+                [Boolean] <strong>matches(BrowserName[String], VersionNumber[String])</strong>
+                <br />[Boolean] <strong>isAllowed()</strong>
+            </dd>
+            <dt>Config</dt>
+            <dd>
+                [DetectBrowserProvider] <strong>allow(BrowserName[String], VersionNumber[String])</strong>
+            </dd>
+        </dl>
+        <p>Current Detected Browsers are (note: not all versions have been tested, however will correctly identify all current ones which have been tested);
+            <ul>
+                <li>Internet Explorer</li>
+                <li>Firefox</li>
+                <li>Chrome</li>
+                <li>Safari</li>
+                <li>Opera</li>
+            </ul>
+            If you require support for a specific browser please raise an issue on our GitHub project and we will look into it.
+        </p>
+    </div>
+
+    <p class="mini-header">Demo</p>
+    <tabset>
+        <tab>
+            <tab-heading>HTML</tab-heading>
+            <div class="content">
+                <pre>
+
+&lt;div data-ng-controller=&quot;browserCtrl&quot;&gt;
+    &lt;p&gt;You are using: {{ curly('browser.name') }} (Version {{ curly('browser.version') }})&lt;/p&gt;
+    &lt;p data-ng-if=&quot;browser.matches('Safari')&quot;&gt;Only Safari users can see this message!&lt;/p&gt;
+    &lt;p data-ng-if=&quot;browser.isAllowed()&quot;&gt;Our allowed browsers (Chrome ANY, Firefox 30+, Safari 7+ and MSIE 11+) will see this message.&lt;/p&gt;
+&lt;/div&gt;
+                </pre>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>JavaScript</tab-heading>
+            <div class="content">
+                <pre>
+
+angular.module('myApp', [])
+    .config(function($detectBrowserProvider) {
+        <strong>$detectBrowserProvider</strong>.allow("Chrome").allow("Firefox", "30").allow("Safari", "7").allow("Internet Explorer", "11");
+    });
+    .controller('browserCtrl', ['$scope', <strong>'$detectBrowser'</strong>, function($scope, <strong>$detectBrowser</strong>) {
+        $scope.browser = $detectBrowser;
+    }]);
+
+                </pre>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>Try It</tab-heading>
+            <div class="content">
+                <p>You are using: {{ browser.name }} (Version {{ browser.version }})</p>
+                <p data-ng-if="browser.matches('Safari')">Only Safari users can see this message!</p>
+                <p data-ng-if="browser.isAllowed()">Our allowed browsers (Chrome ANY, Firefox 30+, Safari 7+ and MSIE 11+) will see this message.</p>
+            </div>
+        </tab>
+    </tabset>
+
+    <p class="mini-header">Tips</p>
+    <p>You can use the allowed browser state to redirect or display a message to users about possible compatibility issues on your landing page</p>
+    <div class="content">
+        <pre>
+
+app.controller('LandingCtrl', ['$location', '$detectBrowser', function ($location, $detectBrowser) {
+    if (!$detectBrowser.isApproved()) {
+        $location.path('browser-warning');
+    }
+});
+        </pre>
+        Note: You may want to also use a cookie to store displaying of the message to only show it once.
+    </div>
+</div>
