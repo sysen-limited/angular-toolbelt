@@ -28,7 +28,7 @@ $scope.$on('_infiniteScroll', function(evt, message) {
 
 &lt;section data-ng-controller="infiniteScrollCtrl"&gt;
     &lt;ul <strong>data-timeout="5000"</strong> <strong>data-sys-infinite-scroll</strong>&gt;
-        &lt;li data-ng-repeat="item in infiniteList"&gt;{{ item }}&lt;/li&gt;
+        &lt;li data-ng-repeat="item in infiniteList"&gt;{{ curly('item') }}&lt;/li&gt;
     &lt;/ul&gt;
 &lt;/section&gt;
                 </pre>

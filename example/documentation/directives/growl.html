@@ -102,7 +102,7 @@ angular.module('toolbelt.growl.tpl', []).run(['$templateCache', function ($templ
         'template/toolbelt/growl.html',
         [
             '&lt;ul&gt;',
-            '    &lt;li data-ng-repeat=&quot;growl in growls | limitTo: limit&quot;&gt;&lt;strong&gt;{{ growl.title }}&lt;/strong&gt; {{ growl.content }}&lt;/li&gt;',
+            '    &lt;li data-ng-repeat=&quot;growl in growls | limitTo: limit&quot;&gt;&lt;strong&gt;{{ curly('growl.title') }}&lt;/strong&gt; {{ curly('growl.content') }}&lt;/li&gt;',
             '&lt;/ul&gt;'
         ].join('\n')
     );
