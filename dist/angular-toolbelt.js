@@ -321,16 +321,16 @@ angular.module('toolbelt.platform', [])
             }
             switch(name.toLowerCase()) {
                 case "windows":
-                    temp = agent.match(/windows\snt\s([^;)]*)/i) || [];
+                    temp = agent.match(/windows\snt\s([^;)]*)/i);
                     version = temp[1];
                     break;
                 case "macintosh":
-                    temp = agent.match(/(mac\sos\s?x)\s([^;)]*)/i) || [];
+                    temp = agent.match(/(mac\sos\s?x)\s([^;)]*)/i);
                     name = temp[1];
                     version = temp[2].replace(/_/g, '.');
                     break;
                 case "linux":
-                    temp = agent.match(/ubuntu/i) || [];
+                    temp = agent.match(/ubuntu/i);
                     version = temp[0];
                     break;
             }
