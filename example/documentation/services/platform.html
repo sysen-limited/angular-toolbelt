@@ -1,0 +1,133 @@
+<h2>Platform Detection Service <small>Interact with platform information like operating system or browser</small></h2>
+
+<div data-ng-controller="platformCtrl">
+
+    <p class="mini-header">Service Overview</p>
+    <div>
+        <dl class="dl-horizontal">
+            <dt>Service Name</dt>
+            <dd>$detectPlatform</dd>
+            <dt>Type</dt>
+            <dd>Provider</dd>
+            <dt>Variables</dt>
+            <dd>
+                [String] language
+                <br />[String] system.name
+                <br />[String] system.version
+                <br />[String] browser.name
+                <br />[String] browser.version
+            </dd>
+            <dt>Methods</dt>
+            <dd>
+                [Boolean] system.matches(SystemName [String], [SystemNumber [String]])
+                <br />[Boolean] browser.matches(BrowserName [String], [VersionNumber [String]])
+                <br />[Boolean] browser.isAllowed()
+            </dd>
+            <dt>Config</dt>
+            <dd>
+                [DetectPlatformProvider] allowBrowser(BrowserName [String], [VersionNumber [String]])
+            </dd>
+        </dl>
+        <p>The below table shows which operating systems and browsers have been tested, note that not all versions have been tested;
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="col-xs-2"></th>
+                        <th class="col-xs-2 text-center">MSIE 9+</th>
+                        <th class="col-xs-2 text-center">Firefox 28+</th>
+                        <th class="col-xs-2 text-center">Chrome 34+</th>
+                        <th class="col-xs-2 text-center">Safari 6+</th>
+                        <th class="col-xs-2 text-center">Opera 9+</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Windows 7+</td>
+                        <td class="text-center"><i class="fa fa-check"></i></td>
+                        <td class="text-center"><i class="fa fa-check"></i></td>
+                        <td class="text-center"><i class="fa fa-check"></i></td>
+                        <td class="text-center"><i class="fa fa-check"></i></td>
+                        <td class="text-center"><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Apple OSX 10.8+</td>
+                        <td class="text-center"></td>
+                        <td class="text-center"><i class="fa fa-check"></i></td>
+                        <td class="text-center"><i class="fa fa-check"></i></td>
+                        <td class="text-center"><i class="fa fa-check"></i></td>
+                        <td class="text-center"><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Linux Ubuntu</td>
+                        <td class="text-center"></td>
+                        <td class="text-center"><i class="fa fa-check"></i></td>
+                        <td class="text-center"><i class="fa fa-check"></i></td>
+                        <td class="text-center"></td>
+                        <td class="text-center"></td>
+                    </tr>
+                </tbody>
+            </table>
+            Note: Windows versions are now based on NT release version numbers, as such 'Windows 8.1' is actually Windows NT 6.3, for more information look at <a href="http://en.wikipedia.org/wiki/List_of_Microsoft_Windows_versions" target="_blank">wikipedia</a>
+        </p>
+        <p>If you require support for a specific platform please raise an issue on our GitHub project and we will look into it.</p>
+    </div>
+
+    <p class="mini-header">Demo</p>
+    <tabset>
+        <tab>
+            <tab-heading>HTML</tab-heading>
+            <div class="content">
+                <pre>
+
+&lt;div data-ng-controller=&quot;browserCtrl&quot;&gt;
+    &lt;p&gt;You are using: {{ curly('system.name') }} (Version {{ curly('system.version') }}) with {{ curly('browser.name') }} (Version {{ curly('browser.version') }}) in {{ curly('language') }}&lt;/p&gt;
+    &lt;p data-ng-if=&quot;system.matches('Windows')&quot;&gt;Only Windows users can see this message!&lt;/p&gt;
+    &lt;p data-ng-if=&quot;browser.matches('Safari')&quot;&gt;Only Safari users can see this message!&lt;/p&gt;
+    &lt;p data-ng-if=&quot;browser.isAllowed()&quot;&gt;Our allowed browsers (Chrome ANY, Firefox 30+, Safari 7+ and MSIE 11+) will see this message.&lt;/p&gt;
+&lt;/div&gt;
+                </pre>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>JavaScript</tab-heading>
+            <div class="content">
+                <pre>
+
+angular.module('myApp', [])
+    .config(function($detectPlatformProvider) {
+        <strong>$detectPlatformProvider</strong>.allow("Chrome").allow("Firefox", "30").allow("Safari", "7").allow("MSIE", "11");
+    });
+    .controller('platformCtrl', ['$scope', <strong>'$detectPlatform'</strong>, function($scope, <strong>$detectPlatform</strong>) {
+        angular.extend($scope, $detectPlatform);
+    }]);
+
+                </pre>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>Try It</tab-heading>
+            <div class="content">
+                <p>You are using: {{ system.name }} (Version {{ system.version }}) with {{ browser.name }} (Version {{ browser.version }}) in {{ language }}</p>
+                <p data-ng-if="system.matches('Windows')">Only Windows users can see this message!</p>
+                <p data-ng-if="browser.matches('Safari')">Only Safari users can see this message!</p>
+                <p data-ng-if="browser.isAllowed()">Our allowed browsers (Chrome ANY, Firefox 30+, Safari 7+ and MSIE 11+) will see this message.</p>
+            </div>
+        </tab>
+    </tabset>
+
+    <p class="mini-header">Tips</p>
+    <p>You can use the allowed browser state to redirect or display a message to users about possible compatibility issues on your landing page</p>
+    <div class="content">
+        <pre>
+
+app.controller('LandingCtrl', ['$location', '$detectBrowser', function ($location, $detectBrowser) {
+    if (!$detectBrowser.isApproved()) {
+        $location.path('browser-warning');
+    }
+});
+        </pre>
+        Note: You may want to also use a cookie to store displaying of the message to only show it once.
+    </div>
+</div>

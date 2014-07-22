@@ -1,6 +1,6 @@
 
 angular.module('sysen.toolbelt', ['sysen.toolbelt.services', 'sysen.toolbelt.directives', 'sysen.toolbelt.tpls']);
-angular.module('sysen.toolbelt.services', ['toolbelt.detection']);
+angular.module('sysen.toolbelt.services', ['toolbelt.platform']);
 angular.module('sysen.toolbelt.directives', ['toolbelt.growl', 'toolbelt.infiniteScroll', 'toolbelt.scroll', 'toolbelt.strength', 'toolbelt.navbar']);
 angular.module('sysen.toolbelt.tpls', ['toolbelt.growl.tpl', 'toolbelt.strength.tpl']);
 
@@ -306,9 +306,36 @@ angular.module('toolbelt.strength', ['ngSanitize'])
         };
     });
 
-angular.module('toolbelt.detection', [])
-    .provider('$detectBrowser', function () {
+angular.module('toolbelt.platform', [])
+    .provider('$detectPlatform', function () {
         var self = this;
+
+        function getSystem($window) {
+            var agent = $window.navigator.userAgent,
+                matches = agent.match(/(windows|macintosh|linux)/i) || [],
+                name, version, temp;
+
+            name = matches[0];
+            if(!name) {
+                return { name: "Unknown", version: "0" };
+            }
+            switch(name.toLowerCase()) {
+                case "windows":
+                    temp = agent.match(/windows\snt\s([^;)]*)/i) || [];
+                    version = temp[1];
+                    break;
+                case "macintosh":
+                    temp = agent.match(/(mac\sos\s?x)\s([^;)]*)/i) || [];
+                    name = temp[1];
+                    version = temp[2].replace(/_/g, '.');
+                    break;
+                case "linux":
+                    temp = agent.match(/ubuntu/i) || [];
+                    version = temp[0];
+                    break;
+            }
+            return { name: name, version: version };
+        }
 
         function getBrowser($window) {
             var agent = $window.navigator.userAgent,
@@ -339,31 +366,46 @@ angular.module('toolbelt.detection', [])
 
         self.approvedBrowsers = [];
 
-        self.allow = function (browser, version) {
-            this.approvedBrowsers.push({ name: browser || "Unknown", version: version || 0 });
+        self.allowBrowser = function (browser, version) {
+            this.approvedBrowsers.push({ name: browser, version: version || 0 });
             return self;
         };
 
         self.$get = ["$window", function ($window) {
+            var system = getSystem($window);
             var browser = getBrowser($window);
             return {
-                name: browser.name,
-                version: browser.version,
-                matches: function (browserName, browserVersion) {
-                    if(browserVersion) {
-                        return(this.name && this.name == browserName && browserVersion && this.version == browserVersion);
-                    } else {
-                        return(this.name && this.name == browserName);
-                    }
-
-                },
-                isAllowed: function () {
-                    for(var i = 0; i < self.approvedBrowsers.length; i++) {
-                        if(this.name == self.approvedBrowsers[i].name && parseFloat(this.version) >= parseFloat(self.approvedBrowsers[i].version)) {
-                            return true;
+                language: $window.navigator.language,
+                system: {
+                    name: system.name,
+                    version: system.version,
+                    matches: function (systemName, systemVersion) {
+                        if (systemVersion) {
+                            return(this.name && this.name == systemName && this.version == systemVersion);
+                        } else {
+                            return(this.name && this.name == systemName);
                         }
                     }
-                    return false;
+                },
+                browser: {
+                    name: browser.name,
+                    version: browser.version,
+                    matches: function (browserName, browserVersion) {
+                        if (browserVersion) {
+                            return(this.name && this.name == browserName && this.version == browserVersion);
+                        } else {
+                            return(this.name && this.name == browserName);
+                        }
+
+                    },
+                    isAllowed: function () {
+                        for (var i = 0; i < self.approvedBrowsers.length; i++) {
+                            if (this.name == self.approvedBrowsers[i].name && parseFloat(this.version) >= parseFloat(self.approvedBrowsers[i].version)) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
                 }
             };
         }];

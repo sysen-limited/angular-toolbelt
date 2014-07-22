@@ -1,6 +1,6 @@
 angular.module('example', ['sysen.toolbelt', 'ui.bootstrap', 'ngTouch'])
-    .config(function($detectBrowserProvider) {
-        $detectBrowserProvider.allow("Chrome").allow("Firefox", "30").allow("Safari", "7.0").allow("Internet Explorer", "11");
+    .config(function($detectPlatformProvider) {
+        $detectPlatformProvider.allowBrowser("Chrome").allowBrowser("Firefox", "30").allowBrowser("Safari", "7.0").allowBrowser("MSIE", "11");
     })
 
     .controller('documentationCtrl', ['$scope', function($scope) {
@@ -51,6 +51,6 @@ angular.module('example', ['sysen.toolbelt', 'ui.bootstrap', 'ngTouch'])
         }
     }])
 
-    .controller('browserCtrl', ['$scope', '$detectBrowser', function($scope, $detectBrowser) {
-        $scope.browser = $detectBrowser;
+    .controller('platformCtrl', ['$scope', '$detectPlatform', function($scope, $detectPlatform) {
+        angular.extend($scope, $detectPlatform);
     }]);

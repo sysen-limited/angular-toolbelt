@@ -23,7 +23,7 @@
         <style type="text/css">
             html, body { margin: 0px; padding: 0px; }
             body { padding-top: 70px; }
-            pre { background-color: inherit; margin: 0; border: 0; }
+            pre { background-color: inherit; margin: 0; border: 0; overflow-y: scroll; word-wrap: normal }
             .content { background-color: #eee; padding: 10px; margin-bottom: 15px; }
             .mini-header { font-size: 120%; text-transform: uppercase; color: #999; }
             footer { margin-top: 20px; padding: 30px 0; border-top: 1px solid #eee; background-color: #fafafa; }
@@ -49,7 +49,7 @@
                                 <li class="dropdown">
                                     <a role="button" class="dropdown-toggle">Services</a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#browser-detection" role="button" data-route="/browser-detection" data-offset="70" data-target="browser-detection" data-sys-scroll="smooth">Browser Detection</a></li>
+                                        <li><a href="#platform" role="button" data-route="/platform" data-offset="70" data-target="platform" data-sys-scroll="smooth">Platform Detection</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown">
@@ -74,7 +74,7 @@
             <div class="page-header">
                 <h1>Services</h1>
             </div>
-            <section id="browser-detection" data-ng-include="'/public/docs/services/browser.html'"></section>
+            <section id="platform" data-ng-include="'/public/docs/services/platform.html'"></section>
             <div class="page-header">
                 <h1>Directives</h1>
             </div>
