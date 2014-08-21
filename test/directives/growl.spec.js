@@ -98,7 +98,7 @@ describe('Directive > Growl', function() {
         $timeout.flush();
         expect(scope.growls.length).toBe(0);
         expect(scope.$broadcast).toHaveBeenCalledWith('_removeGrowl', angular.copy(message));
-    })
+    });
 
     it('should listen to the limit value set on the directive', function() {
         var elm = compileDirective('limit');

@@ -73,6 +73,10 @@ angular.module('toolbelt.scroll', [])
                     }
                 });
 
+                angular.element($window).bind("scroll", function() {
+                    $rootScope.$broadcast('_scroll', $window.pageYOffset);
+                });
+
                 $rootScope.$on('_pageScroll', function(event, target, offset) {
                     offset = offset || defaultOffset;
                     scrollPage('none', target, offset);

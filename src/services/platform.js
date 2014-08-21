@@ -40,14 +40,14 @@ angular.module('toolbelt.platform', [])
             }
             else if (matches[1] === 'Chrome') {
                 temp = agent.match(/\bOPR\/(\d+(\.\d+)?(\.\d+)?)/);
-                if (temp != null) {
+                if (temp !== null) {
                     name = 'Opera';
                     version = temp[1];
                 }
             }
             if (!name && !version) {
                 matches = matches[2] ? [matches[1], matches[2]] : [$window.navigator.appName, $window.navigator.appVersion, '-?'];
-                if ((temp = agent.match(/version\/(\d+(\.\d+)?(\.\d+)?)/i)) != null) {
+                if ((temp = agent.match(/version\/(\d+(\.\d+)?(\.\d+)?)/i)) !== null) {
                     matches.splice(1, 1, temp[1]);
                 }
                 name = matches[0];

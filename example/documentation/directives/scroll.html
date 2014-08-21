@@ -51,6 +51,18 @@ Nothing required, just include the library in your application
     </tabset>
 
     <p class="mini-header">Tips</p>
+    <div class="content">
+        <p>This directive will also trigger <code>_scroll</code> events when the page is scrolled that can be listened for, e.g;</p>
+        <pre>
+
+$scope.$on('_scroll', function(evt, data) {
+   $scope.top = true;
+    if(data > 0) {
+        $scope.top = false;
+    }
+});
+        </pre>
+    </div>
     <p>This directive also has a listener for events sent to <code>_pageScroll</code>, this means it is possible to automatically scroll the page when it is loaded by adding the following to your controller:</p>
     <div class="content">
         <pre>

@@ -1,7 +1,7 @@
 {
     "name": "angular-toolbelt",
     "description": "Handy directives and services that can be easily incorporated into any AngularJS web project",
-    "version": "0.1.2",
+    "version": "0.1.4",
     "dependencies": {
         "angular": "latest",
         "angular-touch": "latest",
