@@ -58,6 +58,7 @@
                                         <li><a href="#active-navbar" role="button" data-route="/active-navbar" data-offset="70" data-target="active-navbar" data-sys-scroll="smooth">Active Navbar</a></li>
                                         <li><a href="#growl" role="button" data-route="/growl" data-offset="70" data-target="growl" data-sys-scroll="smooth">Growl</a></li>
                                         <li><a href="#infinite-scroll" role="button" data-route="/infinite-scroll" data-offset="70" data-target="infinite-scroll" data-sys-scroll="smooth">Infinite Scroll</a></li>
+                                        <li><a href="#markdown" role="button" data-route="/markdown" data-offset="70" data-target="markdown" data-sys-scroll="smooth">Markdown</a></li>
                                         <li><a href="#scroll" role="button" data-route="/scroll" data-offset="70" data-target="scroll" data-sys-scroll="smooth">Scroll</a></li>
                                         <li><a href="#strength" role="button" data-route="/strength" data-offset="70" data-target="strength" data-sys-scroll="smooth">Input Strength</a></li>
                                     </ul>
@@ -81,6 +82,7 @@
             <section id="active-navbar" data-ng-include="'/public/docs/directives/active-navbar.html'"></section>
             <section id="growl" data-ng-include="'/public/docs/directives/growl.html'"></section>
             <section id="infinite-scroll" data-ng-include="'/public/docs/directives/infinite-scroll.html'"></section>
+            <section id="markdown" data-ng-include="'/public/docs/directives/markdown.html'"></section>
             <section id="scroll" data-ng-include="'/public/docs/directives/scroll.html'"></section>
             <section id="strength" data-ng-include="'/public/docs/directives/strength.html'"></section>
         </div>
@@ -101,8 +103,11 @@
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-sanitize.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
 
+        <!-- Third Party -->
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/marked/0.3.2/marked.min.js"></script>
+
         <!-- Application -->
-        <script type="text/javascript" src="/public/angular-toolbelt.min.js"></script>
+        <script type="text/javascript" src="/public/angular-toolbelt.js"></script>
         <script type="text/javascript" src="/public/docs/app.js"></script>
     </body>
 </html>

@@ -16,12 +16,6 @@ angular.module('example', ['sysen.toolbelt', 'ui.bootstrap', 'ngTouch'])
         }
     }])
 
-    .controller('scrollCtrl', ['$scope', '$location', function ($scope, $location) {
-        if ($location.path()) {
-            $scope.$emit('_pageScroll', $location.path().substring(1), 70);
-        }
-    }])
-
     .controller('infiniteScrollCtrl', ['$scope', '$location', function ($scope) {
         $scope.infiniteList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
         $scope.$on('_infiniteScroll', function (evt, message) {
@@ -44,13 +38,23 @@ angular.module('example', ['sysen.toolbelt', 'ui.bootstrap', 'ngTouch'])
         }
     }])
 
+    .controller('markdownCtrl', ['$scope', function($scope) {
+        $scope.markdown = "### Hello World\n\n**Welcome to [markdown](https://daringfireball.net/projects/markdown/)**\n\nPlease edit the text in the input to try out the various markdown tags *live*";
+    }])
+
+    .controller('platformCtrl', ['$scope', '$detectPlatform', function($scope, $detectPlatform) {
+        angular.extend($scope, $detectPlatform);
+    }])
+
+    .controller('scrollCtrl', ['$scope', '$location', function ($scope, $location) {
+        if ($location.path()) {
+            $scope.$emit('_pageScroll', $location.path().substring(1), 70);
+        }
+    }])
+
     .controller('strengthCtrl', ['$scope', function ($scope) {
         $scope.reset = function () {
             $scope.passwordStrengthForm.$setPristine();
             $scope.password = "";
         }
-    }])
-
-    .controller('platformCtrl', ['$scope', '$detectPlatform', function($scope, $detectPlatform) {
-        angular.extend($scope, $detectPlatform);
     }]);

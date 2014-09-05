@@ -20,6 +20,7 @@ module.exports = function (config) {
         files: [
             'lib/angular/angular.js',
             'lib/**/angular-*.js',
+            'lib/marked/marked.js',
             'src/**/*.js',
             'test/**/*.spec.js'
         ],

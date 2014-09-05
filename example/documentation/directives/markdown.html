@@ -1,0 +1,93 @@
+<h2>Angular Markdown Directive <small>Parse Markdown text as HTML</small></h2>
+
+<div data-ng-controller="markdownCtrl">
+    <p class="mini-header">Directive Overview</p>
+    <div>
+        <p>This directive requires the use of the open source markdown parser for javascript <code>marked</code> you can get this from <a href="https://github.com/chjj/marked">GitHub</a> it should also have been downloaded to your bower repository, if you used bower to install the toolbelt. Simply add the library to your HTML template <code>&lt;script src="/path/to/marked.js"&gt;&lt;/script&gt;</code>, before initialising your application, if this library is not present a warning will show instead of the parsed markdown.</p>
+        <div class="content">
+            <pre>&lt;div <strong>data-sys-markdown="[scope.variable]"</strong>&gt;&lt;/div&gt;</pre>
+        </div>
+        <p><code>data-sys-markdown="[ngModel]"</code> Directive initialisation, note that you can pass a standard angular scope variables into the directive for it to monitor / parse.</p>
+
+        <p class="mini-header">Demo</p>
+        <tabset>
+            <tab>
+                <tab-heading>HTML</tab-heading>
+                <div class="content">
+                    <pre>
+
+ &lt;div class="row" data-ng-controller="markdownCtrl"&gt;
+    &lt;div class="col-sm-6"&gt;
+        &lt;strong&gt;Enter Markdown&lt;/strong&gt;
+        &lt;textarea class="form-control" rows="12" <strong>data-ng-model="markdown"</strong>&gt;&lt;/textarea&gt;
+    &lt;/div&gt;
+    &lt;div class="col-sm-6"&gt;
+        &lt;strong&gt;Dynamic Result (cool)&lt;/strong&gt;
+        &lt;div <strong>data-sys-markdown="markdown"</strong>&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+                    </pre>
+                </div>
+            </tab>
+
+            <tab>
+                <tab-heading>JavaScript</tab-heading>
+                <div class="content">
+                    <pre>
+
+.controller('markdownCtrl', ['$scope', function($scope) {
+    $scope.markdown = "### Hello World\n\n**Welcome to [markdown](https://daringfireball.net/projects/markdown/)**\n\nPlease edit the text in the input to try out the various markdown tags *live*";
+}])
+                    </pre>
+                </div>
+            </tab>
+
+            <tab>
+                <tab-heading>Try It</tab-heading>
+                <div class="content">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <strong>Enter Markdown</strong>
+                            <textarea class="form-control" rows="12" data-ng-model="markdown"></textarea>
+                        </div>
+                        <div class="col-sm-6">
+                            <strong>Dynamic Result (overflow scrolls)</strong>
+                            <div style="height: 250px; overflow: scroll" data-sys-markdown="markdown"></div>
+                        </div>
+                    </div>
+                </div>
+            </tab>
+        </tabset>
+
+        <p class="mini-header">Tips</p>
+        <p>You can also just use an HTML tag to parse the markdown text, note however that 'whitespace' will effect output from the parser.</p>
+        <div class="content">
+            <pre>
+
+&lt;sys-markdown&gt;
+### Markdown Text
+Can auto link http://www.sysen.co.uk
+&lt;/sys-markdown&gt;
+
+<sys-markdown>
+### Markdown Text
+Can auto link http://www.sysen.co.uk
+</sys-markdown></pre>
+        </div>
+        <p>The directive also caters for options to be sent to the marked converter using the options attribute. Or you can do this via javascript sending new options to the markdownConverterProvider, during initialisation</p>
+        <div class="content">
+            <pre>
+
+&lt;sys-markdown <strong>data-options="{ gfm: false }"</strong>&gt;
+### Markdown Text
+Can disable auto link (GitHub flavoured markup) http://www.sysen.co.uk
+&lt;/sys-markdown&gt;
+
+<sys-markdown data-options="{ gfm: false }">
+### Markdown Text
+Can disable auto link (GitHub flavoured markup) http://www.sysen.co.uk
+</sys-markdown></pre>
+        </div>
+        <p><em>Consider this: As this directive can work with scope variables, you could use it do allow inline editing of text and save updates to a backend (like a basic CMS)</em></p>
+    </div>
+</div>

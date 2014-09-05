@@ -18,6 +18,7 @@ app.set('view engine', 'ejs');
 app.use(logger());
 // Express Configuration
 app.use('/public', express.static(path.join(__dirname, '../dist')));
+app.use('/public', express.static(path.join(__dirname, '../lib')));
 app.use('/public/docs', express.static(path.join(__dirname, './documentation')));
 
 // Development (set NODE_ENV environment variable to trigger this)

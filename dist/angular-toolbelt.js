@@ -1,7 +1,7 @@
 
 angular.module('sysen.toolbelt', ['sysen.toolbelt.services', 'sysen.toolbelt.directives', 'sysen.toolbelt.tpls']);
 angular.module('sysen.toolbelt.services', ['toolbelt.platform']);
-angular.module('sysen.toolbelt.directives', ['toolbelt.growl', 'toolbelt.infiniteScroll', 'toolbelt.scroll', 'toolbelt.strength', 'toolbelt.navbar']);
+angular.module('sysen.toolbelt.directives', ['toolbelt.growl', 'toolbelt.infiniteScroll', 'toolbelt.markdown', 'toolbelt.navbar', 'toolbelt.scroll', 'toolbelt.strength']);
 angular.module('sysen.toolbelt.tpls', ['toolbelt.growl.tpl', 'toolbelt.strength.tpl']);
 
 angular.module('toolbelt.navbar', [])
@@ -134,6 +134,51 @@ angular.module('toolbelt.infiniteScroll', [])
         };
     }]);
 
+angular.module('toolbelt.markdown', [])
+    .provider('markdownConverter', function () {
+        var self = this;
+
+        self.setOptions = function (options) {
+            this.defaults = options;
+        };
+        self.$get = ['$window', function ($window) {
+            if($window.marked) {
+                var marked = $window.marked;
+
+                self.setOptions = marked.setOptions;
+                marked.setOptions(self.defaults);
+                return marked;
+            }
+        }];
+    })
+
+    .directive('sysMarkdown', ['markdownConverter', function (markdownConverter) {
+        return {
+            restrict: 'AE',
+            replace: true,
+            scope: {
+                options: '=',
+                sysMarkdown: '='
+            },
+            link: function (scope, elem, attrs) {
+                var warning = false;
+
+                function parse(value) {
+                    if(markdownConverter) {
+                        elem.html(markdownConverter(value || '', scope.options || null));
+                    } else if(!warning) {
+                        elem.html('Markdown parser not found! Please include library found at: https://github.com/chjj/marked');
+                        warning = true;
+                    }
+                }
+                parse(scope.sysMarkdown || elem.text() || '');
+
+                if(attrs.sysMarkdown) {
+                    scope.$watch('sysMarkdown', parse);
+                }
+            }
+        };
+    }]);
 
 angular.module('toolbelt.scroll', [])
     .directive('sysScroll', ['$rootScope', '$window', '$interval', function ($rootScope, $window, $interval) {
