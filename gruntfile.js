@@ -78,6 +78,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('build', 'Create minified script files', function () {
+        grunt.task.run('bower');
         grunt.task.run('concat');
         grunt.task.run('uglify');
     });
