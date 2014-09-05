@@ -3,6 +3,7 @@
 .idea
 
 // Code compilation
+lib
 logs
 
 // Package management

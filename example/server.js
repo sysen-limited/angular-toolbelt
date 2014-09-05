@@ -12,14 +12,13 @@ var app = express();
 app.set('port', process.env.PORT || 1337);
 
 // Manage Views
-app.set('views', path.join(__dirname, 'example'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger());
 // Express Configuration
-app.use('/public', express.static(path.join(__dirname, 'dist')));
-app.use('/public', express.static(path.join(__dirname, 'lib')));
-app.use('/public/docs', express.static(path.join(__dirname, 'example/documentation')));
+app.use('/public', express.static(path.join(__dirname, '../dist')));
+app.use('/public/docs', express.static(path.join(__dirname, './documentation')));
 
 // Development (set NODE_ENV environment variable to trigger this)
 if ('development' == app.get('env')) {

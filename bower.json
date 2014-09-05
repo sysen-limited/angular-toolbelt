@@ -1,14 +1,11 @@
 {
     "name": "angular-toolbelt",
     "description": "Handy directives and services that can be easily incorporated into any AngularJS web project",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "dependencies": {
         "angular": "latest",
-        "angular-touch": "latest",
         "angular-sanitize": "latest",
-        "font-awesome": "latest",
-        "bootstrap": "latest",
-        "angular-bootstrap": "latest"
+        "marked": "latest"
     },
     "devDependencies": {
         "angular-mocks": "latest"
@@ -28,8 +25,6 @@
         "bower.json",
         "gruntfile.js",
         "karma.conf.js",
-        "server.js",
-        "Procfile",
         "*.yml",
         "src",
         "lib",
