@@ -14,6 +14,7 @@
     <p><code>data-target="[element]"</code> The binding input element name should match this attribute to allow for updating field validity. <strong>Required</strong>.</p>
     <p><code>data-ng-model="[model]"</code> The form model to bind with for data changes. <strong>Required</strong>.</p>
     <p><code>data-min-length="[integer]"</code> The length required before strength checks will be made to update the label. <strong>Default is 6</strong>.</p>
+    <p><code>data-min-charsets="[integer]"</code> How much variation in character types is required, up to a maximum of 4, charset types are: Uppercase, Lowercase, Numeric and Specials. <strong>Default is 1</strong>.</p>
     <p><code>data-complexity="[integer]"</code> How complex the password should be before the password is accepted. Range is 1-7 (Too Short to Very Strong). <strong>Default is 5 (Good)</strong>.</p>
 
     <p class="mini-header">Demo</p>
@@ -27,7 +28,7 @@
   &lt;div class=&quot;form-group has-feedback&quot; data-ng-class=&quot;{ 'has-success': passwordStrengthForm.password.$valid }&quot;&gt;
     &lt;label class=&quot;control-label&quot; for=&quot;passwordStrength&quot;&gt;Enter Password&lt;/label&gt;
     &lt;input id=&quot;passwordStrength&quot; class=&quot;form-control&quot; type=&quot;password&quot; <strong>name=&quot;password&quot; data-ng-model=&quot;password&quot;</strong> data-ng-required=&quot;true&quot; /&gt;       &lt;span class=&quot;form-control-feedback&quot; data-ng-class=&quot;{ 'fa fa-check': passwordStrengthForm.password.$valid }&quot;&gt;&lt;/span&gt;
-    <strong>&lt;span data-target=&quot;password&quot; data-ng-model=&quot;password&quot; data-min-length=&quot;4&quot; data-complexity=&quot;5&quot; data-sys-strength&gt;&lt;/span&gt;</strong>
+    <strong>&lt;span data-target=&quot;password&quot; data-ng-model=&quot;password&quot; data-min-length=&quot;4&quot; data-complexity=&quot;5&quot; data-min-charsets=&quot;3&quot; data-sys-strength&gt;&lt;/span&gt;</strong>
   &lt;/div&gt;
     &lt;div class=&quot;row&quot;&gt;
     &lt;div class=&quot;col-xs-6 col-sm-offset-6 col-sm-3&quot;&gt;
@@ -64,13 +65,13 @@ Nothing required, just include the library in your application
                         <label class="control-label" for="passwordStrength">Enter Password</label>
                         <input id="passwordStrength" class="form-control" type="password" name="password" data-ng-model="password" data-ng-required="true" />
                         <span class="form-control-feedback" data-ng-class="{ 'fa fa-check': passwordStrengthForm.password.$valid }"></span>
-                <span class="help-block">
-                    <span data-target="password" data-ng-model="password" data-min-length="4" data-complexity="5" data-sys-strength></span>
-                </span>
+                        <span class="help-block">
+                            <span data-target="password" data-ng-model="password" data-min-length="4" data-complexity="5" data-min-charsets="3" data-sys-strength></span>
+                        </span>
                     </div>
                     <div class="row">
                         <div class="col-xs-6 col-sm-offset-6 col-sm-3">
-                            <button class="btn btn-warning btn-block" data-ng-click="reset()">Clear</button>
+                            <button class="btn btn-warning btn-block" data-ng-disabled="passwordStrengthForm.$pristine" data-ng-click="reset()">Clear</button>
                         </div>
                         <div class="col-xs-6 col-sm-3">
                             <button class="btn btn-block" data-ng-class="{ 'btn-default':passwordStrengthForm.$invalid, 'btn-primary':passwordStrengthForm.$valid }" data-ng-disabled="passwordStrengthForm.$invalid">Submit</button>

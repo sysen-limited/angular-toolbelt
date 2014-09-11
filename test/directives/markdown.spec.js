@@ -23,7 +23,7 @@ describe('Provider > Markdown,', function () {
             expect(markdownConverter.defaults.breaks).toBeTruthy();
             expect(markdownConverter.defaults.sanitize).toBeFalsy();
             expect(markdownConverter.defaults.langPrefix).toBe('locale-');
-        })
+        });
     });
 });
 

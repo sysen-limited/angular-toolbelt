@@ -1,8 +1,10 @@
 angular.module('toolbelt.strength', ['ngSanitize'])
     .directive('sysStrength', function() {
+        var requiredComplexity, requiredCharsets;
         var labels = ['success', 'warning', 'danger'];
         var results = [
-            { rank: 1, complexity: 'Too Short', label: 'danger' },
+            { rank: 1, complexity: 'Too short', label: 'danger' },
+            { rank: 1, complexity: 'Too few character types', label: 'warning' },
             { rank: 2, complexity: 'Very Weak' },
             { rank: 3, complexity: 'Weak' },
             { rank: 4, complexity: 'Poor' },
@@ -27,15 +29,15 @@ angular.module('toolbelt.strength', ['ngSanitize'])
             return /[$-/:-?{-~!"^_`\[\]]/g.test(string);
         }
 
-        function getResult(score, requiredRank) {
+        function getResult(score) {
             var percentage = (score * 100) / 20;
-            var result = percentage < 20 ? results[1] :
-                   percentage < 35 ? results[2] :
-                   percentage < 50 ? results[3] :
-                   percentage < 65 ? results[4] :
-                   percentage < 90 ? results[5] : results[6];
+            var result = percentage < 20 ? results[2] :
+                   percentage < 35 ? results[3] :
+                   percentage < 50 ? results[4] :
+                   percentage < 65 ? results[5] :
+                   percentage < 90 ? results[6] : results[7];
 
-            var rankDifference = requiredRank - result.rank;
+            var rankDifference = requiredComplexity - result.rank;
             if (rankDifference >= labels.length) {
                 rankDifference = labels.length - 1;
             } else if (rankDifference < 0) {
@@ -56,30 +58,27 @@ angular.module('toolbelt.strength', ['ngSanitize'])
             templateUrl: 'template/toolbelt/strength.html',
             link: function(scope, elem, attrs) {
                 var minLength = parseInt(attrs.minLength) || 6;
-                var minComplexity = parseInt(attrs.complexity) || 5;
-
-                if(minComplexity > 7) {
-                    minComplexity = 7;
-                }
-
                 var formCtrl = elem.inheritedData("$formController");
 
+                requiredComplexity = parseInt(attrs.complexity) > 7 ? 7 : parseInt(attrs.complexity) || 5;
+                requiredCharsets = parseInt(attrs.minCharsets) > 4 ? 4 : parseInt(attrs.minCharsets) || 1;
+
                 var updateStrength = function(string) {
+                    var charsets = 0, score = 0;
                     if(string) {
-                        var score = 0;
                         // Gain points based on variation of character types
-                        if (hasLowerCase(string)) score++;
-                        if (hasUpperCase(string)) score++;
-                        if (hasNumeric(string)) score++;
-                        if (hasSpecial(string)) score++;
+                        if (hasLowerCase(string)) charsets++;
+                        if (hasUpperCase(string)) charsets++;
+                        if (hasNumeric(string)) charsets++;
+                        if (hasSpecial(string)) charsets++;
                         // Length improves weighting
-                        score *= (string.length / 2);
+                        score = charsets * (string.length / 2);
                         // Requires a minimum length
-                        scope.result = string.length >= minLength ? getResult(score, minComplexity) : results[0];
+                        scope.result = string.length >= minLength ? (requiredCharsets <= charsets ? getResult(score) : results[1]) : results[0];
                     } else {
                         scope.result = results[0];
                     }
-                    formCtrl[scope.target].$setValidity('strength', minComplexity <= scope.result.rank);
+                    formCtrl[scope.target].$setValidity('strength', requiredComplexity <= scope.result.rank && requiredCharsets <= charsets);
                 };
 
                 scope.$watch('model', updateStrength);
