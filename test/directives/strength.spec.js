@@ -270,7 +270,7 @@ describe('Directive > Password Strength', function () {
 
     describe('When using the min-charset attribute', function() {
         it('should allow you to specify a number of charsets to use in the validation', function() {
-            elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="1" data-min-charsets="2" data-sys-strength></span></form>')(scope);
+            elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="1" data-charsets="2" data-sys-strength></span></form>')(scope);
             scope.$digest();
             directiveScope = scope.$$childHead;
 
@@ -286,7 +286,7 @@ describe('Directive > Password Strength', function () {
         });
 
         it('should work when requesting 3 charsets, and shift the colour indicators accordingly', function() {
-            elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="1" data-min-charsets="3" data-sys-strength></span></form>')(scope);
+            elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="1" data-charsets="3" data-sys-strength></span></form>')(scope);
             scope.$digest();
             directiveScope = scope.$$childHead;
 
@@ -302,7 +302,7 @@ describe('Directive > Password Strength', function () {
         });
 
         it('should work when requesting 4 charsets, and shift the colour indicators accordingly', function() {
-            elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="1" data-min-charsets="4" data-sys-strength></span></form>')(scope);
+            elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="1" data-charsets="4" data-sys-strength></span></form>')(scope);
             scope.$digest();
             directiveScope = scope.$$childHead;
 
@@ -318,7 +318,7 @@ describe('Directive > Password Strength', function () {
         });
 
         it('should set the correct maximum if a larger than valid number has been used', function() {
-            elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="1" data-min-charsets="5" data-sys-strength></span></form>')(scope);
+            elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="1" data-charsets="5" data-sys-strength></span></form>')(scope);
             scope.$digest();
             directiveScope = scope.$$childHead;
 
@@ -334,7 +334,7 @@ describe('Directive > Password Strength', function () {
         });
 
         it('should use the default if a string is used', function() {
-            elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="1" data-min-charsets="four" data-sys-strength></span></form>')(scope);
+            elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="1" data-charsets="four" data-sys-strength></span></form>')(scope);
             scope.$digest();
             directiveScope = scope.$$childHead;
 

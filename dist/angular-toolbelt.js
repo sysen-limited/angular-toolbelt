@@ -330,7 +330,7 @@ angular.module('toolbelt.strength', ['ngSanitize'])
                 var formCtrl = elem.inheritedData("$formController");
 
                 requiredComplexity = parseInt(attrs.complexity) > 7 ? 7 : parseInt(attrs.complexity) || 5;
-                requiredCharsets = parseInt(attrs.minCharsets) > 4 ? 4 : parseInt(attrs.minCharsets) || 1;
+                requiredCharsets = parseInt(attrs.charsets) > 4 ? 4 : parseInt(attrs.charsets) || 1;
 
                 var updateStrength = function(string) {
                     var charsets = 0, score = 0;
