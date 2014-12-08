@@ -273,13 +273,13 @@ angular.module('toolbelt.strength', ['ngSanitize'])
         var labels = ['success', 'warning', 'danger'];
         var results = [
             { rank: 1, complexity: 'Too short', label: 'danger' },
-            { rank: 1, complexity: 'Too few character types', label: 'warning' },
-            { rank: 2, complexity: 'Very Weak' },
-            { rank: 3, complexity: 'Weak' },
-            { rank: 4, complexity: 'Poor' },
-            { rank: 5, complexity: 'Good' },
-            { rank: 6, complexity: 'Strong' },
-            { rank: 7, complexity: 'Very Strong' }
+            { rank: 2, complexity: 'Too few character types', label: 'warning' },
+            { rank: 3, complexity: 'Very Weak' },
+            { rank: 4, complexity: 'Weak' },
+            { rank: 5, complexity: 'Poor' },
+            { rank: 6, complexity: 'Good' },
+            { rank: 7, complexity: 'Strong' },
+            { rank: 8, complexity: 'Very Strong' }
         ];
 
         function hasLowerCase(string) {
@@ -329,7 +329,7 @@ angular.module('toolbelt.strength', ['ngSanitize'])
                 var minLength = parseInt(attrs.minLength) || 6;
                 var formCtrl = elem.inheritedData("$formController");
 
-                requiredComplexity = parseInt(attrs.complexity) > 7 ? 7 : parseInt(attrs.complexity) || 5;
+                requiredComplexity = parseInt(attrs.complexity) > 8 ? 8 : parseInt(attrs.complexity) || 6;
                 requiredCharsets = parseInt(attrs.charsets) > 4 ? 4 : parseInt(attrs.charsets) || 1;
 
                 var updateStrength = function(string) {

@@ -26,7 +26,6 @@
         "gruntfile.js",
         "karma.conf.js",
         "*.yml",
-        "src",
         "lib",
         "example",
         "test"
