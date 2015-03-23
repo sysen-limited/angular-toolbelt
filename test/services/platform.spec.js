@@ -3,6 +3,7 @@ describe('Service > Platform Detection', function () {
     var msieString = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)";
     var explorerString = "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko";
     var firefoxString = "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:20.0) Gecko/20100101 Firefox/20.0";
+    var chromeUbuntuString = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36";
     var chromeString = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1985.125 Safari/537.36";
     var safariString = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_4) AppleWebKit/537.77.4 (KHTML, like Gecko) Version/7.0.5 Safari/537.77.4";
     var operaString = "Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14";
@@ -182,6 +183,24 @@ describe('Service > Platform Detection', function () {
             it('should detect "Chrome 36.0"', inject(function ($detectPlatform) {
                 expect($detectPlatform.browser.name).toBe("Chrome");
                 expect($detectPlatform.browser.version).toBe("36.0.1985");
+            }));
+        });
+
+        describe('Google Chrome ON Linux', function () {
+            beforeEach(function () {
+                module(function ($provide) {
+                    $provide.value('$window', { navigator: { userAgent: chromeUbuntuString, language: "en-gb" } });
+                });
+            });
+
+            it('should detect "Linux"', inject(function ($detectPlatform) {
+                expect($detectPlatform.system.name).toBe("Linux");
+                expect($detectPlatform.system.version).toBe("Linux");
+            }));
+
+            it('should detect "Chrome 41.0"', inject(function ($detectPlatform) {
+                expect($detectPlatform.browser.name).toBe("Chrome");
+                expect($detectPlatform.browser.version).toBe("41.0.2272");
             }));
         });
 

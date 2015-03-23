@@ -379,7 +379,7 @@ angular.module('toolbelt.platform', [])
                     version = temp[2].replace(/_/g, '.');
                     break;
                 case "linux":
-                    temp = agent.match(/ubuntu/i);
+                    temp = agent.match(/ubuntu|linux/i);
                     version = temp[0];
                     break;
             }
