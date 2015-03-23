@@ -1,14 +1,14 @@
 {
     "name": "angular-toolbelt",
     "description": "Handy directives and services that can be easily incorporated into any AngularJS web project",
-    "version": "0.1.6",
+    "version": "0.1.8",
     "dependencies": {
-        "angular": "latest",
-        "angular-sanitize": "latest",
+        "angular": "~1",
+        "angular-sanitize": "~1",
         "marked": "latest"
     },
     "devDependencies": {
-        "angular-mocks": "latest"
+        "angular-mocks": "~1"
     },
     "keywords": [
         "js",
