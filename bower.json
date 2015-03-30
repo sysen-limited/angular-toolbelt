@@ -5,7 +5,8 @@
     "dependencies": {
         "angular": "~1",
         "angular-sanitize": "~1",
-        "marked": "latest"
+        "marked": "latest",
+        "highlightjs": "latest"
     },
     "devDependencies": {
         "angular-mocks": "~1"
@@ -31,7 +32,7 @@
         "test"
     ],
     "exportsOverride": {
-        "jquery": {},
+        "jquery": { },
         "bootstrap": {
             "css": "dist/css/bootstrap.min.css",
             "fonts": "fonts/*"

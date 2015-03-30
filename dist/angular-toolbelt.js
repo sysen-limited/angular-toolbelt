@@ -141,11 +141,19 @@ angular.module('toolbelt.markdown', [])
         self.setOptions = function (options) {
             this.defaults = options;
         };
+
         self.$get = ['$window', function ($window) {
             if($window.marked) {
                 var marked = $window.marked;
 
                 self.setOptions = marked.setOptions;
+                if($window.hljs) {
+                    marked.setOptions({
+                        highlight: function(code) {
+                            return $window.hljs.highlightAuto(code).value;
+                        }
+                    });
+                }
                 marked.setOptions(self.defaults);
                 return marked;
             }
