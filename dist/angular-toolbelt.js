@@ -6,7 +6,7 @@ angular.module('sysen.toolbelt.tpls', ['toolbelt.growl.tpl', 'toolbelt.strength.
 
 angular.module('toolbelt.navbar', [])
     .directive('sysActiveNavbar', ['$location', function($location) {
-
+        var activeName = 'active';
         function assignActive(elem) {
             var activeElm;
             angular.forEach(elem.find('a'), function(anchor) {
@@ -17,11 +17,11 @@ angular.module('toolbelt.navbar', [])
                 if(regex.test($location.path())) {
                     activeElm = elm;
                 } else {
-                    removeTreeClass(elm, 'active');
+                    removeTreeClass(elm, activeName);
                 }
             });
             if(activeElm !== undefined) {
-                addTreeClass(activeElm, 'active');
+                addTreeClass(activeElm, activeName);
             }
         }
 
@@ -45,6 +45,7 @@ angular.module('toolbelt.navbar', [])
 
         return {
             link: function(scope, elem, attrs) {
+                activeName = attrs.sysActiveNavbar || activeName;
                 scope.$watch(function() {
                     return $location.path();
                 }, function() {
