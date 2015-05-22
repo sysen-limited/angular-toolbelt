@@ -26,7 +26,7 @@ angular.module('toolbelt.strength', ['ngSanitize'])
         }
 
         function hasSpecial(string) {
-            return /[$-/:-?{-~!"^_`\[\]]/g.test(string);
+            return /[@$-/:-?{-~!"^_`\[\]]/g.test(string);
         }
 
         function getResult(score) {
