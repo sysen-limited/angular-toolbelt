@@ -1,8 +1,9 @@
 
-angular.module('sysen.toolbelt', ['sysen.toolbelt.services', 'sysen.toolbelt.directives', 'sysen.toolbelt.tpls']);
+angular.module('sysen.toolbelt', ['sysen.toolbelt.services', 'sysen.toolbelt.filters', 'sysen.toolbelt.directives', 'sysen.toolbelt.tpls']);
 angular.module('sysen.toolbelt.services', ['toolbelt.platform']);
-angular.module('sysen.toolbelt.directives', ['toolbelt.growl', 'toolbelt.infiniteScroll', 'toolbelt.markdown', 'toolbelt.navbar', 'toolbelt.scroll', 'toolbelt.strength']);
-angular.module('sysen.toolbelt.tpls', ['toolbelt.growl.tpl', 'toolbelt.strength.tpl']);
+angular.module('sysen.toolbelt.filters', ['toolbelt.bytes', 'toolbelt.prettyDate']);
+angular.module('sysen.toolbelt.directives', ['toolbelt.growl', 'toolbelt.infiniteScroll', 'toolbelt.markdown', 'toolbelt.navbar', 'toolbelt.scroll', 'toolbelt.strength', 'toolbelt.fileInput']);
+angular.module('sysen.toolbelt.tpls', ['toolbelt.growl.tpl', 'toolbelt.strength.tpl', 'toolbelt.fileInput.tpl']);
 
 angular.module('toolbelt.navbar', [])
     .directive('sysActiveNavbar', ['$location', function($location) {
@@ -51,6 +52,133 @@ angular.module('toolbelt.navbar', [])
                 }, function() {
                     assignActive(elem);
                 });
+            }
+        };
+    }]);
+
+angular.module('toolbelt.fileInput', ['ngResource'])
+    .directive('sysFileInput', ['$resource', function ($resource) {
+        return {
+            require: 'ngModel',
+            scope: {
+                model: '=ngModel'
+            },
+            replace: true,
+            templateUrl: 'template/toolbelt/file-input.html',
+            link: function (scope, elem, attrs) {
+                console.log(attrs);
+                var formCtrl = elem.inheritedData("$formController");
+                scope.model = [];
+                scope.files = [];
+
+                function dragEnterLeave(evt) {
+                    evt.preventDefault();
+                    scope.$apply(function () {
+                        scope.dropState = 'exit';
+                    });
+                }
+
+                function dragOver(evt) {
+                    evt.preventDefault();
+                    var ok = evt.dataTransfer && evt.dataTransfer.types && evt.dataTransfer.types.indexOf('Files') >= 0;
+                    scope.$apply(function () {
+                        scope.dropState = ok ? 'over' : 'invalid';
+                    });
+                }
+
+                function dropInto(evt) {
+                    evt.preventDefault();
+                    scope.$apply(function () {
+                        scope.dropState = 'drop';
+                    });
+
+                    scope.files = [];
+                    var files = evt.dataTransfer.files;
+                    var fileLimit = parseInt(attrs.sysFileInput) || 10;
+                    console.log(fileLimit);
+                    if (files.length > 0 && files.length <= fileLimit) {
+                        scope.$apply(function () {
+                            angular.forEach(files, function (file) {
+                                var reader = new FileReader();
+                                var attachment = { raw: file, data: { name: file.name, size: file.size, type: file.type, lastModified: file.lastModifiedDate } };
+
+                                if (file.type.indexOf("text") === 0) {
+                                    reader.onload = function (evt) {
+                                        scope.$apply(function () {
+                                            attachment.content = evt.target.result;
+                                        });
+                                    };
+                                    reader.readAsText(file, "UTF-8");
+                                }
+                                else if (file.type.indexOf("image") === 0) {
+                                    reader.onload = function (evt) {
+                                        scope.$apply(function () {
+                                            attachment.image = evt.target.result;
+                                        });
+                                    };
+                                    reader.readAsDataURL(file);
+                                }
+                                else {
+                                    reader.onload = function (evt) {
+                                        scope.$apply(function () {
+                                            attachment.binary = evt.target.result;
+                                        });
+                                    };
+                                    reader.readAsBinaryString(file);
+                                }
+
+                                scope.files.push(attachment);
+                                scope.model = scope.files;
+
+                                uploadFile(attachment);
+                            });
+                        });
+                    } else {
+                        scope.$apply(function () {
+                            scope.model = [];
+                            scope.dropState = 'invalid';
+                            scope.error = { message: 'Maximum number of files exceeded' };
+                        });
+                    }
+                }
+
+                function uploadFile(attachment) {
+                    if(attrs.api) {
+                        var endpoint = $resource(attrs.api, null, {
+                            upload: {
+                                method: 'POST',
+                                headers: { 'Content-Type': undefined },
+                                transformRequest: function (data) {
+                                    var formData = new FormData();
+                                    formData.append('upload', data.file);
+                                    return formData;
+                                }
+                            }
+                        });
+
+                        attachment.saving = true;
+
+                        endpoint.upload({ file: attachment.raw }, function (success) {
+                            attachment.saved = true;
+                            attachment.response = success;
+                        }, function (failure) {
+                            attachment.error = failure.data;
+                            scope.dropState = 'warning';
+                            scope.error = { message: 'Some files failed to save' };
+                        });
+                    }
+                }
+
+                scope.$watch('model', function () {
+                    if(attrs.required && formCtrl.hasFiles) {
+                        formCtrl.hasFiles.$setValidity('files', scope.model.length > 0);
+                    }
+                });
+
+                elem.on('dragenter', dragEnterLeave);
+                elem.on('dragleave', dragEnterLeave);
+                elem.on('dragover', dragOver);
+                elem.on('drop', dropInto);
             }
         };
     }]);
@@ -364,6 +492,36 @@ angular.module('toolbelt.strength', ['ngSanitize'])
         };
     });
 
+angular.module('toolbelt.bytes', [])
+    .filter('bytes', function () {
+        return function (bytes, precision) {
+            if (bytes === 0 || isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
+            if (typeof precision === 'undefined') precision = 1;
+            var units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'],
+                number = Math.floor(Math.log(bytes) / Math.log(1024));
+            return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) + ' ' + units[number];
+        };
+    });
+angular.module('toolbelt.prettyDate', [])
+    .filter('prettyDate', function () {
+        return function (startDate) {
+            if (startDate instanceof Date === false) {
+                startDate = new Date(startDate);
+            }
+
+            var date = new Date();
+            var secs = Math.floor((date.getTime() - startDate.getTime()) / 1000);
+            if (secs == 1) return secs + " second ago";
+            if (secs < 60) return secs + " seconds ago";
+            if (secs < 120) return Math.floor(secs / 60) + " minute ago";
+            if (secs < 3600) return Math.floor(secs / 60) + " minutes ago";
+            if (secs < 7200) return Math.floor(secs / 3600) + " hour ago";
+            if (secs < 86400) return Math.floor(secs / 3600) + " hours ago";
+            if (secs < 172800) return Math.floor(secs / 86400) + " day ago";
+            if (secs < 604800) return Math.floor(secs / 86400) + " days ago";
+            return startDate.toDateString();
+        };
+    });
 angular.module('toolbelt.platform', [])
     .provider('$detectPlatform', function () {
         var self = this;
@@ -468,6 +626,40 @@ angular.module('toolbelt.platform', [])
             };
         }];
     });
+
+angular.module('toolbelt.fileInput.tpl', []).run(['$templateCache', function ($templateCache) {
+    $templateCache.put(
+        'template/toolbelt/file-input.html',
+        [
+            '<div class="file-input">' +
+            ' <div class="jumbotron" data-ng-class="{ valid: dropState == \'over\' || dropState == \'drop\', invalid: dropState == \'invalid\', warning: dropState == \'warning\' }">' +
+            '  <h3 data-ng-switch on="dropState" style="pointer-events: none">' +
+            '   <span data-ng-switch-when="over">Drop file(s)</span>' +
+            '   <span data-ng-switch-when="drop">{{ files.length }} file(s) dropped, drop again to change</span>' +
+            '   <span data-ng-switch-when="invalid">Invalid file(s) detected</span>' +
+            '   <span data-ng-switch-when="warning">{{ files.length }} file(s) dropped, with warnings, drop to try again</span>' +
+            '   <span data-ng-switch-default>Drag file(s) here</span>' +
+            '  </h3>' +
+            '  <p data-ng-if="error">{{ error.message }}</p>' +
+            ' </div>' +
+            ' <div class="row" data-ng-if="files.length">' +
+            '  <div class="col-xs-6 col-sm-4 preview" data-ng-repeat="file in files">' +
+            '   <img class="img-responsive" data-ng-src="{{ file.image }}" data-ng-if="file.image" />' +
+            '   <pre data-ng-bind="file.content" data-ng-if="file.content"></pre>' +
+            '   <i class="fa fa-3x fa-file" data-ng-if="file.binary"></i>' +
+            '   <h4 data-ng-bind="file.data.name"></h4>' +
+            '   <div data-ng-bind="file.data.size | bytes"></div>' +
+            '   <div data-ng-if="file.saving">' +
+            '    <p class="text-center"><span data-ng-bind="file.saved ? \'Saved\' : \'Saving\'"></span> <i class="fa" data-ng-class="{ true: \'fa-check\' }[ file.saved ]"></i></p>' +
+            '   </div>' +
+            '  </div>' +
+            ' </div>' +
+            ' <p data-ng-if="!files.length">No files currently added</p>' +
+            ' <input id="hasFiles" name="hasFiles" type="hidden" data-ng-model="hasFiles" />' +
+            '</div>'
+        ].join('\n')
+    );
+}]);
 
 angular.module('toolbelt.growl.tpl', []).run(['$templateCache', function ($templateCache) {
     $templateCache.put(

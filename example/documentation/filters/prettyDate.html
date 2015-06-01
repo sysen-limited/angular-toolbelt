@@ -1,0 +1,17 @@
+<h2>Pretty Date Filter <small>Display a date with how many seconds, minutes, hours etc.. have passed</small></h2>
+
+<div data-ng-controller="PrettyDateCtrl as pretty">
+    <p class="mini-header">Filter Example</p>
+    <div class="content">
+        <pre>
+
+&lt;p&gt;{{ curly(pretty.dateHours + ' | prettyDate') }}&lt;p&gt;
+&lt;p&gt;{{ curly(pretty.dateDays + ' | prettyDate') }}&lt;p&gt;
+        </pre>
+    </div>
+    <p class="mini-header">Filter Result</p>
+    <div class="content">
+        <p>{{ pretty.dateHours | prettyDate }}</p>
+        <p>{{ pretty.dateDays | prettyDate }}</p>
+    </div>
+</div>

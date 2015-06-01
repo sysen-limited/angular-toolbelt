@@ -12,6 +12,8 @@
     "dependencies": {
         "grunt": "latest",
         "express": "latest",
+        "body-parser": "latest",
+        "multer": "latest",
         "ejs": "*",
         "morgan": "*",
         "errorhandler": "*"

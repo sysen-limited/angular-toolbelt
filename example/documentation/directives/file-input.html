@@ -1,0 +1,129 @@
+<h2>Angular File Input Directive <small>Attach files to a form and/or automatically upload to a server</small></h2>
+
+<div data-ng-controller="FileInputCtrl as fileInput">
+    <p class="mini-header">Directive Overview</p>
+    <p>This directive is aimed to help with the challenge of file attachments on forms, with support for form validation (ng-valid, ng-invalid), and the ability to automatically upload all files as they are attached and store the server responses, along with replacement or extending of items all via simple directive configuration.</p>
+    <div>
+        <div class="content">
+            <pre>
+
+&lt;div data-sys-file-input=&quot;[limit]&quot; data-ng-model=&quot;[model]&quot; data-api=&quot;[uri]&quot;&gt;&lt;/div&gt;
+            </pre>
+        </div>
+        <p><code>data-sys-file-input="[limit]"</code> Directive initialisation, accepts an override for the limit of files that can be dragged. <strong>Default is 10.</strong></p>
+        <p><code>data-ng-model="[model]"</code> The model to bind the file data back to. <strong>Required</strong></p>
+        <p><code>data-api="[uri]"</code> The location to send file data if automatic storage is required, note that the server response will be stored in a 'response' or 'error' object attribute.</p>
+    </div>
+
+    <p class="mini-header">Demo</p>
+    <tabset>
+        <tab>
+            <tab-heading>HTML</tab-heading>
+            <div class="content">
+                <pre>
+
+&lt;form name=&quot;fileInputForm&quot;&gt;
+    <strong>&lt;div data-sys-file-input=&quot;5&quot; data-api=&quot;/api/uploads&quot; data-ng-model=&quot;fileInput.example&quot;&gt;&lt;/div&gt;</strong>
+    &lt;p class=&quot;text-right&quot;&gt;
+        &lt;button class=&quot;btn btn-primary&quot; data-ng-click=&quot;fileInput.show = !fileInput.show&quot; data-ng-disabled=&quot;fileInputForm.$invalid&quot;&gt;Show / Hide Stats&lt;/button&gt;
+    &lt;/p&gt;
+    &lt;div class=&quot;row&quot; data-ng-if=&quot;fileInput.show&quot;&gt;
+        &lt;div class=&quot;col-xs-6 col-sm-4&quot; data-ng-repeat=&quot;file in fileInput.example&quot;&gt;
+            &lt;dl class=&quot;dl-horizontal overflow&quot;&gt;
+                &lt;dt ng-repeat-start=&quot;(key, value) in file.raw&quot;&gt;{{ key }}&lt;/dt&gt;
+                &lt;dd ng-repeat-end&gt;{{ value }}&lt;/dd&gt;
+            &lt;/dl&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/form&gt;
+                </pre>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>JavaScript</tab-heading>
+            <div class="content">
+                <pre>
+
+Nothing required, just include the library in your application
+
+
+
+
+                </pre>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>Try It</tab-heading>
+            <div class="content">
+                <form name="fileInputForm">
+                    <div data-sys-file-input="5" data-api="{{ sendToApi ? '/api/upload' : '' }}" data-ng-model="fileInput.example" data-ng-required="true"></div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <form>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" data-ng-model="sendToApi" /> Turn on sending data (to fake backend for example, will require dropping file(s) again)
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-xs-6">
+                            <p class="text-right">
+                                <button class="btn btn-primary" data-ng-click="fileInput.show = !fileInput.show" data-ng-disabled="fileInputForm.$invalid">Show / Hide Model Data</button>
+                            </p>
+                        </div>
+                    </div>
+                    <div data-ng-if="fileInput.show">
+                        <p>Below is a list of data being held about each of the files added that is accessible by the model attached, note there are some additional fields such as the raw file data that are not shown here. Try having a look in your own controller to see what else there is.</p>
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-4" data-ng-repeat="file in fileInput.example">
+                                <div class="card">
+                                    <h4 class="text-center" data-ng-if="file.data">file.data</h4>
+                                    <dl class="dl-horizontal overflow" data-ng-if="file.data">
+                                        <dt ng-repeat-start="(key, value) in file.data">{{ key }}</dt>
+                                        <dd ng-repeat-end>{{ value }}</dd>
+                                    </dl>
+                                    <h4 class="text-center" data-ng-if="file.response">file.response</h4>
+                                    <dl class="dl-horizontal overflow" data-ng-if="file.response">
+                                        <dt ng-repeat-start="(key, value) in file.response">{{ key }}</dt>
+                                        <dd ng-repeat-end>{{ value }}</dd>
+                                    </dl>
+                                    <h4 class="text-center" data-ng-if="file.error">file.error</h4>
+                                    <dl class="dl-horizontal overflow" data-ng-if="file.error">
+                                        <dt ng-repeat-start="(key, value) in file.error">{{ key }}</dt>
+                                        <dd ng-repeat-end>{{ value }}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>Customise</tab-heading>
+            <div class="content">
+                <p>You can create your own drag and drop template as usual, just set it up as follows;</p>
+                <pre>
+
+<strong>Javascript (e.g. strength.tpl.js)</strong>
+angular.module('toolbelt.fileInput.tpl', []).run(['$templateCache', function ($templateCache) {
+    $templateCache.put(
+        'template/toolbelt/file-input.html',
+        ['Enter Template Here'].join('\n')
+    );
+}]);
+
+<strong>Available template scope values are:</strong>
+dropState - Will be one of the following, over, drop, invalid, warning, exit
+files - The array of file data that has been processed by a drop event, contains: content | image | binary & data, saving, saved
+
+Check out the template source code on GitHub to see how our default template is built up.
+                </pre>
+            </div>
+        </tab>
+    </tabset>
+</div>
