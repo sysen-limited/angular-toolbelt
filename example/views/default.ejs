@@ -13,7 +13,7 @@
         <link rel="icon" type="image/ico" href="/img/favicon.png" />
 
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css" />
 
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -27,14 +27,20 @@
             pre { background-color: inherit; margin: 0; border: 0; overflow-y: scroll; word-wrap: normal }
             .content { background-color: #eee; padding: 10px; margin-bottom: 15px; }
             .mini-header { font-size: 120%; text-transform: uppercase; color: #999; }
+            .jumbotron { border: 1px solid #666; }
             .jumbotron>h3 { margin: 0; }
+            .jumbotron>p { margin: 0; }
             .jumbotron.valid { color: white; background-color: #004D40; }
             .jumbotron.invalid { color: white; background-color: #BF360C; }
+            .jumbotron.warning { color: white; background-color: #EF6C00; }
             .preview { text-align: center; padding: 10px 15px; overflow: hidden; }
             .preview>i { min-height: 120px; max-height: 120px; font-size: 100px; margin: auto; }
             .preview>pre { min-height: 120px; max-height: 120px; overflow-x: scroll; }
             .preview>img { min-height: 120px; max-height: 120px; margin: auto; }
             .preview>h4 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+            .card { border: 1px solid #666; margin: 6px; padding: 6px; }
+            .card>.dl-horizontal>dt { width: 100px; }
+            .card>.dl-horizontal>dd { margin-left: 110px; }
             .dl-horizontal.overflow>dd { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
             footer { margin-top: 20px; padding: 30px 0; border-top: 1px solid #eee; background-color: #fafafa; }
         </style>
@@ -63,6 +69,13 @@
                                     </ul>
                                 </li>
                                 <li class="dropdown">
+                                    <a role="button" class="dropdown-toggle">Filters</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#bytes" role="button" data-route="/bytes" data-offset="70" data-target="bytes" data-sys-scroll="smooth">Covert To Bytes</a></li>
+                                        <li><a href="#prettyDate" role="button" data-route="/prettyDate" data-offset="70" data-target="prettyDate" data-sys-scroll="smooth">Pretty Date</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
                                     <a role="button" class="dropdown-toggle">Directives</a>
                                     <ul class="dropdown-menu">
                                         <li><a href="#active-navbar" role="button" data-route="/active-navbar" data-offset="70" data-target="active-navbar" data-sys-scroll="smooth">Active Navbar</a></li>
@@ -87,6 +100,13 @@
                 <h1>Services</h1>
             </div>
             <section id="platform" data-ng-include="'/public/docs/services/platform.html'"></section>
+
+            <div class="page-header">
+                <h1>Filters</h1>
+            </div>
+            <section id="bytes" data-ng-include="'/public/docs/filters/bytes.html'"></section>
+            <section id="prettyDate" data-ng-include="'/public/docs/filters/prettyDate.html'"></section>
+
             <div class="page-header">
                 <h1>Directives</h1>
             </div>
@@ -113,6 +133,7 @@
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-touch.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-sanitize.min.js"></script>
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular-resource.min.js"></script>
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
 
         <!-- Third Party -->

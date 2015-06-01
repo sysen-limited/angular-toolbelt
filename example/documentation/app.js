@@ -13,6 +13,16 @@ angular.module('example', ['sysen.toolbelt', 'ui.bootstrap', 'ngTouch'])
 
     }])
 
+    .controller('PrettyDateCtrl', [function () {
+        d = new Date();
+
+        d.setHours(d.getHours() - 4);
+        this.dateHours = d.getTime();
+
+        d.setHours(d.getHours() - 48);
+        this.dateDays = d.getTime();
+    }])
+
     .controller('growlCtrl', ['$scope', function ($scope) {
         $scope.growl = { type: 'info' };
         $scope.addGrowl = function (growl) {

@@ -56,8 +56,8 @@ angular.module('toolbelt.navbar', [])
         };
     }]);
 
-angular.module('toolbelt.fileInput', ['ngSanitize'])
-    .directive('sysFileInput', [function() {
+angular.module('toolbelt.fileInput', ['ngResource'])
+    .directive('sysFileInput', ['$resource', function ($resource) {
         return {
             require: 'ngModel',
             scope: {
@@ -65,7 +65,8 @@ angular.module('toolbelt.fileInput', ['ngSanitize'])
             },
             replace: true,
             templateUrl: 'template/toolbelt/file-input.html',
-            link: function(scope, elem, attrs) {
+            link: function (scope, elem, attrs) {
+                console.log(attrs);
                 var formCtrl = elem.inheritedData("$formController");
                 scope.model = [];
                 scope.files = [];
@@ -77,15 +78,15 @@ angular.module('toolbelt.fileInput', ['ngSanitize'])
                     });
                 }
 
-                function dragOver (evt) {
+                function dragOver(evt) {
                     evt.preventDefault();
                     var ok = evt.dataTransfer && evt.dataTransfer.types && evt.dataTransfer.types.indexOf('Files') >= 0;
                     scope.$apply(function () {
                         scope.dropState = ok ? 'over' : 'invalid';
-                    })
+                    });
                 }
 
-                function dropInto (evt) {
+                function dropInto(evt) {
                     evt.preventDefault();
                     scope.$apply(function () {
                         scope.dropState = 'drop';
@@ -93,44 +94,85 @@ angular.module('toolbelt.fileInput', ['ngSanitize'])
 
                     scope.files = [];
                     var files = evt.dataTransfer.files;
-                    if (files.length > 0) {
+                    var fileLimit = parseInt(attrs.sysFileInput) || 10;
+                    console.log(fileLimit);
+                    if (files.length > 0 && files.length <= fileLimit) {
                         scope.$apply(function () {
-                            angular.forEach(files, function(file) {
-                                if(file.type.indexOf("text") == 0) {
-                                    var reader = new FileReader();
+                            angular.forEach(files, function (file) {
+                                var reader = new FileReader();
+                                var attachment = { raw: file, data: { name: file.name, size: file.size, type: file.type, lastModified: file.lastModifiedDate } };
 
+                                if (file.type.indexOf("text") === 0) {
                                     reader.onload = function (evt) {
-                                        scope.$apply(function() {
-                                            scope.files.push({ raw: angular.copy(file), data: evt.target.result});
-                                            scope.model = scope.files;
+                                        scope.$apply(function () {
+                                            attachment.content = evt.target.result;
                                         });
                                     };
-
                                     reader.readAsText(file, "UTF-8");
                                 }
-                                else if(file.type.indexOf("image")== 0) {
-                                    var reader = new FileReader();
-
+                                else if (file.type.indexOf("image") === 0) {
                                     reader.onload = function (evt) {
-                                        scope.$apply(function() {
-                                            scope.files.push({ raw: angular.copy(file), image: evt.target.result});
-                                            scope.model = scope.files;
+                                        scope.$apply(function () {
+                                            attachment.image = evt.target.result;
                                         });
                                     };
-
                                     reader.readAsDataURL(file);
                                 }
                                 else {
-                                    scope.files.push({ raw: angular.copy(file), file: angular.copy(file) });
-                                    scope.model = scope.files;
+                                    reader.onload = function (evt) {
+                                        scope.$apply(function () {
+                                            attachment.binary = evt.target.result;
+                                        });
+                                    };
+                                    reader.readAsBinaryString(file);
                                 }
+
+                                scope.files.push(attachment);
+                                scope.model = scope.files;
+
+                                uploadFile(attachment);
                             });
+                        });
+                    } else {
+                        scope.$apply(function () {
+                            scope.model = [];
+                            scope.dropState = 'invalid';
+                            scope.error = { message: 'Maximum number of files exceeded' };
                         });
                     }
                 }
 
-                scope.$watch('model', function() {
-                    formCtrl['hasFiles'].$setValidity('files', scope.model.length > 0);
+                function uploadFile(attachment) {
+                    if(attrs.api) {
+                        var endpoint = $resource(attrs.api, null, {
+                            upload: {
+                                method: 'POST',
+                                headers: { 'Content-Type': undefined },
+                                transformRequest: function (data) {
+                                    var formData = new FormData();
+                                    formData.append('upload', data.file);
+                                    return formData;
+                                }
+                            }
+                        });
+
+                        attachment.saving = true;
+
+                        endpoint.upload({ file: attachment.raw }, function (success) {
+                            attachment.saved = true;
+                            attachment.response = success;
+                        }, function (failure) {
+                            attachment.error = failure.data;
+                            scope.dropState = 'warning';
+                            scope.error = { message: 'Some files failed to save' };
+                        });
+                    }
+                }
+
+                scope.$watch('model', function () {
+                    if(attrs.required && formCtrl.hasFiles) {
+                        formCtrl.hasFiles.$setValidity('files', scope.model.length > 0);
+                    }
                 });
 
                 elem.on('dragenter', dragEnterLeave);
@@ -590,24 +632,30 @@ angular.module('toolbelt.fileInput.tpl', []).run(['$templateCache', function ($t
         'template/toolbelt/file-input.html',
         [
             '<div class="file-input">' +
-            ' <div class="jumbotron" data-ng-class="{ valid: dropState == \'over\' || dropState == \'drop\', invalid: dropState == \'invalid\' }">' +
+            ' <div class="jumbotron" data-ng-class="{ valid: dropState == \'over\' || dropState == \'drop\', invalid: dropState == \'invalid\', warning: dropState == \'warning\' }">' +
             '  <h3 data-ng-switch on="dropState" style="pointer-events: none">' +
             '   <span data-ng-switch-when="over">Drop file(s)</span>' +
-            '   <span data-ng-switch-when="drop">File(s) dropped, drop again to change</span>' +
+            '   <span data-ng-switch-when="drop">{{ files.length }} file(s) dropped, drop again to change</span>' +
             '   <span data-ng-switch-when="invalid">Invalid file(s) detected</span>' +
-            '   <span data-ng-switch-default>Drop file(s) here</span>' +
+            '   <span data-ng-switch-when="warning">{{ files.length }} file(s) dropped, with warnings, drop to try again</span>' +
+            '   <span data-ng-switch-default>Drag file(s) here</span>' +
             '  </h3>' +
+            '  <p data-ng-if="error">{{ error.message }}</p>' +
             ' </div>' +
             ' <div class="row" data-ng-if="files.length">' +
             '  <div class="col-xs-6 col-sm-4 preview" data-ng-repeat="file in files">' +
             '   <img class="img-responsive" data-ng-src="{{ file.image }}" data-ng-if="file.image" />' +
-            '   <pre data-ng-bind="file.data" data-ng-if="file.data"></pre>' +
-            '   <i class="fa fa-3x fa-file" data-ng-if="file.file"></i>' +
-            '   <h4 data-ng-bind="file.raw.name"></h4>' +
-            '   <div data-ng-bind="file.raw.size | bytes"></div>' +
+            '   <pre data-ng-bind="file.content" data-ng-if="file.content"></pre>' +
+            '   <i class="fa fa-3x fa-file" data-ng-if="file.binary"></i>' +
+            '   <h4 data-ng-bind="file.data.name"></h4>' +
+            '   <div data-ng-bind="file.data.size | bytes"></div>' +
+            '   <div data-ng-if="file.saving">' +
+            '    <p class="text-center"><span data-ng-bind="file.saved ? \'Saved\' : \'Saving\'"></span> <i class="fa" data-ng-class="{ true: \'fa-check\' }[ file.saved ]"></i></p>' +
+            '   </div>' +
             '  </div>' +
             ' </div>' +
-            ' <input type="hidden" name="hasFiles" data-ng-model="hasFiles" />' +
+            ' <p data-ng-if="!files.length">No files currently added</p>' +
+            ' <input id="hasFiles" name="hasFiles" type="hidden" data-ng-model="hasFiles" />' +
             '</div>'
         ].join('\n')
     );

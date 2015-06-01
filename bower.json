@@ -6,6 +6,7 @@
     "dependencies": {
         "angular": "~1",
         "angular-sanitize": "~1",
+        "angular-resource": "~1",
         "marked": "latest",
         "highlightjs": "latest"
     },

@@ -30,3 +30,4 @@ The following helpers are available for building rich applications with angular;
 - Scroll (automatic scrolling on a page to take users to a set anchor location, but via a jump or animation)
 - Markdown (Wrapper for marked project to allow parsing of Markdown text)
 - Password Strength (allows checking of passwords against rules to avoid poor password selection)
+- Drag and Drop (drag and drop files into your form for attachments, also able to automatically upload on drop)
