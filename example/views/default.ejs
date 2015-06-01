@@ -12,7 +12,7 @@
 
         <link rel="icon" type="image/ico" href="/img/favicon.png" />
 
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css" />
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css" />
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css" />
 
@@ -27,6 +27,15 @@
             pre { background-color: inherit; margin: 0; border: 0; overflow-y: scroll; word-wrap: normal }
             .content { background-color: #eee; padding: 10px; margin-bottom: 15px; }
             .mini-header { font-size: 120%; text-transform: uppercase; color: #999; }
+            .jumbotron>h3 { margin: 0; }
+            .jumbotron.valid { color: white; background-color: #004D40; }
+            .jumbotron.invalid { color: white; background-color: #BF360C; }
+            .preview { text-align: center; padding: 10px 15px; overflow: hidden; }
+            .preview>i { min-height: 120px; max-height: 120px; font-size: 100px; margin: auto; }
+            .preview>pre { min-height: 120px; max-height: 120px; overflow-x: scroll; }
+            .preview>img { min-height: 120px; max-height: 120px; margin: auto; }
+            .preview>h4 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+            .dl-horizontal.overflow>dd { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
             footer { margin-top: 20px; padding: 30px 0; border-top: 1px solid #eee; background-color: #fafafa; }
         </style>
     </head>
@@ -62,6 +71,7 @@
                                         <li><a href="#markdown" role="button" data-route="/markdown" data-offset="70" data-target="markdown" data-sys-scroll="smooth">Markdown</a></li>
                                         <li><a href="#scroll" role="button" data-route="/scroll" data-offset="70" data-target="scroll" data-sys-scroll="smooth">Scroll</a></li>
                                         <li><a href="#strength" role="button" data-route="/strength" data-offset="70" data-target="strength" data-sys-scroll="smooth">Input Strength</a></li>
+                                        <li><a href="#file-input" role="button" data-route="/file-input" data-offset="70" data-target="file-input" data-sys-scroll="smooth">File Input</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -86,6 +96,7 @@
             <section id="markdown" data-ng-include="'/public/docs/directives/markdown.html'"></section>
             <section id="scroll" data-ng-include="'/public/docs/directives/scroll.html'"></section>
             <section id="strength" data-ng-include="'/public/docs/directives/strength.html'"></section>
+            <section id="file-input" data-ng-include="'/public/docs/directives/file-input.html'"></section>
         </div>
 
         <footer>

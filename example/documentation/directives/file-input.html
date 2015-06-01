@@ -1,0 +1,95 @@
+<h2>Angular File Input Directive <small>Attach files to a form and/or automatically upload to a server</small></h2>
+
+<div data-ng-controller="FileInputCtrl as fileInput">
+    <p class="mini-header">Directive Overview</p>
+    <p>This directive is aimed to help with the challenge of file attachments on forms, with support for form validation (ng-valid, ng-invalid), and the ability to automatically upload all files as they are attached and store the server responses, along with replacement or extending of items all via simple directive configuration.</p>
+    <div>
+        <div class="content">
+            <pre>
+
+&lt;div data-sys-file-input&gt;&lt;/div&gt;
+            </pre>
+        </div>
+        <p><code>data-sys-file-input</code> Directive initialisation</p>
+        <p><code></code></p>
+    </div>
+
+    <p class="mini-header">Demo</p>
+    <tabset>
+        <tab>
+            <tab-heading>HTML</tab-heading>
+            <div class="content">
+                <pre>
+
+&lt;form name=&quot;fileInputForm&quot;&gt;
+    <strong>&lt;div data-sys-file-input data-ng-model=&quot;fileInput.example&quot;&gt;&lt;/div&gt;</strong>
+    &lt;p class=&quot;text-right&quot;&gt;
+        &lt;button class=&quot;btn btn-primary&quot; data-ng-click=&quot;fileInput.show = !fileInput.show&quot; data-ng-disabled=&quot;fileInputForm.$invalid&quot;&gt;Show / Hide Stats&lt;/button&gt;
+    &lt;/p&gt;
+    &lt;div class=&quot;row&quot; data-ng-if=&quot;fileInput.show&quot;&gt;
+        &lt;div class=&quot;col-xs-6 col-sm-4&quot; data-ng-repeat=&quot;file in fileInput.example&quot;&gt;
+            &lt;dl class=&quot;dl-horizontal overflow&quot;&gt;
+                &lt;dt ng-repeat-start=&quot;(key, value) in file.raw&quot;&gt;{{ key }}&lt;/dt&gt;
+                &lt;dd ng-repeat-end&gt;{{ value }}&lt;/dd&gt;
+            &lt;/dl&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/form&gt;
+                </pre>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>JavaScript</tab-heading>
+            <div class="content">
+                <pre>
+
+Nothing required, just include the library in your application
+
+
+
+
+                </pre>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>Try It</tab-heading>
+            <div class="content">
+                <form name="fileInputForm">
+                    <div data-sys-file-input data-ng-model="fileInput.example"></div>
+                    <p class="text-right">
+                        <button class="btn btn-primary" data-ng-click="fileInput.show = !fileInput.show" data-ng-disabled="fileInputForm.$invalid">Show / Hide Stats</button>
+                    </p>
+                    <div class="row" data-ng-if="fileInput.show">
+                        <div class="col-xs-6 col-sm-4" data-ng-repeat="file in fileInput.example">
+                            <dl class="dl-horizontal overflow">
+                                <dt ng-repeat-start="(key, value) in file.raw">{{ key }}</dt>
+                                <dd ng-repeat-end>{{ value }}</dd>
+                            </dl>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </tab>
+
+        <tab>
+            <tab-heading>Customise</tab-heading>
+            <div class="content">
+                <p>....</p>
+                <pre>
+....
+                </pre>
+            </div>
+        </tab>
+    </tabset>
+
+    <p class="mini-header">Tips</p>
+    <p>...</p>
+    <div class="content">
+        <pre>
+
+....
+        </pre>
+    </div>
+</div>
