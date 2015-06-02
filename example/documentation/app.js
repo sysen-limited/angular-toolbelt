@@ -10,7 +10,10 @@ angular.module('example', ['sysen.toolbelt', 'ui.bootstrap', 'ngTouch'])
     }])
 
     .controller('FileInputCtrl', [function() {
-
+        var self = this;
+        this.reset = function() {
+            self.example = [];
+        }
     }])
 
     .controller('PrettyDateCtrl', [function () {

@@ -12,7 +12,9 @@
         </div>
         <p><code>data-sys-file-input="[limit]"</code> Directive initialisation, accepts an override for the limit of files that can be dragged. <strong>Default is 10.</strong></p>
         <p><code>data-ng-model="[model]"</code> The model to bind the file data back to. <strong>Required</strong></p>
+        <p><code>data-behaviour="[replace|extend]"</code> What should happen when more files are dropped into the zone, <code>replace</code> the existing list or <code>extend</code> it.</p>
         <p><code>data-api="[uri]"</code> The location to send file data if automatic storage is required, note that the server response will be stored in a 'response' or 'error' object attribute.</p>
+        <p><code>data-ng-required="[boolean]"</code> Is this a required operation to allow for a form submission, if required will trigger the form.$invalid state for the form in which this component exists.</p>
     </div>
 
     <p class="mini-header">Demo</p>
@@ -23,14 +25,17 @@
                 <pre>
 
 &lt;form name=&quot;fileInputForm&quot;&gt;
-    <strong>&lt;div data-sys-file-input=&quot;5&quot; data-api=&quot;/api/uploads&quot; data-ng-model=&quot;fileInput.example&quot;&gt;&lt;/div&gt;</strong>
+    <strong>&lt;div data-sys-file-input=&quot;5&quot;
+         data-behaviour=&quot;extend&quot;
+         data-api=&quot;/api/uploads&quot;
+         data-ng-model=&quot;fileInput.example&quot;&gt;&lt;/div&gt;</strong>
     &lt;p class=&quot;text-right&quot;&gt;
         &lt;button class=&quot;btn btn-primary&quot; data-ng-click=&quot;fileInput.show = !fileInput.show&quot; data-ng-disabled=&quot;fileInputForm.$invalid&quot;&gt;Show / Hide Stats&lt;/button&gt;
     &lt;/p&gt;
     &lt;div class=&quot;row&quot; data-ng-if=&quot;fileInput.show&quot;&gt;
         &lt;div class=&quot;col-xs-6 col-sm-4&quot; data-ng-repeat=&quot;file in fileInput.example&quot;&gt;
             &lt;dl class=&quot;dl-horizontal overflow&quot;&gt;
-                &lt;dt ng-repeat-start=&quot;(key, value) in file.raw&quot;&gt;{{ key }}&lt;/dt&gt;
+                &lt;dt ng-repeat-start=&quot;(key, value) in file.data&quot;&gt;{{ key }}&lt;/dt&gt;
                 &lt;dd ng-repeat-end&gt;{{ value }}&lt;/dd&gt;
             &lt;/dl&gt;
         &lt;/div&gt;
@@ -58,7 +63,11 @@ Nothing required, just include the library in your application
             <tab-heading>Try It</tab-heading>
             <div class="content">
                 <form name="fileInputForm">
-                    <div data-sys-file-input="5" data-api="{{ sendToApi ? '/api/upload' : '' }}" data-ng-model="fileInput.example" data-ng-required="true"></div>
+                    <div data-sys-file-input="5"
+                         data-api="{{ sendToApi ? '/api/upload' : '' }}"
+                         data-behaviour="{{ extendList ? 'extend' : 'replace' }}"
+                         data-ng-model="fileInput.example"
+                         data-ng-required="true"></div>
                     <div class="row">
                         <div class="col-xs-6">
                             <form>
@@ -67,11 +76,17 @@ Nothing required, just include the library in your application
                                         <input type="checkbox" data-ng-model="sendToApi" /> Turn on sending data (to fake backend for example, will require dropping file(s) again)
                                     </label>
                                 </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" data-ng-model="extendList" /> Turn on extending of drop list when more files are dropped (default is to replace)
+                                    </label>
+                                </div>
                             </form>
                         </div>
                         <div class="col-xs-6">
                             <p class="text-right">
-                                <button class="btn btn-primary" data-ng-click="fileInput.show = !fileInput.show" data-ng-disabled="fileInputForm.$invalid">Show / Hide Model Data</button>
+                                <button type="button" class="btn btn-primary" data-ng-click="fileInput.reset()">Reset</button>
+                                <button type="button" class="btn btn-primary" data-ng-click="fileInput.show = !fileInput.show" data-ng-disabled="fileInputForm.$invalid">Show / Hide Model Data</button>
                             </p>
                         </div>
                     </div>
@@ -109,7 +124,7 @@ Nothing required, just include the library in your application
                 <p>You can create your own drag and drop template as usual, just set it up as follows;</p>
                 <pre>
 
-<strong>Javascript (e.g. strength.tpl.js)</strong>
+<strong>Javascript (e.g. fileInput.tpl.js)</strong>
 angular.module('toolbelt.fileInput.tpl', []).run(['$templateCache', function ($templateCache) {
     $templateCache.put(
         'template/toolbelt/file-input.html',
@@ -120,10 +135,31 @@ angular.module('toolbelt.fileInput.tpl', []).run(['$templateCache', function ($t
 <strong>Available template scope values are:</strong>
 dropState - Will be one of the following, over, drop, invalid, warning, exit
 files - The array of file data that has been processed by a drop event, contains: content | image | binary & data, saving, saved
+response - Available if automatic saving of data 'succeeded' to a backend occurred with a JSON response
+error - Available if automatic saving of data 'failed' and a JSON response message was sent
 
 Check out the template source code on GitHub to see how our default template is built up.
                 </pre>
             </div>
         </tab>
     </tabset>
+
+    <p class="mini-header">Tips</p>
+    <p>Adding the reset button</p>
+    <div class="content">
+        <p>In our demo we offer a way to reset the drag and drop input as follows;</p>
+        <pre>
+
+<strong>HTML</strong>
+&lt;button class=&quot;btn btn-primary&quot; data-ng-click=&quot;fileInput.reset()&quot;&gt;Reset&lt;/button&gt;
+
+<strong>Javascript (Controller)</strong>
+.controller('FileInputCtrl', function() {
+    var self = this;
+    this.reset = function() {
+        self.example = [];
+    }
+})
+        </pre>
+    </div>
 </div>

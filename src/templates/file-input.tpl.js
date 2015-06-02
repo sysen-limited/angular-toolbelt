@@ -7,10 +7,11 @@ angular.module('toolbelt.fileInput.tpl', []).run(['$templateCache', function ($t
             '  <h3 data-ng-switch on="dropState" style="pointer-events: none">' +
             '   <span data-ng-switch-when="over">Drop file(s)</span>' +
             '   <span data-ng-switch-when="drop">{{ files.length }} file(s) dropped, drop again to change</span>' +
-            '   <span data-ng-switch-when="invalid">Invalid file(s) detected</span>' +
+            '   <span data-ng-switch-when="invalid">Invalid file drop detected</span>' +
             '   <span data-ng-switch-when="warning">{{ files.length }} file(s) dropped, with warnings, drop to try again</span>' +
             '   <span data-ng-switch-default>Drag file(s) here</span>' +
             '  </h3>' +
+            '  <p data-ng-if="!files.length">No files currently added</p>' +
             '  <p data-ng-if="error">{{ error.message }}</p>' +
             ' </div>' +
             ' <div class="row" data-ng-if="files.length">' +
@@ -25,7 +26,6 @@ angular.module('toolbelt.fileInput.tpl', []).run(['$templateCache', function ($t
             '   </div>' +
             '  </div>' +
             ' </div>' +
-            ' <p data-ng-if="!files.length">No files currently added</p>' +
             ' <input id="hasFiles" name="hasFiles" type="hidden" data-ng-model="hasFiles" />' +
             '</div>'
         ].join('\n')

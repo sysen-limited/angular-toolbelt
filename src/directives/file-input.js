@@ -8,14 +8,15 @@ angular.module('toolbelt.fileInput', ['ngResource'])
             replace: true,
             templateUrl: 'template/toolbelt/file-input.html',
             link: function (scope, elem, attrs) {
-                var formCtrl = elem.inheritedData("$formController");
+                var formCtrl  = elem.inheritedData("$formController"),
+                    fileLimit = parseInt(attrs.sysFileInput) || 10;
                 scope.model = [];
                 scope.files = [];
 
                 function dragEnterLeave(evt) {
                     evt.preventDefault();
                     scope.$apply(function () {
-                        scope.dropState = 'exit';
+                        scope.dropState = scope.files.length > 0 ? 'drop' : 'exit';
                     });
                 }
 
@@ -33,10 +34,14 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                         scope.dropState = 'drop';
                     });
 
-                    scope.files = [];
-                    var files = evt.dataTransfer.files;
-                    var fileLimit = parseInt(attrs.sysFileInput) || 10;
-                    if (files.length > 0 && files.length <= fileLimit) {
+                    var files     = evt.dataTransfer.files,
+                        behaviour = attrs.behaviour || 'replace';
+
+                    if (behaviour == 'replace') {
+                        scope.files = [];
+                    }
+
+                    if (files.length > 0 && files.length <= fileLimit && (scope.files.length + files.length) <= fileLimit) {
                         scope.$apply(function () {
                             angular.forEach(files, function (file) {
                                 var reader = new FileReader();
@@ -75,15 +80,14 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                         });
                     } else {
                         scope.$apply(function () {
-                            scope.model = [];
                             scope.dropState = 'invalid';
-                            scope.error = { message: 'Maximum number of files exceeded' };
+                            scope.error = { message: 'Drop ignored, exceeds maximum limit of ' + fileLimit };
                         });
                     }
                 }
 
                 function uploadFile(attachment) {
-                    if(attrs.api) {
+                    if (attrs.api) {
                         var endpoint = $resource(attrs.api, null, {
                             upload: {
                                 method: 'POST',
@@ -109,8 +113,16 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                     }
                 }
 
-                scope.$watch('model', function () {
-                    if(attrs.required && formCtrl.hasFiles) {
+                scope.$watch('model', function (next, last) {
+                    if (scope.model.length == 0) {
+                        scope.files = [];
+                        if (last.length > 0) {
+                            scope.error = '';
+                            scope.dropState = 'exit';
+                        }
+                    }
+
+                    if (attrs.required && formCtrl.hasFiles) {
                         formCtrl.hasFiles.$setValidity('files', scope.model.length > 0);
                     }
                 });

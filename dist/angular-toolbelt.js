@@ -66,14 +66,15 @@ angular.module('toolbelt.fileInput', ['ngResource'])
             replace: true,
             templateUrl: 'template/toolbelt/file-input.html',
             link: function (scope, elem, attrs) {
-                var formCtrl = elem.inheritedData("$formController");
+                var formCtrl  = elem.inheritedData("$formController"),
+                    fileLimit = parseInt(attrs.sysFileInput) || 10;
                 scope.model = [];
                 scope.files = [];
 
                 function dragEnterLeave(evt) {
                     evt.preventDefault();
                     scope.$apply(function () {
-                        scope.dropState = 'exit';
+                        scope.dropState = scope.files.length > 0 ? 'drop' : 'exit';
                     });
                 }
 
@@ -91,10 +92,14 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                         scope.dropState = 'drop';
                     });
 
-                    scope.files = [];
-                    var files = evt.dataTransfer.files;
-                    var fileLimit = parseInt(attrs.sysFileInput) || 10;
-                    if (files.length > 0 && files.length <= fileLimit) {
+                    var files     = evt.dataTransfer.files,
+                        behaviour = attrs.behaviour || 'replace';
+
+                    if (behaviour == 'replace') {
+                        scope.files = [];
+                    }
+
+                    if (files.length > 0 && files.length <= fileLimit && (scope.files.length + files.length) <= fileLimit) {
                         scope.$apply(function () {
                             angular.forEach(files, function (file) {
                                 var reader = new FileReader();
@@ -133,15 +138,14 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                         });
                     } else {
                         scope.$apply(function () {
-                            scope.model = [];
                             scope.dropState = 'invalid';
-                            scope.error = { message: 'Maximum number of files exceeded' };
+                            scope.error = { message: 'Drop ignored, exceeds maximum limit of ' + fileLimit };
                         });
                     }
                 }
 
                 function uploadFile(attachment) {
-                    if(attrs.api) {
+                    if (attrs.api) {
                         var endpoint = $resource(attrs.api, null, {
                             upload: {
                                 method: 'POST',
@@ -167,8 +171,16 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                     }
                 }
 
-                scope.$watch('model', function () {
-                    if(attrs.required && formCtrl.hasFiles) {
+                scope.$watch('model', function (next, last) {
+                    if (scope.model.length == 0) {
+                        scope.files = [];
+                        if (last.length > 0) {
+                            scope.error = '';
+                            scope.dropState = 'exit';
+                        }
+                    }
+
+                    if (attrs.required && formCtrl.hasFiles) {
                         formCtrl.hasFiles.$setValidity('files', scope.model.length > 0);
                     }
                 });
@@ -634,10 +646,11 @@ angular.module('toolbelt.fileInput.tpl', []).run(['$templateCache', function ($t
             '  <h3 data-ng-switch on="dropState" style="pointer-events: none">' +
             '   <span data-ng-switch-when="over">Drop file(s)</span>' +
             '   <span data-ng-switch-when="drop">{{ files.length }} file(s) dropped, drop again to change</span>' +
-            '   <span data-ng-switch-when="invalid">Invalid file(s) detected</span>' +
+            '   <span data-ng-switch-when="invalid">Invalid file drop detected</span>' +
             '   <span data-ng-switch-when="warning">{{ files.length }} file(s) dropped, with warnings, drop to try again</span>' +
             '   <span data-ng-switch-default>Drag file(s) here</span>' +
             '  </h3>' +
+            '  <p data-ng-if="!files.length">No files currently added</p>' +
             '  <p data-ng-if="error">{{ error.message }}</p>' +
             ' </div>' +
             ' <div class="row" data-ng-if="files.length">' +
@@ -652,7 +665,6 @@ angular.module('toolbelt.fileInput.tpl', []).run(['$templateCache', function ($t
             '   </div>' +
             '  </div>' +
             ' </div>' +
-            ' <p data-ng-if="!files.length">No files currently added</p>' +
             ' <input id="hasFiles" name="hasFiles" type="hidden" data-ng-model="hasFiles" />' +
             '</div>'
         ].join('\n')
