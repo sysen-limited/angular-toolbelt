@@ -172,7 +172,7 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                 }
 
                 scope.$watch('model', function (next, last) {
-                    if (scope.model.length == 0) {
+                    if (scope.model.length === 0) {
                         scope.files = [];
                         if (last.length > 0) {
                             scope.error = '';
