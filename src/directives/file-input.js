@@ -8,7 +8,6 @@ angular.module('toolbelt.fileInput', ['ngResource'])
             replace: true,
             templateUrl: 'template/toolbelt/file-input.html',
             link: function (scope, elem, attrs) {
-                console.log(attrs);
                 var formCtrl = elem.inheritedData("$formController");
                 scope.model = [];
                 scope.files = [];
@@ -37,7 +36,6 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                     scope.files = [];
                     var files = evt.dataTransfer.files;
                     var fileLimit = parseInt(attrs.sysFileInput) || 10;
-                    console.log(fileLimit);
                     if (files.length > 0 && files.length <= fileLimit) {
                         scope.$apply(function () {
                             angular.forEach(files, function (file) {
