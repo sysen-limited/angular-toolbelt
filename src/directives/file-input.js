@@ -25,6 +25,7 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                     var ok = evt.dataTransfer && evt.dataTransfer.types && evt.dataTransfer.types.indexOf('Files') >= 0;
                     scope.$apply(function () {
                         scope.dropState = ok ? 'over' : 'invalid';
+                        scope.error = false;
                     });
                 }
 
@@ -32,6 +33,7 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                     evt.preventDefault();
                     scope.$apply(function () {
                         scope.dropState = 'drop';
+                        scope.error = false;
                     });
 
                     var files     = evt.dataTransfer.files,

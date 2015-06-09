@@ -1,7 +1,7 @@
 
 angular.module('sysen.toolbelt', ['sysen.toolbelt.services', 'sysen.toolbelt.filters', 'sysen.toolbelt.directives', 'sysen.toolbelt.tpls']);
 angular.module('sysen.toolbelt.services', ['toolbelt.platform']);
-angular.module('sysen.toolbelt.filters', ['toolbelt.bytes', 'toolbelt.prettyDate']);
+angular.module('sysen.toolbelt.filters', ['toolbelt.bytes', 'toolbelt.prettyDate', 'toolbelt.boundary']);
 angular.module('sysen.toolbelt.directives', ['toolbelt.growl', 'toolbelt.infiniteScroll', 'toolbelt.markdown', 'toolbelt.navbar', 'toolbelt.scroll', 'toolbelt.strength', 'toolbelt.fileInput']);
 angular.module('sysen.toolbelt.tpls', ['toolbelt.growl.tpl', 'toolbelt.strength.tpl', 'toolbelt.fileInput.tpl']);
 
@@ -83,6 +83,7 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                     var ok = evt.dataTransfer && evt.dataTransfer.types && evt.dataTransfer.types.indexOf('Files') >= 0;
                     scope.$apply(function () {
                         scope.dropState = ok ? 'over' : 'invalid';
+                        scope.error = false;
                     });
                 }
 
@@ -90,6 +91,7 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                     evt.preventDefault();
                     scope.$apply(function () {
                         scope.dropState = 'drop';
+                        scope.error = false;
                     });
 
                     var files     = evt.dataTransfer.files,
@@ -499,6 +501,38 @@ angular.module('toolbelt.strength', ['ngSanitize'])
 
                 scope.$watch('model', updateStrength);
             }
+        };
+    });
+
+angular.module('toolbelt.boundary', [])
+    .filter('boundary', function () {
+        return function (list, mode, field) {
+            if(list instanceof Array == false) {
+                return "Filter requires an array list";
+            }
+
+            var value = field ? list[0][field] : list[0];
+            value = parseFloat(value);
+
+            angular.forEach(list, function (entry) {
+                var check = field ? entry[field] : entry;
+                check = parseFloat(check);
+
+                switch (mode) {
+                    case 'max':
+                        if (check > value) {
+                            value = check;
+                        }
+                        break;
+                    case 'min':
+                        if (check < value) {
+                            value = check;
+                        }
+                        break;
+                }
+            });
+
+            return value;
         };
     });
 

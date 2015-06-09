@@ -1,0 +1,18 @@
+<h2>Boundary Filter <small>Find the boundary of a list of objects</small></h2>
+<p>This currently only supports numbers (integers and floats) to be compared, if working with dates use getMilliseconds() for comparisons.</p>
+
+<div>
+    <p class="mini-header">Filter Example</p>
+    <div class="content">
+        <pre>
+
+&lt;p&gt;{{ curly('[4,6,2,7,4,16,9,13,5] | boundary: "max"') }}&lt;p&gt;
+&lt;p&gt;{{ curly('[{ value: "6.21" }, { value: "6.04" }, { value: "7.2" }, { value: "6.8" }] | boundary: "min": "value"') }}&lt;p&gt;
+        </pre>
+    </div>
+    <p class="mini-header">Filter Result</p>
+    <div class="content">
+        <p>{{ [4,6,2,7,4,16,9,13,5] | boundary: "max" }}</p>
+        <p>{{ [{ value: "6.21" }, { value: "6.04" }, { value: "7.2" }, { value: "6.8" }] | boundary: "min": "value" }}</p>
+    </div>
+</div>
