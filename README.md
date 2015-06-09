@@ -20,6 +20,7 @@ The following helpers are available for building rich applications with angular;
 #### Filters
 
 - Pretty Date (Show how many seconds, minutes, hours, days ago a date is)
+- Boundary (Find the min or max value within a list or list of objects)
 - Convert To Bytes (Convert bytes values to KB, MB, etc...)
 
 #### Directives
