@@ -1,7 +1,7 @@
 {
     "name": "angular-toolbelt",
     "description": "Handy directives and services that can be easily incorporated into any AngularJS web project",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "main": "dist/angular-toolbelt.min.js",
     "dependencies": {
         "angular": "~1",

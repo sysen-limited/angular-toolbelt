@@ -507,7 +507,7 @@ angular.module('toolbelt.strength', ['ngSanitize'])
 angular.module('toolbelt.boundary', [])
     .filter('boundary', function () {
         return function (list, mode, field) {
-            if(list instanceof Array == false) {
+            if(list instanceof Array === false) {
                 return "Filter requires an array list";
             }
 
@@ -547,8 +547,8 @@ angular.module('toolbelt.bytes', [])
         };
     });
 angular.module('toolbelt.prettyDate', [])
-    .filter('prettyDate', function () {
-        return function (startDate) {
+    .filter('prettyDate', ['$filter', function ($filter) {
+        return function (startDate, format) {
             if (startDate instanceof Date === false) {
                 startDate = new Date(startDate);
             }
@@ -563,9 +563,12 @@ angular.module('toolbelt.prettyDate', [])
             if (secs < 86400) return Math.floor(secs / 3600) + " hours ago";
             if (secs < 172800) return Math.floor(secs / 86400) + " day ago";
             if (secs < 604800) return Math.floor(secs / 86400) + " days ago";
-            return startDate.toDateString();
+            if (secs < 1209600) return Math.floor(secs / 604800) + " week ago";
+            if (secs < 6048000) return Math.floor(secs / 604800) + " weeks ago";
+            return $filter('date')(startDate, format || "mediumDate");
         };
-    });
+    }]);
+
 angular.module('toolbelt.platform', [])
     .provider('$detectPlatform', function () {
         var self = this;

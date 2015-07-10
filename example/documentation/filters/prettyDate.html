@@ -1,5 +1,7 @@
 <h2>Pretty Date Filter <small>Display a date with how many seconds, minutes, hours etc.. have passed</small></h2>
 
+<p>Note this filter converts up to 10 weeks into how many minutes, hours, days or weeks, old something is. You can still pass in a date format that will be used should the passed in date be more than 10 weeks ago, we default this to <code>mediumDate</code>.</p>
+
 <div data-ng-controller="PrettyDateCtrl as pretty">
     <p class="mini-header">Filter Example</p>
     <div class="content">
@@ -7,11 +9,17 @@
 
 &lt;p&gt;{{ curly(pretty.dateHours + ' | prettyDate') }}&lt;p&gt;
 &lt;p&gt;{{ curly(pretty.dateDays + ' | prettyDate') }}&lt;p&gt;
+&lt;p&gt;{{ curly(pretty.dateWeeks + ' | prettyDate') }}&lt;p&gt;
+&lt;p&gt;{{ curly(338132700000 + ' | prettyDate') }}&lt;p&gt;
+&lt;p&gt;{{ curly(338132700000 + ' | prettyDate: "EEEE, d MMM yyyy \'at\' HH:mm"') }}&lt;p&gt;
         </pre>
     </div>
     <p class="mini-header">Filter Result</p>
     <div class="content">
         <p>{{ pretty.dateHours | prettyDate }}</p>
         <p>{{ pretty.dateDays | prettyDate }}</p>
+        <p>{{ pretty.dateWeeks | prettyDate }}</p>
+        <p>{{ 338132700000 | prettyDate }}</p>
+        <p>{{ 338132700000 | prettyDate: "EEEE, d MMM yyyy 'at' HH:mm" }}</p>
     </div>
 </div>

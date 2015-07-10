@@ -1,7 +1,7 @@
 angular.module('toolbelt.boundary', [])
     .filter('boundary', function () {
         return function (list, mode, field) {
-            if(list instanceof Array == false) {
+            if(list instanceof Array === false) {
                 return "Filter requires an array list";
             }
 

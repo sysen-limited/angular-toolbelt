@@ -24,6 +24,9 @@ angular.module('example', ['sysen.toolbelt', 'ui.bootstrap', 'ngTouch'])
 
         d.setHours(d.getHours() - 48);
         this.dateDays = d.getTime();
+
+        d.setDate(d.getDate() - 21);
+        this.dateWeeks = d.getTime();
     }])
 
     .controller('growlCtrl', ['$scope', function ($scope) {
