@@ -67,7 +67,7 @@ angular.module('toolbelt.fileInput', ['ngResource'])
             templateUrl: 'template/toolbelt/file-input.html',
             link: function (scope, elem, attrs) {
                 var formCtrl         = elem.inheritedData("$formController"),
-                    fileLimit        = parseInt(attrs.sysFileInput) || 10,
+                    fileLimit        = parseInt(attrs.maxFiles) || 10,
                     fileSize         = (attrs.maxSize || 0) * 1024,
                     fileRestrictions = fixRestrictions((attrs.restrict || '*').split(','));
 
@@ -243,7 +243,7 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                 scope.errors = [];
                 scope.multiple = fileLimit > 1;
                 scope.restrict = fileRestrictions.join(',');
-                scope.inputName = attrs.name || 'hasFiles';
+                scope.inputName = attrs.sysFileInput || 'fileAttachment';
 
                 scope.$watch('model', function (next, last) {
                     if (scope.model.length === 0) {
@@ -253,7 +253,8 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                             scope.dropState = 'exit';
                         }
                     }
-
+console.log(scope.inputName);
+console.log(formCtrl[scope.inputName]);
                     if (attrs.required && formCtrl[scope.inputName]) {
                         formCtrl[scope.inputName].$setDirty();
                         formCtrl[scope.inputName].$setTouched();
@@ -769,7 +770,7 @@ angular.module('toolbelt.fileInput.tpl', []).run(['$templateCache', function ($t
             '  </ul>' +
             '  <span style="display:inline-block; position:relative; margin: 6px 0;">' +
             '   <button class="btn btn-default" data-ng-click="openDialog()">Open File Dialog</button>' +
-            '   <input id="{{ inputName }}" name="{{ inputName }}" type="file" multiple="{{ multiple }}" accept="{{ restrict }}" style="position:absolute; top:0; height:100%; width:100%; cursor:pointer; opacity:0; overflow:hidden;" />' +
+            '   <input id="{{ inputName }}" name="{{ inputName }}" type="file" multiple="{{ multiple }}" accept="{{ restrict }}" data-ng-model="attachment" style="position:absolute; top:0; height:100%; width:100%; cursor:pointer; opacity:0; overflow:hidden;" />' +
             '  </span>' +
             ' </div>' +
             ' <div class="row" data-ng-if="files.length">' +

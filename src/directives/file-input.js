@@ -9,7 +9,7 @@ angular.module('toolbelt.fileInput', ['ngResource'])
             templateUrl: 'template/toolbelt/file-input.html',
             link: function (scope, elem, attrs) {
                 var formCtrl         = elem.inheritedData("$formController"),
-                    fileLimit        = parseInt(attrs.sysFileInput) || 10,
+                    fileLimit        = parseInt(attrs.maxFiles) || 10,
                     fileSize         = (attrs.maxSize || 0) * 1024,
                     fileRestrictions = fixRestrictions((attrs.restrict || '*').split(','));
 
@@ -185,7 +185,7 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                 scope.errors = [];
                 scope.multiple = fileLimit > 1;
                 scope.restrict = fileRestrictions.join(',');
-                scope.inputName = attrs.name || 'hasFiles';
+                scope.inputName = attrs.sysFileInput || 'fileAttachment';
 
                 scope.$watch('model', function (next, last) {
                     if (scope.model.length === 0) {
@@ -195,7 +195,8 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                             scope.dropState = 'exit';
                         }
                     }
-
+console.log(scope.inputName);
+console.log(formCtrl[scope.inputName]);
                     if (attrs.required && formCtrl[scope.inputName]) {
                         formCtrl[scope.inputName].$setDirty();
                         formCtrl[scope.inputName].$setTouched();
