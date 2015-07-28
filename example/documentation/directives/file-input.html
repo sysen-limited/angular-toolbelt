@@ -12,6 +12,8 @@
         </div>
         <p><code>data-sys-file-input="[limit]"</code> Directive initialisation, accepts an override for the limit of files that can be dragged. <strong>Default is 10.</strong></p>
         <p><code>data-ng-model="[model]"</code> The model to bind the file data back to. <strong>Required</strong></p>
+        <p><code>data-restrict="[types]"</code> Restrict what file types should be available to add, this is a comma separated list based on file extension. <strong>Default is any</strong></p>
+        <p><code>data-max-size="[size]"</code> Limit the max size per file being added (in KB). <strong>Default is no limit</strong></p>
         <p><code>data-behaviour="[replace|extend]"</code> What should happen when more files are dropped into the zone, <code>replace</code> the existing list or <code>extend</code> it.</p>
         <p><code>data-api="[uri]"</code> The location to send file data if automatic storage is required, note that the server response will be stored in a 'response' or 'error' object attribute.</p>
         <p><code>data-ng-required="[boolean]"</code> Is this a required operation to allow for a form submission, if required will trigger the form.$invalid state for the form in which this component exists.</p>
@@ -28,6 +30,8 @@
     <strong>&lt;div name=&quot;myFileInput&quot;
          data-sys-file-input=&quot;5&quot;
          data-behaviour=&quot;extend&quot;
+         data-restrict=&quot;image,pdf&quot;
+         data-max-size=&quot;100&quot;
          data-api=&quot;/api/uploads&quot;
          data-ng-model=&quot;fileInput.example&quot;&gt;&lt;/div&gt;</strong>
     &lt;p class=&quot;text-right&quot;&gt;
@@ -68,6 +72,8 @@ Nothing required, just include the library in your application
                          data-sys-file-input="5"
                          data-api="{{ sendToApi ? '/api/upload' : '' }}"
                          data-behaviour="{{ extendList ? 'extend' : 'replace' }}"
+                         data-restrict="image,pdf"
+                         data-max-size="100"
                          data-ng-model="fileInput.example"
                          data-ng-required="true"></div>
                     <div class="row">

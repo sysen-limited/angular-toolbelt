@@ -57,7 +57,7 @@ angular.module('toolbelt.navbar', [])
     }]);
 
 angular.module('toolbelt.fileInput', ['ngResource'])
-    .directive('sysFileInput', ['$resource', function ($resource) {
+    .directive('sysFileInput', ['$resource', 'bytesFilter', function ($resource, $bytes) {
         return {
             require: 'ngModel',
             scope: {
@@ -66,13 +66,54 @@ angular.module('toolbelt.fileInput', ['ngResource'])
             replace: true,
             templateUrl: 'template/toolbelt/file-input.html',
             link: function (scope, elem, attrs) {
-                var formCtrl  = elem.inheritedData("$formController"),
-                    fileLimit = parseInt(attrs.sysFileInput) || 10;
-                scope.model = [];
-                scope.files = [];
-                scope.multiple = fileLimit > 1;
+                var formCtrl         = elem.inheritedData("$formController"),
+                    fileLimit        = parseInt(attrs.sysFileInput) || 10,
+                    fileSize         = (attrs.maxSize || 0) * 1024,
+                    fileRestrictions = fixRestrictions((attrs.restrict || '*').split(','));
 
-                scope.inputName = attrs.name || 'hasFiles';
+                function fixRestrictions(list) {
+                    var result = [];
+                    angular.forEach(list, function (restriction) {
+                        switch (restriction) {
+                            case 'jpg':
+                            case 'png':
+                            case 'jpeg':
+                            case 'gif':
+                            case 'image':
+                                if (result.indexOf('image/*') < 0) {
+                                    result.push('image/*');
+                                }
+                                break;
+                            case 'avi':
+                            case 'mpg':
+                            case 'mpeg':
+                            case 'mp4':
+                            case 'video':
+                                if (result.indexOf('video/*') < 0) {
+                                    result.push('video/*');
+                                }
+                                break;
+                            case 'txt':
+                                if (result.indexOf('text/plain') < 0) {
+                                    result.push('text/plain');
+                                }
+                                break;
+                            case 'zip':
+                                if (result.indexOf('application/zip') < 0) {
+                                    result.push('application/zip');
+                                }
+                                break;
+                            case 'pdf':
+                                if (result.indexOf('application/pdf') < 0) {
+                                    result.push('application/pdf');
+                                }
+                                break;
+                            default:
+                                result.push('.' + restriction); // Using extensions does not work on all browsers
+                        }
+                    });
+                    return result;
+                }
 
                 function dragEnterLeave(evt) {
                     evt.preventDefault();
@@ -86,7 +127,7 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                     var ok = evt.dataTransfer && evt.dataTransfer.types && evt.dataTransfer.types.indexOf('Files') >= 0;
                     scope.$apply(function () {
                         scope.dropState = ok ? 'over' : 'invalid';
-                        scope.error = false;
+                        scope.errors = [];
                     });
                 }
 
@@ -94,7 +135,7 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                     evt.preventDefault();
                     scope.$apply(function () {
                         scope.dropState = 'drop';
-                        scope.error = false;
+                        scope.errors = [];
                     });
 
                     var files     = this.files || evt.dataTransfer.files,
@@ -107,44 +148,65 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                     if (files.length > 0 && files.length <= fileLimit && (scope.files.length + files.length) <= fileLimit) {
                         scope.$apply(function () {
                             angular.forEach(files, function (file) {
-                                var reader = new FileReader();
-                                var attachment = { raw: file, data: { name: file.name, size: file.size, type: file.type, lastModified: file.lastModifiedDate } };
+                                var validType = false,
+                                    validSize = false;
+                                angular.forEach(fileRestrictions, function (restriction) {
+                                    if (file.type.search(restriction) >= 0) {
+                                        validType = true;
+                                    }
+                                });
 
-                                if (file.type.indexOf("text") === 0) {
-                                    reader.onload = function (evt) {
-                                        scope.$apply(function () {
-                                            attachment.content = evt.target.result;
-                                        });
-                                    };
-                                    reader.readAsText(file, "UTF-8");
-                                }
-                                else if (file.type.indexOf("image") === 0) {
-                                    reader.onload = function (evt) {
-                                        scope.$apply(function () {
-                                            attachment.image = evt.target.result;
-                                        });
-                                    };
-                                    reader.readAsDataURL(file);
-                                }
-                                else {
-                                    reader.onload = function (evt) {
-                                        scope.$apply(function () {
-                                            attachment.binary = evt.target.result;
-                                        });
-                                    };
-                                    reader.readAsBinaryString(file);
-                                }
+                                validSize = fileSize > file.size || !fileSize;
 
-                                scope.files.push(attachment);
-                                scope.model = scope.files;
+                                if (validType && validSize) {
+                                    var reader = new FileReader();
+                                    var attachment = { raw: file, data: { name: file.name, size: file.size, type: file.type, lastModified: file.lastModifiedDate } };
 
-                                uploadFile(attachment);
+                                    if (file.type.indexOf("text") === 0) {
+                                        reader.onload = function (evt) {
+                                            scope.$apply(function () {
+                                                attachment.content = evt.target.result;
+                                            });
+                                        };
+                                        reader.readAsText(file, "UTF-8");
+                                    }
+                                    else if (file.type.indexOf("image") === 0) {
+                                        reader.onload = function (evt) {
+                                            scope.$apply(function () {
+                                                attachment.image = evt.target.result;
+                                            });
+                                        };
+                                        reader.readAsDataURL(file);
+                                    }
+                                    else {
+                                        reader.onload = function (evt) {
+                                            scope.$apply(function () {
+                                                attachment.binary = evt.target.result;
+                                            });
+                                        };
+                                        reader.readAsBinaryString(file);
+                                    }
+
+                                    scope.files.push(attachment);
+                                    scope.model = scope.files;
+
+                                    uploadFile(attachment);
+                                } else if (!validType) {
+                                    scope.dropState = 'warning';
+                                    scope.errors.push('Invalid file type "' + (file.type || 'unknown') + '" for file "' + file.name + '"');
+                                } else if (!validSize) {
+                                    scope.dropState = 'warning';
+                                    scope.errors.push('Invalid file size "' + $bytes(file.size, 2) + '" exceeds "' + $bytes(fileSize, 2) + '" for file "' + file.name + '"');
+                                } else {
+                                    scope.dropState = 'warning';
+                                    scope.errors.push('Unable to add file "' + file.name + '"');
+                                }
                             });
                         });
                     } else {
                         scope.$apply(function () {
                             scope.dropState = 'invalid';
-                            scope.error = { message: 'Drop ignored, exceeds maximum limit of ' + fileLimit };
+                            scope.errors.push('Drop ignored, exceeds maximum limit of ' + fileLimit);
                         });
                     }
                 }
@@ -171,16 +233,23 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                         }, function (failure) {
                             attachment.error = failure.data;
                             scope.dropState = 'warning';
-                            scope.error = { message: 'Some files failed to save' };
+                            scope.errors.push('Some files failed to save');
                         });
                     }
                 }
+
+                scope.model = [];
+                scope.files = [];
+                scope.errors = [];
+                scope.multiple = fileLimit > 1;
+                scope.restrict = fileRestrictions.join(',');
+                scope.inputName = attrs.name || 'hasFiles';
 
                 scope.$watch('model', function (next, last) {
                     if (scope.model.length === 0) {
                         scope.files = [];
                         if (last.length > 0) {
-                            scope.error = '';
+                            scope.errors = [];
                             scope.dropState = 'exit';
                         }
                     }
@@ -689,16 +758,18 @@ angular.module('toolbelt.fileInput.tpl', []).run(['$templateCache', function ($t
             ' <div class="jumbotron" data-ng-class="{ valid: dropState == \'over\' || dropState == \'drop\', invalid: dropState == \'invalid\', warning: dropState == \'warning\' }">' +
             '  <h3 data-ng-switch on="dropState" style="pointer-events: none">' +
             '   <span data-ng-switch-when="over">Drop file(s)</span>' +
-            '   <span data-ng-switch-when="drop">{{ files.length }} file(s) added, drop again to change</span>' +
+            '   <span data-ng-switch-when="drop">{{ files.length }} file(s) added, try again to change</span>' +
             '   <span data-ng-switch-when="invalid">Invalid file drop detected</span>' +
-            '   <span data-ng-switch-when="warning">{{ files.length }} file(s) dropped, with warnings, drop to try again</span>' +
+            '   <span data-ng-switch-when="warning">{{ files.length }} file(s) added, with warnings, try again to change</span>' +
             '   <span data-ng-switch-default>Drag file(s) here</span>' +
             '  </h3>' +
             '  <p data-ng-if="!files.length">No files currently added</p>' +
-            '  <p data-ng-if="error">{{ error.message }}</p>' +
+            '  <ul data-ng-if="errors.length">' +
+            '   <li data-ng-repeat="error in errors">{{ error }}</li>' +
+            '  </ul>' +
             '  <span style="display:inline-block; position:relative; margin: 6px 0;">' +
             '   <button class="btn btn-default" data-ng-click="openDialog()">Open File Dialog</button>' +
-            '   <input id="{{ inputName }}" name="{{ inputName }}" type="file" multiple="{{ multiple }}" style="position:absolute; top:0; height:100%; width:100%; cursor:pointer; opacity:0; overflow:hidden;" />' +
+            '   <input id="{{ inputName }}" name="{{ inputName }}" type="file" multiple="{{ multiple }}" accept="{{ restrict }}" style="position:absolute; top:0; height:100%; width:100%; cursor:pointer; opacity:0; overflow:hidden;" />' +
             '  </span>' +
             ' </div>' +
             ' <div class="row" data-ng-if="files.length">' +
