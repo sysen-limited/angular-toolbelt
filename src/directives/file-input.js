@@ -195,8 +195,7 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                             scope.dropState = 'exit';
                         }
                     }
-console.log(scope.inputName);
-console.log(formCtrl[scope.inputName]);
+
                     if (attrs.required && formCtrl[scope.inputName]) {
                         formCtrl[scope.inputName].$setDirty();
                         formCtrl[scope.inputName].$setTouched();
