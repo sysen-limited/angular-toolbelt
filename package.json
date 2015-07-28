@@ -13,7 +13,7 @@
         "grunt": "latest",
         "express": "latest",
         "body-parser": "latest",
-        "multer": "latest",
+        "multer": "0.1.8",
         "ejs": "*",
         "morgan": "*",
         "errorhandler": "*"

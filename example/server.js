@@ -18,7 +18,8 @@ app.set('port', process.env.PORT || 1337);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(logger());
+app.use(logger('combined'));
+
 // Express Configuration
 app.use('/public', express.static(path.join(__dirname, '../dist')));
 app.use('/public', express.static(path.join(__dirname, '../lib')));
@@ -26,7 +27,6 @@ app.use('/public/docs', express.static(path.join(__dirname, './documentation')))
 
 // Development (set NODE_ENV environment variable to trigger this)
 if ('development' == app.get('env')) {
-    app.use(logger());
     app.use(errorHandler());
 }
 
