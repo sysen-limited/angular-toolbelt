@@ -32,3 +32,5 @@ The following helpers are available for building rich applications with angular;
 - Markdown (Wrapper for marked project to allow parsing of Markdown text)
 - Password Strength (allows checking of passwords against rules to avoid poor password selection)
 - Drag and Drop (drag and drop files into your form for attachments, also able to automatically upload on drop)
+
+**Note it is possible to use directives and filters individually however some like the drag and drop directive depend on other parts of this project**
