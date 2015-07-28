@@ -12,6 +12,9 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                     fileLimit = parseInt(attrs.sysFileInput) || 10;
                 scope.model = [];
                 scope.files = [];
+                scope.multiple = fileLimit > 1;
+
+                scope.inputName = attrs.name || 'hasFiles';
 
                 function dragEnterLeave(evt) {
                     evt.preventDefault();
@@ -36,7 +39,7 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                         scope.error = false;
                     });
 
-                    var files     = evt.dataTransfer.files,
+                    var files     = this.files || evt.dataTransfer.files,
                         behaviour = attrs.behaviour || 'replace';
 
                     if (behaviour == 'replace') {
@@ -124,10 +127,14 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                         }
                     }
 
-                    if (attrs.required && formCtrl.hasFiles) {
-                        formCtrl.hasFiles.$setValidity('files', scope.model.length > 0);
+                    if (attrs.required && formCtrl[scope.inputName]) {
+                        formCtrl[scope.inputName].$setDirty();
+                        formCtrl[scope.inputName].$setTouched();
+                        formCtrl[scope.inputName].$setValidity('files', scope.model.length > 0);
                     }
                 });
+
+                angular.element(elem[0]).find('input').on('change', dropInto);
 
                 elem.on('dragenter', dragEnterLeave);
                 elem.on('dragleave', dragEnterLeave);

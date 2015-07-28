@@ -25,7 +25,8 @@
                 <pre>
 
 &lt;form name=&quot;fileInputForm&quot;&gt;
-    <strong>&lt;div data-sys-file-input=&quot;5&quot;
+    <strong>&lt;div name=&quot;myFileInput&quot;
+         data-sys-file-input=&quot;5&quot;
          data-behaviour=&quot;extend&quot;
          data-api=&quot;/api/uploads&quot;
          data-ng-model=&quot;fileInput.example&quot;&gt;&lt;/div&gt;</strong>
@@ -63,7 +64,8 @@ Nothing required, just include the library in your application
             <tab-heading>Try It</tab-heading>
             <div class="content">
                 <form name="fileInputForm">
-                    <div data-sys-file-input="5"
+                    <div name="myFileInput"
+                         data-sys-file-input="5"
                          data-api="{{ sendToApi ? '/api/upload' : '' }}"
                          data-behaviour="{{ extendList ? 'extend' : 'replace' }}"
                          data-ng-model="fileInput.example"
@@ -86,7 +88,7 @@ Nothing required, just include the library in your application
                         <div class="col-xs-6">
                             <p class="text-right">
                                 <button type="button" class="btn btn-primary" data-ng-click="fileInput.reset()">Reset</button>
-                                <button type="button" class="btn btn-primary" data-ng-click="fileInput.show = !fileInput.show" data-ng-disabled="fileInputForm.$invalid">Show / Hide Model Data</button>
+                                <button type="button" class="btn btn-primary" data-ng-click="fileInput.show = !fileInput.show" data-ng-disabled="fileInputForm.$pristine || fileInputForm.$invalid">Show / Hide Model Data</button>
                             </p>
                         </div>
                     </div>
