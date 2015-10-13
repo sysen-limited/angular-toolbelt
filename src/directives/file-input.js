@@ -183,7 +183,6 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                 scope.model = [];
                 scope.files = [];
                 scope.errors = [];
-                scope.multiple = fileLimit > 1;
                 scope.restrict = fileRestrictions.join(',');
                 scope.inputName = attrs.sysFileInput || 'fileAttachment';
 
