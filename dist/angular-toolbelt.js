@@ -206,7 +206,7 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                     } else {
                         scope.$apply(function () {
                             scope.dropState = 'invalid';
-                            scope.errors.push('Drop ignored, exceeds maximum limit of ' + fileLimit);
+                            scope.errors.push('Drop ignored, exceeds a limit of "' + fileLimit + '" file attachments');
                         });
                     }
                 }
