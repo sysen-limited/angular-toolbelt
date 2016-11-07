@@ -43,7 +43,7 @@ describe('Directive > Markdown,', function () {
 
     it('should ignore blank content', function () {
         element = $compile('<sys-markdown></sys-markdown>')($scope);
-        expect(element.html()).toContain('');
+        expect(element.html()).toEqual('');
     });
 
     it('should convert markdown in an element', function () {

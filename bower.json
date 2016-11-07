@@ -2,7 +2,7 @@
     "name": "angular-toolbelt",
     "description": "Handy directives and services that can be easily incorporated into any AngularJS web project",
     "version": "0.2.6",
-    "main": "dist/angular-toolbelt.min.js",
+    "main": "dist/angular-toolbelt",
     "dependencies": {
         "angular": "~1",
         "angular-sanitize": "~1",
@@ -34,7 +34,7 @@
         "test"
     ],
     "exportsOverride": {
-        "jquery": { },
+        "jquery": {},
         "bootstrap": {
             "css": "dist/css/bootstrap.min.css",
             "fonts": "fonts/*"

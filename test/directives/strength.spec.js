@@ -5,7 +5,7 @@ describe('Directive > Password Strength', function () {
     beforeEach(module('toolbelt.strength.tpl'));
 
     beforeEach(function () {
-        jasmine.Expectation.addMatchers({
+        jasmine.addMatchers({
             equalsResult: function () {
                 return {
                     compare: function (actual, expected) {
