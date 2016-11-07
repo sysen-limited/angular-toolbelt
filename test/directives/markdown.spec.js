@@ -36,7 +36,7 @@ describe('Directive > Markdown,', function () {
         $scope = $injector.get('$rootScope').$new();
 
         $scope.markdown = markdown = "# Hello World\n\nHere is a [link](http://sysen.net).\nAnd an image ![alt](http://angularjs.org/img/AngularJS-large.png).\n\n    Code goes here.\n";
-        html = "<h1 id=\"hello-world\">Hello World</h1>\n<p>Here is a <a href=\"http://sysen.net\">link</a>.\nAnd an image <img src=\"http://angularjs.org/img/AngularJS-large.png\" alt=\"alt\">.</p>\n<pre><code>Code goes here.\n</code></pre>";
+        html = "<h1 id=\"hello-world\">Hello World</h1>\n<p>Here is a <a href=\"http://sysen.net\">link</a>.<br>And an image <img src=\"http://angularjs.org/img/AngularJS-large.png\" alt=\"alt\">.</p>\n<pre><code>Code goes here.\n</code></pre>";
 
         $compile = $injector.get('$compile');
     }));

@@ -37,7 +37,7 @@ angular.module('toolbelt.markdown', [])
 
                 function parse(value) {
                     if (markdownConverter) {
-                        elem.html(markdownConverter(value || '', scope.options || null));
+                        elem.html(markdownConverter(value || '', scope.options || { gfm: true, sanitize: true }));
                     } else if (!warning) {
                         elem.html('Markdown parser not found! Please include library found at: https://github.com/chjj/marked');
                         warning = true;
