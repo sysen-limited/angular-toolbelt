@@ -6,29 +6,30 @@ angular.module('sysen.toolbelt.directives', ['toolbelt.growl', 'toolbelt.infinit
 angular.module('sysen.toolbelt.tpls', ['toolbelt.growl.tpl', 'toolbelt.strength.tpl', 'toolbelt.fileInput.tpl']);
 
 angular.module('toolbelt.navbar', [])
-    .directive('sysActiveNavbar', ['$location', function($location) {
+    .directive('sysActiveNavbar', ['$location', function ($location) {
         var activeName = 'active';
+
         function assignActive(elem) {
             var activeElm;
-            angular.forEach(elem.find('a'), function(anchor) {
+            angular.forEach(elem.find('a'), function (anchor) {
                 var elm = angular.element(anchor),
                     route = elm.attr('data-route') || "",
                     regex = new RegExp('^' + route.replace('/', '\\/') + '$', ['i']);
 
-                if(regex.test($location.path())) {
+                if (regex.test($location.path())) {
                     activeElm = elm;
                 } else {
                     removeTreeClass(elm, activeName);
                 }
             });
-            if(activeElm !== undefined) {
+            if (activeElm !== undefined) {
                 addTreeClass(activeElm, activeName);
             }
         }
 
         function addTreeClass(element, className) {
-            while(element.attr('data-sys-active-navbar') === undefined && element.prop('tagName') !== 'BODY') {
-                if(!element.hasClass(className)) {
+            while (element.attr('data-sys-active-navbar') === undefined && element.prop('tagName') !== 'BODY') {
+                if (!element.hasClass(className)) {
                     element.addClass(className);
                 }
                 element = element.parent();
@@ -36,8 +37,8 @@ angular.module('toolbelt.navbar', [])
         }
 
         function removeTreeClass(element, className) {
-            while(element.attr('data-sys-active-navbar') === undefined && element.prop('tagName') !== 'BODY') {
-                if(element.hasClass(className)) {
+            while (element.attr('data-sys-active-navbar') === undefined && element.prop('tagName') !== 'BODY') {
+                if (element.hasClass(className)) {
                     element.removeClass(className);
                 }
                 element = element.parent();
@@ -45,11 +46,11 @@ angular.module('toolbelt.navbar', [])
         }
 
         return {
-            link: function(scope, elem, attrs) {
+            link: function (scope, elem, attrs) {
                 activeName = attrs.sysActiveNavbar || activeName;
-                scope.$watch(function() {
+                scope.$watch(function () {
                     return $location.path();
-                }, function() {
+                }, function () {
                     assignActive(elem);
                 });
             }
@@ -66,9 +67,9 @@ angular.module('toolbelt.fileInput', ['ngResource'])
             replace: true,
             templateUrl: 'template/toolbelt/file-input.html',
             link: function (scope, elem, attrs) {
-                var formCtrl         = elem.inheritedData("$formController"),
-                    fileLimit        = parseInt(attrs.maxFiles) || 10,
-                    fileSize         = (attrs.maxSize || 0) * 1024,
+                var formCtrl = elem.inheritedData("$formController"),
+                    fileLimit = parseInt(attrs.maxFiles) || 10,
+                    fileSize = (attrs.maxSize || 0) * 1024,
                     fileRestrictions = fixRestrictions((attrs.restrict || '*').split(','));
 
                 function fixRestrictions(list) {
@@ -138,7 +139,7 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                         scope.errors = [];
                     });
 
-                    var files     = this.files || evt.dataTransfer.files,
+                    var files = this.files || evt.originalEvent.dataTransfer.files,
                         behaviour = attrs.behaviour || 'replace';
 
                     if (behaviour == 'replace') {
@@ -160,7 +161,15 @@ angular.module('toolbelt.fileInput', ['ngResource'])
 
                                 if (validType && validSize) {
                                     var reader = new FileReader();
-                                    var attachment = { raw: file, data: { name: file.name, size: file.size, type: file.type, lastModified: file.lastModifiedDate } };
+                                    var attachment = {
+                                        raw: file,
+                                        data: {
+                                            name: file.name,
+                                            size: file.size,
+                                            type: file.type,
+                                            lastModified: file.lastModifiedDate
+                                        }
+                                    };
 
                                     if (file.type.indexOf("text") === 0) {
                                         reader.onload = function (evt) {
@@ -271,29 +280,29 @@ angular.module('toolbelt.fileInput', ['ngResource'])
     }]);
 
 angular.module('toolbelt.growl', ['ngSanitize'])
-    .directive('sysGrowl', ['$rootScope', '$timeout', function($rootScope, $timeout) {
+    .directive('sysGrowl', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
         return {
             replace: false,
             templateUrl: 'template/toolbelt/growl.html',
-            link: function(scope, elem, attrs) {
+            link: function (scope, elem, attrs) {
                 scope.limit = parseInt(attrs.sysGrowl, 10) || 5;
                 scope.growls = [];
 
-                scope.dismiss = function(growl) {
+                scope.dismiss = function (growl) {
                     var idx = scope.growls.indexOf(growl);
                     scope.growls.splice(idx, 1);
                     $rootScope.$broadcast('_removeGrowl', growl);
                 };
 
-                $rootScope.$on('_addGrowl', function(event, message) {
-                    if(message.type === undefined) {
+                $rootScope.$on('_addGrowl', function (event, message) {
+                    if (message.type === undefined) {
                         message.type = 'info';
                     }
 
                     scope.growls.unshift(message);
 
-                    if(attrs.timeout) {
-                        $timeout(function() {
+                    if (attrs.timeout) {
+                        $timeout(function () {
                             scope.dismiss(message);
                         }, attrs.timeout * 1000);
                     }
@@ -311,10 +320,10 @@ angular.module('toolbelt.infiniteScroll', [])
                 scope.dataLoad = false;
                 scope.stopped = false;
 
-                var handler = function() {
+                var handler = function () {
                     var pause = scope.dataLoad || scope.stopped;
 
-                    if(!pause) {
+                    if (!pause) {
                         var endLocation = elem.prop('offsetTop') + elem.prop('offsetHeight'),
                             scrollLocation = $window.scrollY + $window.innerHeight;
 
@@ -330,8 +339,8 @@ angular.module('toolbelt.infiniteScroll', [])
                     }
                 };
 
-                $rootScope.$on('_infiniteScroll', function(evt, message) {
-                    switch(message) {
+                $rootScope.$on('_infiniteScroll', function (evt, message) {
+                    switch (message) {
                         case 'STOP':
                             scope.stopped = true;
                             break;
@@ -359,13 +368,13 @@ angular.module('toolbelt.markdown', [])
         };
 
         self.$get = ['$window', function ($window) {
-            if($window.marked) {
+            if ($window.marked) {
                 var marked = $window.marked;
 
                 self.setOptions = marked.setOptions;
-                if($window.hljs) {
+                if ($window.hljs) {
                     marked.setOptions({
-                        highlight: function(code) {
+                        highlight: function (code) {
                             return $window.hljs.highlightAuto(code).value;
                         }
                     });
@@ -388,16 +397,17 @@ angular.module('toolbelt.markdown', [])
                 var warning = false;
 
                 function parse(value) {
-                    if(markdownConverter) {
+                    if (markdownConverter) {
                         elem.html(markdownConverter(value || '', scope.options || null));
-                    } else if(!warning) {
+                    } else if (!warning) {
                         elem.html('Markdown parser not found! Please include library found at: https://github.com/chjj/marked');
                         warning = true;
                     }
                 }
+
                 parse(scope.sysMarkdown || elem.text() || '');
 
-                if(attrs.sysMarkdown) {
+                if (attrs.sysMarkdown) {
                     scope.$watch('sysMarkdown', parse);
                 }
             }
@@ -432,29 +442,31 @@ angular.module('toolbelt.scroll', [])
                 targetPos = getTargetPos(target, offset);
 
             scrollPos = targetPos - currentPos;
-            if(scrollPos === 0) { return; }
+            if (scrollPos === 0) {
+                return;
+            }
 
-            switch(mode) {
+            switch (mode) {
                 case 'smooth':
                     var timer = 1,
                         step = 20,
                         direction = 0; // 0 = Down, 1 = Up
 
                     // Manage scroll direction
-                    if(scrollPos < 0) {
+                    if (scrollPos < 0) {
                         scrollPos = -scrollPos;
                         direction = 1;
                     }
 
                     // Calculate and run intervals for scrolling
                     var totalIntervals = Math.ceil(scrollPos / step);
-                    $interval(function() {
-                        if(direction > 0) {
+                    $interval(function () {
+                        if (direction > 0) {
                             currentPos -= step;
-                            if(currentPos < targetPos) currentPos = targetPos;
+                            if (currentPos < targetPos) currentPos = targetPos;
                         } else {
                             currentPos += step;
-                            if(currentPos > targetPos) currentPos = targetPos;
+                            if (currentPos > targetPos) currentPos = targetPos;
                         }
                         $window.scrollTo(0, currentPos);
                     }, timer, totalIntervals);
@@ -479,11 +491,11 @@ angular.module('toolbelt.scroll', [])
                     }
                 });
 
-                angular.element($window).bind("scroll", function() {
+                angular.element($window).bind("scroll", function () {
                     $rootScope.$broadcast('_scroll', $window.pageYOffset);
                 });
 
-                $rootScope.$on('_pageScroll', function(event, target, offset) {
+                $rootScope.$on('_pageScroll', function (event, target, offset) {
                     offset = offset || defaultOffset;
                     scrollPage('none', target, offset);
                 });
@@ -492,7 +504,7 @@ angular.module('toolbelt.scroll', [])
     }]);
 
 angular.module('toolbelt.strength', ['ngSanitize'])
-    .directive('sysStrength', function() {
+    .directive('sysStrength', function () {
         var requiredComplexity, requiredCharsets;
         var labels = ['success', 'warning', 'danger'];
         var results = [
@@ -525,10 +537,10 @@ angular.module('toolbelt.strength', ['ngSanitize'])
         function getResult(score) {
             var percentage = (score * 100) / 20;
             var result = percentage < 20 ? results[2] :
-                   percentage < 35 ? results[3] :
-                   percentage < 50 ? results[4] :
-                   percentage < 65 ? results[5] :
-                   percentage < 90 ? results[6] : results[7];
+                percentage < 35 ? results[3] :
+                    percentage < 50 ? results[4] :
+                        percentage < 65 ? results[5] :
+                            percentage < 90 ? results[6] : results[7];
 
             var rankDifference = requiredComplexity - result.rank;
             if (rankDifference >= labels.length) {
@@ -549,16 +561,16 @@ angular.module('toolbelt.strength', ['ngSanitize'])
             },
             replace: true,
             templateUrl: 'template/toolbelt/strength.html',
-            link: function(scope, elem, attrs) {
+            link: function (scope, elem, attrs) {
                 var minLength = parseInt(attrs.minLength) || 6;
                 var formCtrl = elem.inheritedData("$formController");
 
                 requiredComplexity = parseInt(attrs.complexity) > 8 ? 8 : parseInt(attrs.complexity) || 6;
                 requiredCharsets = parseInt(attrs.charsets) > 4 ? 4 : parseInt(attrs.charsets) || 1;
 
-                var updateStrength = function(string) {
+                var updateStrength = function (string) {
                     var charsets = 0, score = 0;
-                    if(string) {
+                    if (string) {
                         // Gain points based on variation of character types
                         if (hasLowerCase(string)) charsets++;
                         if (hasUpperCase(string)) charsets++;
@@ -582,7 +594,7 @@ angular.module('toolbelt.strength', ['ngSanitize'])
 angular.module('toolbelt.boundary', [])
     .filter('boundary', function () {
         return function (list, mode, field) {
-            if(list instanceof Array === false) {
+            if (list instanceof Array === false) {
                 return "Filter requires an array list";
             }
 
@@ -654,10 +666,10 @@ angular.module('toolbelt.platform', [])
                 name, version, temp;
 
             name = matches[0];
-            if(!name) {
+            if (!name) {
                 return { name: "Unknown", version: "0" };
             }
-            switch(name.toLowerCase()) {
+            switch (name.toLowerCase()) {
                 case "windows":
                     temp = agent.match(/windows\snt\s([^;)]*)/i);
                     version = temp[1];
@@ -719,9 +731,9 @@ angular.module('toolbelt.platform', [])
                     version: system.version,
                     matches: function (systemName, systemVersion) {
                         if (systemVersion) {
-                            return(this.name && this.name == systemName && this.version == systemVersion);
+                            return (this.name && this.name == systemName && this.version == systemVersion);
                         } else {
-                            return(this.name && this.name == systemName);
+                            return (this.name && this.name == systemName);
                         }
                     }
                 },
@@ -730,9 +742,9 @@ angular.module('toolbelt.platform', [])
                     version: browser.version,
                     matches: function (browserName, browserVersion) {
                         if (browserVersion) {
-                            return(this.name && this.name == browserName && this.version == browserVersion);
+                            return (this.name && this.name == browserName && this.version == browserVersion);
                         } else {
-                            return(this.name && this.name == browserName);
+                            return (this.name && this.name == browserName);
                         }
 
                     },
