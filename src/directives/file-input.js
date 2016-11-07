@@ -80,7 +80,7 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                         scope.errors = [];
                     });
 
-                    var files = this.files || evt.dataTransfer.files,
+                    var files = this.files || evt.originalEvent.dataTransfer.files,
                         behaviour = attrs.behaviour || 'replace';
 
                     if (behaviour == 'replace') {
