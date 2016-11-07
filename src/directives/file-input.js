@@ -66,7 +66,10 @@ angular.module('toolbelt.fileInput', ['ngResource'])
 
                 function dragOver(evt) {
                     evt.preventDefault();
-                    var ok = evt.dataTransfer && evt.dataTransfer.types && evt.dataTransfer.types.indexOf('Files') >= 0;
+
+                    var dataTransfer = evt.dataTransfer || evt.originalEvent.dataTransfer;
+                    var ok = dataTransfer && dataTransfer.types && dataTransfer.types.indexOf('Files') >= 0;
+
                     scope.$apply(function () {
                         scope.dropState = ok ? 'over' : 'invalid';
                         scope.errors = [];
@@ -80,8 +83,9 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                         scope.errors = [];
                     });
 
-                    var files = this.files || evt.originalEvent.dataTransfer.files,
-                        behaviour = attrs.behaviour || 'replace';
+                    var dataTransfer = evt.dataTransfer || evt.originalEvent.dataTransfer;
+                    var files = this.files || dataTransfer.files;
+                    var behaviour = attrs.behaviour || 'replace';
 
                     if (behaviour == 'replace') {
                         scope.files = [];
