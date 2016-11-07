@@ -1,5 +1,5 @@
 angular.module('toolbelt.strength', ['ngSanitize'])
-    .directive('sysStrength', function() {
+    .directive('sysStrength', function () {
         var requiredComplexity, requiredCharsets;
         var labels = ['success', 'warning', 'danger'];
         var results = [
@@ -32,10 +32,10 @@ angular.module('toolbelt.strength', ['ngSanitize'])
         function getResult(score) {
             var percentage = (score * 100) / 20;
             var result = percentage < 20 ? results[2] :
-                   percentage < 35 ? results[3] :
-                   percentage < 50 ? results[4] :
-                   percentage < 65 ? results[5] :
-                   percentage < 90 ? results[6] : results[7];
+                percentage < 35 ? results[3] :
+                    percentage < 50 ? results[4] :
+                        percentage < 65 ? results[5] :
+                            percentage < 90 ? results[6] : results[7];
 
             var rankDifference = requiredComplexity - result.rank;
             if (rankDifference >= labels.length) {
@@ -56,16 +56,16 @@ angular.module('toolbelt.strength', ['ngSanitize'])
             },
             replace: true,
             templateUrl: 'template/toolbelt/strength.html',
-            link: function(scope, elem, attrs) {
+            link: function (scope, elem, attrs) {
                 var minLength = parseInt(attrs.minLength) || 6;
                 var formCtrl = elem.inheritedData("$formController");
 
                 requiredComplexity = parseInt(attrs.complexity) > 8 ? 8 : parseInt(attrs.complexity) || 6;
                 requiredCharsets = parseInt(attrs.charsets) > 4 ? 4 : parseInt(attrs.charsets) || 1;
 
-                var updateStrength = function(string) {
+                var updateStrength = function (string) {
                     var charsets = 0, score = 0;
-                    if(string) {
+                    if (string) {
                         // Gain points based on variation of character types
                         if (hasLowerCase(string)) charsets++;
                         if (hasUpperCase(string)) charsets++;

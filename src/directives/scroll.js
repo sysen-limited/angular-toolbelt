@@ -26,29 +26,31 @@ angular.module('toolbelt.scroll', [])
                 targetPos = getTargetPos(target, offset);
 
             scrollPos = targetPos - currentPos;
-            if(scrollPos === 0) { return; }
+            if (scrollPos === 0) {
+                return;
+            }
 
-            switch(mode) {
+            switch (mode) {
                 case 'smooth':
                     var timer = 1,
                         step = 20,
                         direction = 0; // 0 = Down, 1 = Up
 
                     // Manage scroll direction
-                    if(scrollPos < 0) {
+                    if (scrollPos < 0) {
                         scrollPos = -scrollPos;
                         direction = 1;
                     }
 
                     // Calculate and run intervals for scrolling
                     var totalIntervals = Math.ceil(scrollPos / step);
-                    $interval(function() {
-                        if(direction > 0) {
+                    $interval(function () {
+                        if (direction > 0) {
                             currentPos -= step;
-                            if(currentPos < targetPos) currentPos = targetPos;
+                            if (currentPos < targetPos) currentPos = targetPos;
                         } else {
                             currentPos += step;
-                            if(currentPos > targetPos) currentPos = targetPos;
+                            if (currentPos > targetPos) currentPos = targetPos;
                         }
                         $window.scrollTo(0, currentPos);
                     }, timer, totalIntervals);
@@ -73,11 +75,11 @@ angular.module('toolbelt.scroll', [])
                     }
                 });
 
-                angular.element($window).bind("scroll", function() {
+                angular.element($window).bind("scroll", function () {
                     $rootScope.$broadcast('_scroll', $window.pageYOffset);
                 });
 
-                $rootScope.$on('_pageScroll', function(event, target, offset) {
+                $rootScope.$on('_pageScroll', function (event, target, offset) {
                     offset = offset || defaultOffset;
                     scrollPage('none', target, offset);
                 });

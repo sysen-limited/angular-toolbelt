@@ -8,10 +8,10 @@ angular.module('toolbelt.platform', [])
                 name, version, temp;
 
             name = matches[0];
-            if(!name) {
+            if (!name) {
                 return { name: "Unknown", version: "0" };
             }
-            switch(name.toLowerCase()) {
+            switch (name.toLowerCase()) {
                 case "windows":
                     temp = agent.match(/windows\snt\s([^;)]*)/i);
                     version = temp[1];
@@ -73,9 +73,9 @@ angular.module('toolbelt.platform', [])
                     version: system.version,
                     matches: function (systemName, systemVersion) {
                         if (systemVersion) {
-                            return(this.name && this.name == systemName && this.version == systemVersion);
+                            return (this.name && this.name == systemName && this.version == systemVersion);
                         } else {
-                            return(this.name && this.name == systemName);
+                            return (this.name && this.name == systemName);
                         }
                     }
                 },
@@ -84,9 +84,9 @@ angular.module('toolbelt.platform', [])
                     version: browser.version,
                     matches: function (browserName, browserVersion) {
                         if (browserVersion) {
-                            return(this.name && this.name == browserName && this.version == browserVersion);
+                            return (this.name && this.name == browserName && this.version == browserVersion);
                         } else {
-                            return(this.name && this.name == browserName);
+                            return (this.name && this.name == browserName);
                         }
 
                     },

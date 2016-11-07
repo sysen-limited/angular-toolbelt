@@ -7,13 +7,13 @@ angular.module('toolbelt.markdown', [])
         };
 
         self.$get = ['$window', function ($window) {
-            if($window.marked) {
+            if ($window.marked) {
                 var marked = $window.marked;
 
                 self.setOptions = marked.setOptions;
-                if($window.hljs) {
+                if ($window.hljs) {
                     marked.setOptions({
-                        highlight: function(code) {
+                        highlight: function (code) {
                             return $window.hljs.highlightAuto(code).value;
                         }
                     });
@@ -36,16 +36,17 @@ angular.module('toolbelt.markdown', [])
                 var warning = false;
 
                 function parse(value) {
-                    if(markdownConverter) {
+                    if (markdownConverter) {
                         elem.html(markdownConverter(value || '', scope.options || null));
-                    } else if(!warning) {
+                    } else if (!warning) {
                         elem.html('Markdown parser not found! Please include library found at: https://github.com/chjj/marked');
                         warning = true;
                     }
                 }
+
                 parse(scope.sysMarkdown || elem.text() || '');
 
-                if(attrs.sysMarkdown) {
+                if (attrs.sysMarkdown) {
                     scope.$watch('sysMarkdown', parse);
                 }
             }

@@ -11,8 +11,8 @@ describe('Directive > Password Strength', function () {
                     compare: function (actual, expected) {
                         return {
                             pass: actual.rank == expected.rank
-                                & actual.complexity == expected.complexity
-                                & actual.label == expected.label,
+                            & actual.complexity == expected.complexity
+                            & actual.label == expected.label,
                             message: JSON.stringify(actual) + " does not match " + JSON.stringify(expected)
                         };
                     }
@@ -268,15 +268,19 @@ describe('Directive > Password Strength', function () {
         });
     });
 
-    describe('When using the min-charset attribute', function() {
-        it('should allow you to specify a number of charsets to use in the validation', function() {
+    describe('When using the min-charset attribute', function () {
+        it('should allow you to specify a number of charsets to use in the validation', function () {
             elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="1" data-charsets="2" data-sys-strength></span></form>')(scope);
             scope.$digest();
             directiveScope = scope.$$childHead;
 
             directiveScope.model = 'qwerty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 2, complexity: 'Too few character types', label: 'warning' });
+            expect(directiveScope.result).equalsResult({
+                rank: 2,
+                complexity: 'Too few character types',
+                label: 'warning'
+            });
             expect(elm.find('input').hasClass('ng-invalid-strength')).toBeTruthy();
 
             directiveScope.model = 'Qwerty';
@@ -285,14 +289,18 @@ describe('Directive > Password Strength', function () {
             expect(elm.find('input').hasClass('ng-valid-strength')).toBeTruthy();
         });
 
-        it('should work when requesting 3 charsets, and shift the colour indicators accordingly', function() {
+        it('should work when requesting 3 charsets, and shift the colour indicators accordingly', function () {
             elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="1" data-charsets="3" data-sys-strength></span></form>')(scope);
             scope.$digest();
             directiveScope = scope.$$childHead;
 
             directiveScope.model = 'Qwerty';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 2, complexity: 'Too few character types', label: 'warning' });
+            expect(directiveScope.result).equalsResult({
+                rank: 2,
+                complexity: 'Too few character types',
+                label: 'warning'
+            });
             expect(elm.find('input').hasClass('ng-invalid-strength')).toBeTruthy();
 
             directiveScope.model = 'Qwerty1';
@@ -301,14 +309,18 @@ describe('Directive > Password Strength', function () {
             expect(elm.find('input').hasClass('ng-valid-strength')).toBeTruthy();
         });
 
-        it('should work when requesting 4 charsets, and shift the colour indicators accordingly', function() {
+        it('should work when requesting 4 charsets, and shift the colour indicators accordingly', function () {
             elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="1" data-charsets="4" data-sys-strength></span></form>')(scope);
             scope.$digest();
             directiveScope = scope.$$childHead;
 
             directiveScope.model = 'Qwerty1';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 2, complexity: 'Too few character types', label: 'warning' });
+            expect(directiveScope.result).equalsResult({
+                rank: 2,
+                complexity: 'Too few character types',
+                label: 'warning'
+            });
             expect(elm.find('input').hasClass('ng-invalid-strength')).toBeTruthy();
 
             directiveScope.model = 'Qw*rty1';
@@ -317,14 +329,18 @@ describe('Directive > Password Strength', function () {
             expect(elm.find('input').hasClass('ng-valid-strength')).toBeTruthy();
         });
 
-        it('should set the correct maximum if a larger than valid number has been used', function() {
+        it('should set the correct maximum if a larger than valid number has been used', function () {
             elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="1" data-charsets="5" data-sys-strength></span></form>')(scope);
             scope.$digest();
             directiveScope = scope.$$childHead;
 
             directiveScope.model = 'Qwerty1';
             scope.$digest();
-            expect(directiveScope.result).equalsResult({ rank: 2, complexity: 'Too few character types', label: 'warning' });
+            expect(directiveScope.result).equalsResult({
+                rank: 2,
+                complexity: 'Too few character types',
+                label: 'warning'
+            });
             expect(elm.find('input').hasClass('ng-invalid-strength')).toBeTruthy();
 
             directiveScope.model = 'Qw*rty1';
@@ -333,7 +349,7 @@ describe('Directive > Password Strength', function () {
             expect(elm.find('input').hasClass('ng-valid-strength')).toBeTruthy();
         });
 
-        it('should use the default if a string is used', function() {
+        it('should use the default if a string is used', function () {
             elm = $compile('<form><input type="password" name="password" data-ng-model="model.password" /><span data-target="password" data-ng-model="model" data-complexity="1" data-charsets="four" data-sys-strength></span></form>')(scope);
             scope.$digest();
             directiveScope = scope.$$childHead;

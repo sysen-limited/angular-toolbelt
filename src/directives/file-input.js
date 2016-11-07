@@ -8,9 +8,9 @@ angular.module('toolbelt.fileInput', ['ngResource'])
             replace: true,
             templateUrl: 'template/toolbelt/file-input.html',
             link: function (scope, elem, attrs) {
-                var formCtrl         = elem.inheritedData("$formController"),
-                    fileLimit        = parseInt(attrs.maxFiles) || 10,
-                    fileSize         = (attrs.maxSize || 0) * 1024,
+                var formCtrl = elem.inheritedData("$formController"),
+                    fileLimit = parseInt(attrs.maxFiles) || 10,
+                    fileSize = (attrs.maxSize || 0) * 1024,
                     fileRestrictions = fixRestrictions((attrs.restrict || '*').split(','));
 
                 function fixRestrictions(list) {
@@ -80,7 +80,7 @@ angular.module('toolbelt.fileInput', ['ngResource'])
                         scope.errors = [];
                     });
 
-                    var files     = this.files || evt.dataTransfer.files,
+                    var files = this.files || evt.dataTransfer.files,
                         behaviour = attrs.behaviour || 'replace';
 
                     if (behaviour == 'replace') {
@@ -102,7 +102,15 @@ angular.module('toolbelt.fileInput', ['ngResource'])
 
                                 if (validType && validSize) {
                                     var reader = new FileReader();
-                                    var attachment = { raw: file, data: { name: file.name, size: file.size, type: file.type, lastModified: file.lastModifiedDate } };
+                                    var attachment = {
+                                        raw: file,
+                                        data: {
+                                            name: file.name,
+                                            size: file.size,
+                                            type: file.type,
+                                            lastModified: file.lastModifiedDate
+                                        }
+                                    };
 
                                     if (file.type.indexOf("text") === 0) {
                                         reader.onload = function (evt) {

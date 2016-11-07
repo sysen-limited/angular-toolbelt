@@ -1,4 +1,4 @@
-describe('Directive > Scroll', function() {
+describe('Directive > Scroll', function () {
     var scope, $compile, $window, $interval;
 
     beforeEach(module('toolbelt.scroll'));
@@ -20,7 +20,7 @@ describe('Directive > Scroll', function() {
     }));
 
     // Broadcast Events
-    it('should listen for broadcast events to scroll the page', function() {
+    it('should listen for broadcast events to scroll the page', function () {
         $compile('<a data-target="test-one" data-sys-scroll></a>')(scope);
 
         scope.$emit('_pageScroll', 'test-one');
@@ -29,7 +29,7 @@ describe('Directive > Scroll', function() {
     });
 
     // Simple Scroll Clicks
-    it('should allow you to click the link to scroll the page', function() {
+    it('should allow you to click the link to scroll the page', function () {
         var elm = $compile('<a data-target="test-one" data-sys-scroll></a>')(scope);
 
         elm.triggerHandler('click');
@@ -37,7 +37,7 @@ describe('Directive > Scroll', function() {
         expect($window.scrollTo).toHaveBeenCalledWith(0, 200);
     });
 
-    it('should allow you to click the link to scroll the page', function() {
+    it('should allow you to click the link to scroll the page', function () {
         var elm = $compile('<a data-target="test-two" data-sys-scroll></a>')(scope);
 
         elm.triggerHandler('click');
@@ -45,7 +45,7 @@ describe('Directive > Scroll', function() {
         expect($window.scrollTo).toHaveBeenCalledWith(0, 600);
     });
 
-    it('should stay in the correct place if the scroll is called when already at the scroll location', function() {
+    it('should stay in the correct place if the scroll is called when already at the scroll location', function () {
         var elm = $compile('<a data-target="test-one" data-sys-scroll></a>')(scope);
 
         elm.triggerHandler('click');
@@ -56,7 +56,7 @@ describe('Directive > Scroll', function() {
         expect($window.scrollTo).toHaveBeenCalledWith(0, 200);
     });
 
-    it('should allow you to scroll multiple times', function() {
+    it('should allow you to scroll multiple times', function () {
         var elmOne = $compile('<a data-target="test-one" data-sys-scroll></a>')(scope);
         var elmTwo = $compile('<a data-target="test-two" data-sys-scroll></a>')(scope);
 
@@ -69,7 +69,7 @@ describe('Directive > Scroll', function() {
         expect($window.scrollTo.calls.argsFor(2)).toEqual([0, 200]);
     });
 
-    it('should ignore requests if the target does not exist', function() {
+    it('should ignore requests if the target does not exist', function () {
         var elm = $compile('<a data-target="test-three" data-sys-scroll></a>')(scope);
 
         elm.triggerHandler('click');
@@ -77,7 +77,7 @@ describe('Directive > Scroll', function() {
         expect($window.scrollTo).not.toHaveBeenCalled();
     });
 
-    it('should ignore requests if the target is not set', function() {
+    it('should ignore requests if the target is not set', function () {
         var elm = $compile('<a data-sys-scroll></a>')(scope);
 
         elm.triggerHandler('click');
@@ -86,7 +86,7 @@ describe('Directive > Scroll', function() {
     });
 
     // Advanced Scroll Clicks
-    it('should have an animated scroll activity', function() {
+    it('should have an animated scroll activity', function () {
         var elm = $compile('<a data-target="test-one" data-sys-scroll="smooth"></a>')(scope);
 
         elm.triggerHandler('click');
@@ -97,7 +97,7 @@ describe('Directive > Scroll', function() {
         expect($window.scrollTo.calls.argsFor(9)).toEqual([0, 200]);
     });
 
-    it('should be able to manage nested position scrolling', function() {
+    it('should be able to manage nested position scrolling', function () {
         var elm = $compile('<a data-target="test-div" data-sys-scroll></a>')(scope);
 
         elm.triggerHandler('click');
@@ -105,7 +105,7 @@ describe('Directive > Scroll', function() {
         expect($window.scrollTo).toHaveBeenCalledWith(0, 400);
     });
 
-    it('should allow you to specify the offset on the page to use', function() {
+    it('should allow you to specify the offset on the page to use', function () {
         var elm = $compile('<a data-target="test-one" data-offset="80" data-sys-scroll></a>')(scope);
 
         elm.triggerHandler('click');

@@ -7,10 +7,10 @@ angular.module('toolbelt.infiniteScroll', [])
                 scope.dataLoad = false;
                 scope.stopped = false;
 
-                var handler = function() {
+                var handler = function () {
                     var pause = scope.dataLoad || scope.stopped;
 
-                    if(!pause) {
+                    if (!pause) {
                         var endLocation = elem.prop('offsetTop') + elem.prop('offsetHeight'),
                             scrollLocation = $window.scrollY + $window.innerHeight;
 
@@ -26,8 +26,8 @@ angular.module('toolbelt.infiniteScroll', [])
                     }
                 };
 
-                $rootScope.$on('_infiniteScroll', function(evt, message) {
-                    switch(message) {
+                $rootScope.$on('_infiniteScroll', function (evt, message) {
+                    switch (message) {
                         case 'STOP':
                             scope.stopped = true;
                             break;

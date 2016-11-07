@@ -1,4 +1,4 @@
-describe('Directive > Infinite Scroll', function() {
+describe('Directive > Infinite Scroll', function () {
     var scope, $compile, $window, $timeout;
 
     beforeEach(module('toolbelt.infiniteScroll'));
@@ -13,7 +13,7 @@ describe('Directive > Infinite Scroll', function() {
         spyOn(scope, '$broadcast').and.callThrough();
     }));
 
-    xit('should timeout data loading to continue processing scroll events', function() {
+    xit('should timeout data loading to continue processing scroll events', function () {
         $compile('<section data-sys-infinite-scroll><div data-ng-repeat="i in [0,1,2,3,4,5]" style="min-height: 200px">{{ i }}</div></section>')(scope);
         scope.$digest();
 
@@ -24,7 +24,7 @@ describe('Directive > Infinite Scroll', function() {
         expect(scope.dataLoad).toBeFalsy();
     });
 
-    xit('should allow you to specify a shorter load wait time', function() {
+    xit('should allow you to specify a shorter load wait time', function () {
         $compile('<ul data-timeout="200" data-sys-infinite-scroll><li data-ng-repeat="i in [0,1,2,3,4,5]" style="height: 200px">{{ i }}</li></ul>')(scope);
         scope.$digest();
 
@@ -44,7 +44,7 @@ describe('Directive > Infinite Scroll', function() {
         expect(scope.$broadcast).toHaveBeenCalledWith('_infiniteScroll', 'DATA_LOAD');
     });
 
-    it('should allow you to stop the scroll via an event', function() {
+    it('should allow you to stop the scroll via an event', function () {
         $compile('<ul data-sys-infinite-scroll><li data-ng-repeat="i in [0,1,2,3,4,5]" style="height: 200px">{{ i }}</li></ul>')(scope);
         scope.$digest();
 
@@ -55,7 +55,7 @@ describe('Directive > Infinite Scroll', function() {
         expect(scope.stopped).toBeTruthy();
     });
 
-    it('should allow you to start the scroll via an event', function() {
+    it('should allow you to start the scroll via an event', function () {
         $compile('<ul data-sys-infinite-scroll><li data-ng-repeat="i in [0,1,2,3,4,5]" style="height: 200px">{{ i }}</li></ul>')(scope);
         scope.$digest();
 
@@ -66,7 +66,7 @@ describe('Directive > Infinite Scroll', function() {
         expect(scope.stopped).toBeFalsy();
     });
 
-    it('should listen for events to continue allowing scroll events to be processed', function() {
+    it('should listen for events to continue allowing scroll events to be processed', function () {
         $compile('<ul data-sys-infinite-scroll><li data-ng-repeat="i in [0,1,2,3,4,5]" style="height: 200px">{{ i }}</li></ul>')(scope);
         scope.$digest();
 

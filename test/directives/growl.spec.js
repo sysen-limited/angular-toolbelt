@@ -1,4 +1,4 @@
-describe('Directive > Growl', function() {
+describe('Directive > Growl', function () {
     var scope, $compile, $timeout;
 
     beforeEach(module('toolbelt.growl'));
@@ -32,7 +32,7 @@ describe('Directive > Growl', function() {
         return elm;
     }
 
-    it('should listen for broadcast events to display', function() {
+    it('should listen for broadcast events to display', function () {
         compileDirective();
 
         scope.$emit('_addGrowl', angular.copy(message));
@@ -41,14 +41,14 @@ describe('Directive > Growl', function() {
         expect(scope.growls.length).toBe(1);
     });
 
-    it('should set the default type to info', function() {
+    it('should set the default type to info', function () {
         compileDirective();
 
         scope.$emit('_addGrowl', { title: "Blank", content: "Blank" });
         expect(scope.growls[0].type).toBe('info');
     });
 
-    it('should allow you to add multiple messages via the emit, each new message should arrive at the front of the list', function() {
+    it('should allow you to add multiple messages via the emit, each new message should arrive at the front of the list', function () {
         compileDirective();
 
         scope.$emit('_addGrowl', angular.copy(message));
@@ -74,7 +74,7 @@ describe('Directive > Growl', function() {
         expect(scope.growls[0].title).toBe("New Title");
     });
 
-    it('should display the messages inside the template that has been loaded', function() {
+    it('should display the messages inside the template that has been loaded', function () {
         var elm = compileDirective();
 
         scope.$emit('_addGrowl', angular.copy(message));
@@ -89,7 +89,7 @@ describe('Directive > Growl', function() {
         expect(elm.find('div').length).toBe(5);
     });
 
-    it('should remove items when the timeout option is used', function() {
+    it('should remove items when the timeout option is used', function () {
         var elm = compileDirective('timeout');
 
         scope.$emit('_addGrowl', angular.copy(message));
@@ -100,7 +100,7 @@ describe('Directive > Growl', function() {
         expect(scope.$broadcast).toHaveBeenCalledWith('_removeGrowl', angular.copy(message));
     });
 
-    it('should listen to the limit value set on the directive', function() {
+    it('should listen to the limit value set on the directive', function () {
         var elm = compileDirective('limit');
 
         scope.$emit('_addGrowl', angular.copy(message));
@@ -115,7 +115,7 @@ describe('Directive > Growl', function() {
         expect(elm.find('div').length).toBe(3);
     });
 
-    it('should remove the item when the button is clicked', function() {
+    it('should remove the item when the button is clicked', function () {
         var elm = compileDirective();
 
         scope.$emit('_addGrowl', angular.copy(message));
