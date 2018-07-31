@@ -6,7 +6,7 @@
         "url": "https://github.com/andrew-cunliffe/angular-toolbelt"
     },
     "scripts": {
-        "postinstall": "bower install && grunt build",
+        "build": "bower install && grunt build",
         "start": "node example/server.js",
         "test": "grunt test"
     },
@@ -17,7 +17,10 @@
         "express": "4.14.0",
         "grunt": "1.0.1",
         "morgan": "1.7.0",
-        "multer": "1.2.0"
+        "multer": "1.2.0",
+        "angular": "~1",
+        "angular-sanitize": "~1",
+        "angular-resource": "~1"
     },
     "devDependencies": {
         "bower": "1.8.0",
